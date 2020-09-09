@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>reservation</title>
+		<script src="./src/js/index.js"></script>
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="room_wrap">
+				<h1 class="room_title">%ROOM_NAME%</h1>
+				<h4 class="room_info">
+					<small class="room_short_info"
+						><i class="star">★</i> %RATING_VALUE%
+						<span class="rating_count">%RATING_COUNT%</span></small
+					>
+					<small class="address">%ROOM_ADDRESS%</small>
+				</h4>
+				<div class="room_image_grid">
+					<img
+						src="https://i.pinimg.com/564x/16/c6/1b/16c61bcd0bdd4eed5f341fe7a5c7ae0f.jpg"
+						alt="숙소 이미지"
+						class="room_img"
+					/>
+					<img
+						src="https://i.pinimg.com/564x/25/99/b0/2599b09faf7d2b45024ef7465a4a84ef.jpg"
+						alt="숙소 이미지"
+						class="room_img"
+					/>
+					<img
+						src="https://i.pinimg.com/736x/1b/3c/1b/1b3c1bb5fb2a72eacd993213363ec92b.jpg"
+						alt="숙소 이미지"
+						class="room_img"
+					/>
+					<img
+						src="https://i.pinimg.com/564x/25/99/b0/2599b09faf7d2b45024ef7465a4a84ef.jpg"
+						alt="숙소 이미지"
+						class="room_img"
+					/>
+					<img
+						src="https://i.pinimg.com/736x/1b/3c/1b/1b3c1bb5fb2a72eacd993213363ec92b.jpg"
+						alt="숙소 이미지"
+						class="room_img"
+					/>
+				</div>
+			</div>
+		</div>
+		<div class="host_info">
+			<hgroup>
+				<h2 class="username">
+					%USERNAME%님이 호스팅하는 게스트용 숙소
+				</h2>
+				<h3 class="room_short_spec">
+					최대인원 %GUESTS%명 · 침실 %BEDROOMS%개 · 침대 %BEDS%개 ·
+					욕실 %BATHS%개
+				</h3>
+			</hgroup>
+			<div class="user_profile">
+				<a href="#"><img src="" alt="유저 프로필 사진" /></a>
+			</div>
+		</div>
+		<div class="room_detail_info">
+			<p class="room_description">
+				Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+				Quibusdam consequatur ratione, corrupti dolorem eveniet nostrum
+				maiores labore. Voluptatum sit maiores nesciunt placeat
+				explicabo cumque! Voluptatum aliquam quis dolor dolore et?
+			</p>
+			<a href="#">호스트에게 연락하기</a>
+		</div>
+		<div class="room_facilities">
+			<h3>편의시설</h3>
+			<div class="facilities_wrap">
+				<div class="facility_item">
+					<i class="facility_icon"></i>
+					<span class="facility_description">주방</span>
+				</div>
+				<div class="facility_item">
+					<i class="facility_icon"></i>
+					<span class="facility_description">무선 인터넷</span>
+				</div>
+				<div class="facility_item">
+					<i class="facility_icon"></i>
+					<span class="facility_description">건물 내 무료 주차</span>
+				</div>
+				<div class="facility_item">
+					<i class="facility_icon"></i>
+					<span class="facility_description">헤어드라이어</span>
+				</div>
+			</div>
+		</div>
+		<section class="reservation_calendar">
+			<h3>체크인 날짜를 선택해주세요.</h3>
+			<h5>여행 날짜를 입력하여 정확한 요금을 확인하세요.</h5>
+		</section>
+		<section class="reservation_wrap">
+			<div class="row1">
+				<h2 class="reservation_help_text">
+					요금을 확인하려면 날짜를 입력하세요.
+				</h2>
+				<small class="room_short_info"
+					><i class="star">★</i> %RATING_VALUE%
+					<span class="rating_count">%RATING_COUNT%</span></small
+				>
+			</div>
+			<div class="row2">
+				<div class="reservation_info_wrap">
+					<div class="reservation_input_box">
+						<h5 class="reservation_check">체크인</h5>
+						<input
+							type="date"
+							name=""
+							id=""
+							placeholder="날짜 추가"
+						/>
+					</div>
+					<div class="reservation_input_box">
+						<h5 class="reservation_check">체크아웃</h5>
+						<input
+							type="date"
+							name=""
+							id=""
+							placeholder="날짜 추가"
+						/>
+					</div>
+					<div class="reservation_display_box">
+						<div class="display_main">
+							<h5 class="reservation_check">인원</h5>
+							<p class="reservation_guest_count">
+								%GUEST_REQUEST%
+							</p>
+						</div>
+						<i class="display_btn_icon"> &#709;</i>
+					</div>
+					<button class="reservation">예약 가능 여부 보기</button>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>
