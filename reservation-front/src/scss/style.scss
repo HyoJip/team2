@@ -10,6 +10,8 @@
 	--containerVerticalPadding: 30px;
 	--detailFontSize: smaller;
 	--bottomBorder: 1px solid var(--gray);
+	--reservationBorder: 1px solid var(--gray);
+	--borderRadius: 10px;
 }
 
 body {
@@ -24,14 +26,14 @@ body {
 		padding: var(--containerVerticalPadding) 0;
 		margin: 0 var(--containerHorizontalMargin);
 		font-weight: 300;
-	}
-
-	.room_image {
-		margin: 0 var(--containerHorizontalMargin);
 
 		a {
 			@include underline;
 		}
+	}
+
+	.room_image {
+		margin: 0 var(--containerHorizontalMargin);
 
 		.room_image_grid {
 			display: grid;
@@ -42,7 +44,7 @@ body {
 				width: 100%;
 				height: 100%;
 				object-fit: cover;
-				border-radius: 10px;
+				border-radius: var(--borderRadius);
 
 				&:first-child {
 					grid-area: span 2 / span 2;
@@ -114,7 +116,7 @@ body {
 					background-position: center;
 					min-width: 80px;
 					height: 80px;
-					border-radius: 50%;
+					border-radius: var(--borderRadius);
 					cursor: pointer;
 				}
 			}
@@ -135,7 +137,6 @@ body {
 			.room_facilities {
 				padding: var(--containerVerticalPadding) 0;
 				margin: 0 var(--containerHorizontalMargin);
-				border-bottom: var(--bottomBorder);
 
 				h3 {
 					font-weight: 700;
@@ -162,17 +163,18 @@ body {
 		.main_right {
 			width: 35%;
 			position: relative;
-			padding: var(--containerVerticalPadding) 0;
+			padding-top: var(--containerVerticalPadding);
+			padding-bottom: calc(var(--containerVerticalPadding) * 2);
 			margin-right: var(--containerHorizontalMargin);
 
 			.reservation_wrap {
 				position: sticky;
 				top: 80px;
 				box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-				border-radius: 15px;
+				border-radius: var(--borderRadius);
 				padding: 30px;
 
-				.row1 {
+				.reservation_header {
 					display: flex;
 					justify-content: space-between;
 					margin-bottom: 15px;
@@ -193,6 +195,181 @@ body {
 						}
 						.rating_count {
 							color: var(--gray);
+						}
+					}
+				}
+
+				.reservation_main {
+					border: var(--reservationBorder);
+					border-radius: var(--borderRadius);
+					cursor: pointer;
+
+					.reservation_item_box {
+						display: flex;
+
+						.reservation_item {
+							@include reservation_item;
+
+							& + .reservation_item {
+								border-left: var(--reservationBorder);
+							}
+						}
+					}
+					.reservation_people {
+						border-top: var(--reservationBorder);
+						@include reservation_item;
+
+						.reservation_display {
+							position: relative;
+
+							.display_btn_icon {
+								position: absolute;
+								right: 5px;
+								font-size: 1.5rem;
+								line-height: 0;
+								color: black;
+							}
+						}
+					}
+				}
+
+				.reservation_btn {
+					border: 0;
+					outline: none;
+					width: 100%;
+					padding: 10px 30px;
+					background-color: var(--red);
+					color: white;
+					margin: 10px 0;
+					border-radius: var(--borderRadius);
+					text-align: center;
+					font-weight: 700;
+					cursor: pointer;
+				}
+
+				.reservation_form {
+					position: absolute;
+					background-color: white;
+					top: 140px;
+					right: -10px;
+					width: 660px;
+					box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+					border-radius: var(--borderRadius);
+					padding: 20px 30px;
+
+					.form_header {
+						display: flex;
+
+						.header_text {
+							width: 55%;
+
+							.header_title {
+								font-weight: 700;
+								font-size: 1.5rem;
+							}
+							.header_body {
+								color: var(--gray);
+								font-weight: 300;
+							}
+						}
+
+						.header_inputs {
+							width: 45%;
+							display: flex;
+							border: var(--reservationBorder);
+							border-radius: var(--borderRadius);
+							background-color: #f7f7f7;
+
+							.input_item {
+								font-size: 0.8rem;
+								padding: 10px;
+								border-radius: var(--borderRadius);
+								width: 50%;
+
+								.reservation_input {
+									all: unset;
+									font-weight: 300;
+									cursor: text;
+								}
+							}
+						}
+					}
+
+					.form_main {
+						position: relative;
+						margin-top: var(--containerHorizontalMargin);
+						margin-bottom: calc(var(--containerHorizontalMargin) / 2);
+
+						.pagination_btns {
+							position: absolute;
+							top: 0;
+							width: 100%;
+							display: flex;
+							justify-content: space-between;
+
+							.pagination_btn {
+								all: unset;
+								cursor: pointer;
+								font-size: 1.5rem;
+								line-height: 1.5rem;
+							}
+						}
+
+						.calendar_wrap {
+							width: 100%;
+							display: flex;
+							justify-content: space-between;
+
+							.calendar_item {
+								width: 48%;
+
+								.calendar_month {
+									width: 100%;
+									text-align: center;
+									margin-bottom: 15px;
+									font-weight: 700;
+								}
+
+								.calendar_row {
+									display: flex;
+
+									.calendar_day {
+										width: 40px;
+										height: 40px;
+										text-align: center;
+
+										span {
+											line-height: 50px;
+										}
+									}
+
+									.dayname {
+										font-size: 0.8rem;
+										color: var(--gray);
+									}
+								}
+							}
+						}
+					}
+
+					.form_footer {
+						text-align: end;
+
+						.input_reset {
+							all: unset;
+							font-size: 0.9rem;
+							@include underline;
+							cursor: pointer;
+						}
+
+						.form_exit {
+							padding: 10px 15px;
+							margin: 0 15px;
+							background-color: black;
+							color: white;
+							border: 0;
+							border-radius: var(--borderRadius);
+							font-weight: 700;
 						}
 					}
 				}

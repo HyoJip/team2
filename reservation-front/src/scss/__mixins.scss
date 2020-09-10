@@ -1,0 +1,25 @@
+@mixin underline {
+	border-bottom: 1px solid black;
+	display: inline-block;
+	line-height: 0.85;
+	text-shadow: 1px 1px var(--backgroudColor), 1px -1px var(--backgroudColor),
+		-1px 1px var(--backgroudColor), -1px -1px var(--backgroudColor);
+	@content;
+}
+
+@mixin star($font-size) {
+	color: var(--red);
+	font-size: $font-size;
+}
+
+@mixin reservation_item {
+	flex: 1 1 50%;
+	padding: 5px 10px;
+	font-size: 0.9rem;
+	height: 50px;
+
+	.reservation_display {
+		color: var(--gray);
+		font-weight: 300;
+	}
+}
