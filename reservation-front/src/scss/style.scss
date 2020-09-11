@@ -116,7 +116,7 @@ body {
 					background-position: center;
 					min-width: 80px;
 					height: 80px;
-					border-radius: var(--borderRadius);
+					border-radius: 50%;
 					cursor: pointer;
 				}
 			}
@@ -170,7 +170,8 @@ body {
 			.reservation_wrap {
 				position: sticky;
 				top: 80px;
-				box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+				box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+					0 3px 6px rgba(0, 0, 0, 0.23);
 				border-radius: var(--borderRadius);
 				padding: 30px;
 
@@ -253,7 +254,8 @@ body {
 					top: 140px;
 					right: -10px;
 					width: 660px;
-					box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+					box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+						0 3px 6px rgba(0, 0, 0, 0.23);
 					border-radius: var(--borderRadius);
 					padding: 20px 30px;
 
@@ -298,7 +300,9 @@ body {
 					.form_main {
 						position: relative;
 						margin-top: var(--containerHorizontalMargin);
-						margin-bottom: calc(var(--containerHorizontalMargin) / 2);
+						margin-bottom: calc(
+							var(--containerHorizontalMargin) / 2
+						);
 
 						.pagination_btns {
 							position: absolute;

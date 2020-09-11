@@ -1,10 +1,14 @@
-import "../scss/style.scss";
+import "/src/scss/style.scss";
 
 const today = new Date();
 const getCalendarHTML = (year, month) => {
 	const setDate = new Date(year, month - 1, 1);
 	const firstDayName = setDate.getDay(); //  0~6
-	const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+	const lastDay = new Date(
+		today.getFullYear(),
+		today.getMonth() + 1,
+		0
+	).getDate();
 
 	let startDayCount = 1;
 	let calHtml = `<div class="calendar_month">${month}월 ${year}</div>`;
@@ -35,9 +39,10 @@ const getCalendarHTML = (year, month) => {
 	}
 	return calHtml;
 };
-const setFixDayCount = number => (number < 10 ? "0" + number : number);
+const setFixDayCount = (number) => (number < 10 ? "0" + number : number);
 
-const setMonthCount = number => (number + 1 < 10 ? "0" + (number + 1) : number + 1);
+const setMonthCount = (number) =>
+	number + 1 < 10 ? "0" + (number + 1) : number + 1;
 
 document
 	.querySelector("#curCalendar")
@@ -49,7 +54,10 @@ document
 	.querySelector("#nextCalendar")
 	.insertAdjacentHTML(
 		"beforeend",
-		getCalendarHTML(today.getFullYear(), setMonthCount(today.getMonth() + 1))
+		getCalendarHTML(
+			today.getFullYear(),
+			setMonthCount(today.getMonth() + 1)
+		)
 	);
 
 const onClickNextMonthBtn = () => {
@@ -60,13 +68,13 @@ const onClickPrevMonthBtn = () => {
 	console.log("previous month");
 };
 
-const onClickFormExitBtn = event => {
+const onClickFormExitBtn = (event) => {
 	event.preventDefault();
 	const form = document.querySelector("#reservationForm");
 	form.style.display = "none";
 };
 
-const openReservationForm = event => {
+const openReservationForm = (event) => {
 	if (
 		event.target.closest("#reservationBox") !== null ||
 		event.target.closest("#reservationBtn") !== null
@@ -76,5 +84,9 @@ const openReservationForm = event => {
 	}
 };
 
-document.querySelector("#formExitBtn").addEventListener("click", onClickFormExitBtn);
-document.querySelector(".reservation_wrap").addEventListener("click", openReservationForm);
+document
+	.querySelector("#formExitBtn")
+	.addEventListener("click", onClickFormExitBtn);
+document
+	.querySelector(".reservation_wrap")
+	.addEventListener("click", openReservationForm);
