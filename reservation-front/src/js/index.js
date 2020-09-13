@@ -20,14 +20,19 @@ const DataController = (() => {
 			const mockup = ["2020-09-20", "2020-09-21", "2020-09-22", "2020-09-30", "2020-10-01"];
 			return mockup;
 		},
-		getcalculatedPrice: () => {
+		getReservePayload: () => {
 			// 1. GET DB로부터 숙소 하루당 가격
-			const pricePerDay = 100000;
+			const roomPrice = 100000;
 
 			// 2. 계산
-			const dateDiff = new Date(state.checkOutId) - new Date(state.checkInId);
-			const daysValue = dateDiff / (1000 * 60 * 60 * 24);
-			return daysValue * pricePerDay;
+			const roomNight =
+				(new Date(state.checkOutId) - new Date(state.checkInId)) / (1000 * 60 * 60 * 24);
+			const totalPrice = roomNight * roomPrice;
+			return {
+				roomPrice,
+				roomNight,
+				totalPrice,
+			};
 		},
 		getMaxPerson: () => {
 			return 4;
@@ -63,6 +68,12 @@ const UIController = (() => {
 		resetInput: "#resetInput",
 		guestPlusBtn: "#guestPlusBtn",
 		guestMinusBtn: "#guestMinusBtn",
+		reservePriceContainer: "#reservePriceContainer",
+		roomPrice: "#roomPrice",
+		roomNight: "#roomNight",
+		priceValue: "#priceValue",
+		totalPrice: "#totalPrice",
+		reserveHelpText: "#reserveHelpText",
 	};
 
 	const displayMonth = (year, month) => {
@@ -209,20 +220,19 @@ const UIController = (() => {
 				});
 		},
 
-		renderCheckedDay: (isReset = false) => {
-			if (isReset) {
-				document.querySelector(DOMString.checkInDisplay).textContent = "날짜선택";
-				document.querySelector(DOMString.checkOutDisplay).textContent = "날짜선택";
-				return;
-			}
-			document.querySelector(DOMString.checkInDisplay).textContent = util.formatDashToDot(
-				state.checkInId
-			);
-			document.querySelector(DOMString.checkOutDisplay).textContent = util.formatDashToDot(
-				state.checkOutId
-			);
+		clearCheckDisplay: () => {
+			document.querySelector(DOMString.checkInDisplay).textContent = "날짜선택";
+			document.querySelector(DOMString.checkOutDisplay).textContent = "날짜선택";
 		},
 
+		renderCheckInDisplay: id =>
+			(document.querySelector(DOMString.checkInDisplay).textContent = util.formatDashToDot(
+				id
+			)),
+		renderCheckOutDisplay: id =>
+			(document.querySelector(DOMString.checkOutDisplay).textContent = util.formatDashToDot(
+				id
+			)),
 		renderGuestCount: (event, maxPerson, minPerson = 1) => {
 			const guestValueNode = document.querySelector(DOMString.guestCount);
 			const plusBtn = document.querySelector(DOMString.guestPlusBtn);
@@ -248,6 +258,27 @@ const UIController = (() => {
 		},
 
 		getGuestCount: () => document.querySelector(DOMString.guestCount).textContent,
+
+		renderPrice: payload => {
+			const { roomPrice, roomNight, totalPrice } = payload;
+			document.querySelector(DOMString.reservePriceContainer).style.display = "block";
+			document.querySelector(DOMString.reserveRenderBtn).textContent = "예약하기";
+			document.querySelector(DOMString.roomNight).textContent = roomNight + "박";
+			document.querySelector(DOMString.roomPrice).textContent = util.formatWon(roomPrice);
+			document.querySelector(DOMString.priceValue).textContent = util.formatWon(totalPrice);
+			document.querySelector(DOMString.totalPrice).textContent = util.formatWon(
+				totalPrice + 5000
+			);
+			document.querySelector(DOMString.reserveHelpText).innerHTML = `${util.formatWon(
+				roomPrice
+			)}<small>/박</small>`;
+		},
+
+		clearPriceContainer: () => {
+			document.querySelector(DOMString.reservePriceContainer).style.display = "none";
+			document.querySelector(DOMString.reserveHelpText).textContent =
+				"요금을 확인하려면 날짜를 입력하세요.";
+		},
 	};
 })();
 
@@ -292,24 +323,17 @@ const Controller = ((DataCtrl, UICtrl) => {
 		clearState();
 		// 2. UI 초기화 및 동기화
 		UICtrl.clearCalendar();
-		UICtrl.renderCheckedDay(true);
+		UICtrl.clearCheckDisplay();
 
 		// 3. 날짜 폼 초기화
 		setInitailCalendar();
+
+		// 4. 예약하기 폼 닫기
+		UICtrl.clearPriceContainer();
 	};
 
-	const onClickGuestCounterBox = event => {
-		// 1. 게스트 수 렌더링
-		const maxPerson = DataCtrl.getMaxPerson();
-		UICtrl.renderGuestCount(event, maxPerson);
+	const onClickGuestCounterBox = event => UICtrl.renderGuestCount(event, DataCtrl.getMaxPerson());
 
-		// 2. DB에서 숙소 정보 받아서 금액 계산
-		if (state.checkOutId !== "") {
-			const totalPrice = DataCtrl.getcalculatedPrice();
-			// 3. 금액 계산 값 렌더링
-			console.log(totalPrice);
-		}
-	};
 	const onMouseoverCalContainer = event => {
 		if (state.checkInId !== "" && state.checkOutId == "") {
 			if (event.target.matches(DOM.validDay)) {
@@ -322,30 +346,35 @@ const Controller = ((DataCtrl, UICtrl) => {
 	const onClickCalContainer = event => {
 		if (state.checkOutId !== "") return;
 		const clickedDay = event.target.closest(".calendar_day span.valid_day");
+		//	체크아웃 클릭
 		if (clickedDay !== null) {
 			const id = clickedDay.id;
 			clickedDay.parentNode.classList.add("clicked");
 			if (state.checkInId !== "") {
-				state.checkOutId = id;
 				// 1. 클릭된 노드 id 이후 날짜 invalid
-				UICtrl.renderInvalidDay(state.checkOutId);
+				UICtrl.renderInvalidDay(id);
 				// 2. 체크아웃 인풋에 날짜 동기화
 				UICtrl.setCheckOutInput(id);
-				// 3. 체크인, 체크아웃 정보 렌더링
-				UICtrl.renderCheckedDay();
+				// 3. 체크아웃 디스플레이 렌더링
+				UICtrl.renderCheckOutDisplay(id);
 				// 4. 폼 닫기
 				UICtrl.closePopup();
+				state.checkOutId = id;
 				// 5. 금액 계산
-				const totalPrice = DataCtrl.getcalculatedPrice();
+				const payload = DataCtrl.getReservePayload();
 				// 6. 금액 렌더링
-				console.log(totalPrice);
-			} else if (state.checkInId === "") {
+				UICtrl.renderPrice(payload);
+			}
+			//	체크인 클릭
+			else if (state.checkInId === "") {
 				const reservedDays = DataCtrl.getReservedDays();
 				// 1. 불가능한 날짜 마크 표시
 				UICtrl.renderInvalidDay(id, reservedDays);
 				// 2. 체크인 인풋에 날짜 동기화
+				UICtrl.setCheckInInput(id);
+				// 3. 체크인 디스플레이 렌더링
+				UICtrl.renderCheckInDisplay(id);
 				state.checkInId = id;
-				UICtrl.setCheckInInput(state.checkInId);
 			}
 		}
 	};
@@ -374,8 +403,12 @@ const Controller = ((DataCtrl, UICtrl) => {
 
 	const onClickReserveContainer = event => {
 		// 1-1. 체크인, 체크아웃 버튼 클릭시
-		if (UICtrl.isClickedCheckInAndOut(event) || UICtrl.isClickedRenderBtn(event)) {
-			UICtrl.openPopup();
+		if (UICtrl.isClickedCheckInAndOut(event)) UICtrl.openPopup();
+		// 1-2. 예약 버튼 클릭시
+		else if (UICtrl.isClickedRenderBtn(event)) {
+			if (state.checkInId !== "" && state.checkOutId !== "") {
+				// TODO: 예약 페이지로 이동;
+			} else UICtrl.openPopup();
 		}
 	};
 

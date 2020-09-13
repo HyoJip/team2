@@ -10,7 +10,6 @@
 	--containerVerticalPadding: 30px;
 	--detailFontSize: smaller;
 	--bottomBorder: 1px solid var(--gray);
-	--reservationBorder: 1px solid var(--gray);
 	--borderRadius: 10px;
 	--calendarDaySize: 40px;
 }
@@ -206,7 +205,7 @@ body {
 				}
 
 				.reservation_main {
-					border: var(--reservationBorder);
+					border: var(--bottomBorder);
 					border-radius: var(--borderRadius);
 
 					.reservation_item_box {
@@ -217,12 +216,12 @@ body {
 							@include reservation_item;
 
 							& + .reservation_item {
-								border-left: var(--reservationBorder);
+								border-left: var(--bottomBorder);
 							}
 						}
 					}
 					.reservation_people {
-						border-top: var(--reservationBorder);
+						border-top: var(--bottomBorder);
 						@include reservation_item;
 
 						.reservation_display {
@@ -273,6 +272,35 @@ body {
 					cursor: pointer;
 				}
 
+				.reservation_price {
+					text-align: center;
+
+					.price_comment {
+						font-weight: 300;
+					}
+
+					.price_item,
+					.total_price {
+						display: flex;
+						justify-content: space-between;
+						padding-top: calc(var(--containerVerticalPadding) / 2);
+
+						.price_name {
+							text-align: left;
+						}
+
+						.price_value {
+							text-align: right;
+						}
+					}
+
+					.total_price {
+						font-weight: 700;
+						margin-top: calc(var(--containerHorizontalMargin) / 2);
+						border-top: var(--bottomBorder);
+					}
+				}
+
 				.reservation_form {
 					position: absolute;
 					background-color: white;
@@ -302,7 +330,7 @@ body {
 						.header_inputs {
 							width: 45%;
 							display: flex;
-							border: var(--reservationBorder);
+							border: var(--bottomBorder);
 							border-radius: var(--borderRadius);
 							background-color: #f7f7f7;
 

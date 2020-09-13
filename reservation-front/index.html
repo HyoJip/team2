@@ -98,11 +98,10 @@
 				<div class="main_right">
 					<section class="reservation_wrap" id="reservationWrap">
 						<header class="reservation_header">
-							<h2 class="reservation_help_text">요금을 확인하려면 날짜를 입력하세요.</h2>
+							<h2 class="reservation_help_text" id="reserveHelpText">요금을 확인하려면 날짜를 입력하세요.</h2>
 							<small>
-								<i class="star">★</i> 3.54<span class="rating_count"
-									>(79)</span
-								>
+								<i class="star">★</i>
+								<span class="rating_value">3.54</span>(<span class="rating_count">79</span>)
 							</small>
 						</header>
 						<main class="reservation_main">
@@ -127,6 +126,21 @@
 								</div>
 							</main>
 							<button class="reservation_btn" id="reservationBtn">예약 가능 여부 보기</button>
+							<section class="reservation_price" id="reservePriceContainer"style="display: none;">
+								<small class="price_comment">예약 확정 전에는 요금이 청구되지 않습니다.</small>
+								<div class="price_item">
+									<p class="price_name"><span class="room_price" id="roomPrice">%roomPrice%</span> X <span class="reservation_night" id="roomNight">%reserveNight%</span></p>
+									<p class="price_value" id="priceValue">%priceValue%</p>
+								</div>
+								<div class="price_item">
+									<p class="price_name">서비스 수수료</p>
+									<p class="price_value">￦5,000</p>
+								</div>
+								<div class="total_price">
+									<p class="price_name">총 합계</p>
+									<p class="price_value" id="totalPrice">%totalPrice%</p>
+								</div>
+							</section>
 							<form action="" method="POST" class="reservation_form" id="reservationForm" style="display: none;">
 								<header class="form_header">
 									<div class="header_text">
