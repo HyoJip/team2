@@ -12,10 +12,16 @@
 	--bottomBorder: 1px solid var(--gray);
 	--reservationBorder: 1px solid var(--gray);
 	--borderRadius: 10px;
+	--calendarDaySize: 40px;
 }
 
 body {
 	font-family: "Noto Sans KR", sans-serif;
+}
+
+.BtnDisabled {
+	cursor: no-drop !important;
+	opacity: 0.2 !important;
 }
 
 .wrap {
@@ -170,8 +176,7 @@ body {
 			.reservation_wrap {
 				position: sticky;
 				top: 80px;
-				box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
-					0 3px 6px rgba(0, 0, 0, 0.23);
+				box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 				border-radius: var(--borderRadius);
 				padding: 30px;
 
@@ -203,10 +208,10 @@ body {
 				.reservation_main {
 					border: var(--reservationBorder);
 					border-radius: var(--borderRadius);
-					cursor: pointer;
 
 					.reservation_item_box {
 						display: flex;
+						cursor: pointer;
 
 						.reservation_item {
 							@include reservation_item;
@@ -223,12 +228,32 @@ body {
 						.reservation_display {
 							position: relative;
 
-							.display_btn_icon {
+							.guest_counter_box {
 								position: absolute;
-								right: 5px;
-								font-size: 1.5rem;
-								line-height: 0;
-								color: black;
+								right: 0;
+								top: -10px;
+
+								.display_btn_icon {
+									display: inline-block;
+									border: 1px solid black;
+									border-radius: 50%;
+									width: 30px;
+									height: 30px;
+									line-height: 30px;
+									text-align: center;
+									margin-left: 10px;
+									opacity: 0.5;
+									color: black;
+									cursor: pointer;
+
+									&:hover {
+										opacity: 1;
+									}
+
+									&:active {
+										transform: scale(0.95);
+									}
+								}
 							}
 						}
 					}
@@ -251,11 +276,10 @@ body {
 				.reservation_form {
 					position: absolute;
 					background-color: white;
-					top: 140px;
+					top: 40%;
 					right: -10px;
 					width: 660px;
-					box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
-						0 3px 6px rgba(0, 0, 0, 0.23);
+					box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 					border-radius: var(--borderRadius);
 					padding: 20px 30px;
 
@@ -300,9 +324,7 @@ body {
 					.form_main {
 						position: relative;
 						margin-top: var(--containerHorizontalMargin);
-						margin-bottom: calc(
-							var(--containerHorizontalMargin) / 2
-						);
+						margin-bottom: calc(var(--containerHorizontalMargin) / 2);
 
 						.pagination_btns {
 							position: absolute;
@@ -338,12 +360,44 @@ body {
 									display: flex;
 
 									.calendar_day {
-										width: 40px;
-										height: 40px;
+										width: var(--calendarDaySize);
+										height: var(--calendarDaySize);
 										text-align: center;
 
+										&.available_day {
+											background-color: #f5f6fa;
+										}
+
 										span {
-											line-height: 50px;
+											display: block;
+											width: 100%;
+											height: 100%;
+											line-height: var(--calendarDaySize);
+
+											&.invalid_day {
+												color: var(--gray);
+												text-decoration: line-through;
+											}
+
+											&.valid_day:hover {
+												border: 1px solid black;
+												border-radius: 50%;
+												cursor: pointer;
+											}
+										}
+
+										&.clicked {
+											&.available_day {
+												border-radius: 50% 0 0 50%;
+											}
+
+											span {
+												background-color: black !important;
+												color: white;
+												border: 0 !important;
+												border-radius: 50%;
+												cursor: default !important;
+											}
 										}
 									}
 
@@ -374,6 +428,8 @@ body {
 							border: 0;
 							border-radius: var(--borderRadius);
 							font-weight: 700;
+							cursor: pointer;
+							outline: none;
 						}
 					}
 				}

@@ -96,7 +96,7 @@
 					</div>
 				</div>
 				<div class="main_right">
-					<section class="reservation_wrap">
+					<section class="reservation_wrap" id="reservationWrap">
 						<header class="reservation_header">
 							<h2 class="reservation_help_text">요금을 확인하려면 날짜를 입력하세요.</h2>
 							<small>
@@ -109,17 +109,20 @@
 							<div class="reservation_item_box" id="reservationBox">
 								<div class="reservation_item">
 									<h5 class="reservation_label">체크인</h5>
-									<p class="reservation_display">날짜추가</p>
+									<p class="reservation_display" id="checkInDisplay">날짜추가</p>
 								</div>
 								<div class="reservation_item">
 									<h5 class="reservation_label">체크아웃</h5>
-									<p class="reservation_display">날짜추가</p>
+									<p class="reservation_display" id="checkOutDisplay">날짜추가</p>
 								</div>
 							</div>
 								<div class="reservation_people">
 									<h5 class="reservation_check">인원</h5>
-									<p class="reservation_display">%GUEST_REQUEST%
-										<i class="display_btn_icon fas fa-chevron-down" ></i>
+									<p class="reservation_display">게스트 <span id="guestCount">1</span>명
+										<span class="guest_counter_box" id="guestCounterBox">
+											<i class="display_btn_icon fas fa-minus" id="guestMinusBtn"></i>
+											<i class="display_btn_icon fas fa-plus" id="guestPlusBtn"></i>
+										</span>
 									</p>
 								</div>
 							</main>
@@ -134,37 +137,59 @@
 											<div class="input_item">
 												<label for="" class="reservatioin_label">
 													체크인
-													<input type="text" class="reservation_input" placeholder="YYYY.MM.DD">
+													<input type="text" class="reservation_input" placeholder="YYYY.MM.DD" id="checkInInput">
 												</label>
 											</div>
 											<div class="input_item">
 												<label for="" class="reservatioin_label">
 													체크아웃
-													<input type="text" class="reservation_input" placeholder="YYYY.MM.DD">
+													<input type="text" class="reservation_input" placeholder="YYYY.MM.DD" id="checkOutInput">
 												</label>
 											</div>
 									</div>
 								</header>
 								<main class="form_main">
 									<div class="pagination_btns">
-										<button class="pagination_btn" onclick="onClickPrevMonthBtn()">
+										<button class="pagination_btn" id="prevPage">
 											&lt;
 										</button>
-										<button class="pagination_btn" onclick="onClickNextMonthBtn()">
+										<button class="pagination_btn" id="nextPage">
 											&gt;
 										</button>
 									</div>
-									<div class="calendar_wrap">
+									<div class="calendar_wrap" id="calendarWrap">
 										<article class="calendar_item">
-											<div id="curCalendar"></div>
+											<div id="curCalendar">
+												<div class="calendar_month">%MONTH%월 %YEAR%</div>
+												<div class='calendar_row'>
+													<div class='calendar_day dayname'><span>일</span></div>
+													<div class='calendar_day dayname'><span>월</span></div>
+													<div class='calendar_day dayname'><span>화</span></div>
+													<div class='calendar_day dayname'><span>수</span></div>
+													<div class='calendar_day dayname'><span>목</span></div>
+													<div class='calendar_day dayname'><span>금</span></div>
+													<div class='calendar_day dayname'><span>토</span></div>
+												</div>
+											</div>
 										</article>
 										<article class="calendar_item">
-											<div id="nextCalendar"></div>
+											<div id="nextCalendar">
+												<div class="calendar_month">%MONTH%월 %YEAR%</div>
+												<div class='calendar_row'>
+													<div class='calendar_day dayname'><span>일</span></div>
+													<div class='calendar_day dayname'><span>월</span></div>
+													<div class='calendar_day dayname'><span>화</span></div>
+													<div class='calendar_day dayname'><span>수</span></div>
+													<div class='calendar_day dayname'><span>목</span></div>
+													<div class='calendar_day dayname'><span>금</span></div>
+													<div class='calendar_day dayname'><span>토</span></div>
+												</div>
+											</div>
 										</article>
 									</div>
 								</main>
 								<footer class="form_footer">
-									<input type="reset" class="input_reset" value="날짜 지우기">
+									<input type="reset" class="input_reset" id="resetInput" value="날짜 지우기">
 									<button class="form_exit" id="formExitBtn">닫기</button>
 								</footer>
 							</form>
