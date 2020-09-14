@@ -1,6 +1,6 @@
 @import "./_reset";
 @import "./_mixins";
-
+@import "./_base";
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700&display=swap");
 :root {
 	--gray: #7f8c8d;
@@ -12,6 +12,7 @@
 	--bottomBorder: 1px solid var(--gray);
 	--borderRadius: 10px;
 	--calendarDaySize: 40px;
+	--boxShadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 body {
@@ -149,17 +150,14 @@ body {
 				}
 
 				.facility_item {
-					margin: 15px 0;
+					@include facility_rule_item;
 
 					.facility_icon {
-						font-size: 20px;
-						width: 40px;
-						text-align: center;
+						@include facility_rule_icon;
 					}
 
 					.facility_description {
-						margin-left: 15px;
-						font-weight: 300;
+						@include facility_rule_description;
 					}
 				}
 			}
@@ -175,7 +173,7 @@ body {
 			.reservation_wrap {
 				position: sticky;
 				top: 80px;
-				box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+				box-shadow: var(--boxShadow);
 				border-radius: var(--borderRadius);
 				padding: 30px;
 
@@ -307,7 +305,7 @@ body {
 					top: 40%;
 					right: -10px;
 					width: 660px;
-					box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+					box-shadow: var(--boxShadow);
 					border-radius: var(--borderRadius);
 					padding: 20px 30px;
 
@@ -352,7 +350,9 @@ body {
 					.form_main {
 						position: relative;
 						margin-top: var(--containerHorizontalMargin);
-						margin-bottom: calc(var(--containerHorizontalMargin) / 2);
+						margin-bottom: calc(
+							var(--containerHorizontalMargin) / 2
+						);
 
 						.pagination_btns {
 							position: absolute;
@@ -460,6 +460,81 @@ body {
 							outline: none;
 						}
 					}
+				}
+			}
+		}
+	}
+
+	.review_wrap {
+		padding: var(--containerVerticalPadding) 0;
+		margin: 0 var(--containerHorizontalMargin);
+		border-top: var(--bottomBorder);
+		border-bottom: var(--bottomBorder);
+
+		.review_title {
+			font-size: 1.3rem;
+			font-weight: 700;
+
+			.star {
+				@include star(inherit);
+			}
+		}
+
+		.review_item {
+			padding: calc(var(--containerVerticalPadding) / 1.5) 0;
+
+			.review_header {
+				display: flex;
+
+				.guest_profile_img {
+					background-image: url("../img/thumbnail1.jpg");
+					background-size: cover;
+					background-position: center;
+					width: 50px;
+					height: 50px;
+					border-radius: 50%;
+				}
+
+				.review_info {
+					padding-left: calc(var(--containerVerticalPadding) / 2);
+					display: flex;
+					flex-direction: column;
+					justify-content: space-evenly;
+
+					.guest_name {
+					}
+					.review_created {
+						color: var(--gray);
+						font-weight: 300;
+						font-size: 0.7rem;
+					}
+				}
+			}
+
+			.review_main {
+			}
+		}
+	}
+
+	.room_rule {
+		padding: var(--containerVerticalPadding) 0;
+		margin: 0 var(--containerHorizontalMargin);
+
+		.rule_header {
+			font-size: 1.3rem;
+			font-weight: 700;
+		}
+
+		.rules_wrap {
+			.rule_item {
+				@include facility_rule_item;
+
+				.rule_icon {
+					@include facility_rule_icon;
+				}
+
+				.rule_description {
+					@include facility_rule_description;
 				}
 			}
 		}

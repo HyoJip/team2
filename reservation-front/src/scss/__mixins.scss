@@ -23,3 +23,18 @@
 		font-weight: 300;
 	}
 }
+
+@mixin facility_rule_item {
+	margin: 15px 0;
+}
+
+@mixin facility_rule_icon {
+	font-size: 20px;
+	width: 40px;
+	text-align: center;
+}
+
+@mixin facility_rule_description {
+	margin-left: 15px;
+	font-weight: 300;
+}
