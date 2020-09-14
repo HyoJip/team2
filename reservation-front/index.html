@@ -20,7 +20,7 @@
 				</li>
 			</ul>
 		</header>
-		<div class="wrap">
+		<main class="wrap">
 			<div class="nav_category"><a href="#">%ROOM_ADDRESS%</a> &gt; 숙소</div>
 			<div class="room_image">
 				<div class="room_image_grid">
@@ -274,30 +274,49 @@
 				</article>
 			</section>
 			<section class="room_rule">
-				<header class="rule_header">알아두어야 할 사항</header>
-				<div class="rules_wrap">
-					<div class="rule_item">
-						<i class="far fa-clock rule_icon"></i>
-						<span class="rule_description">체크인 시간: %CHECK_IN%</span>
+				<main>
+					<header class="rule_header">알아두어야 할 사항</header>
+					<div class="rules_wrap">
+						<div class="rule_item">
+							<i class="far fa-clock rule_icon"></i>
+							<span class="rule_description">체크인 시간: %CHECK_IN%</span>
+						</div>
+						<div class="rule_item">
+							<i class="far fa-clock rule_icon"></i>
+							<span class="rule_description">체크아웃 시간: %CHECK_OUT%</span>
+						</div>
+						<div class="rule_item">
+							<i class="fas fa-smoking-ban rule_icon"></i>
+							<span class="rule_description">흡연 금지</span>
+						</div>
+						<div class="rule_item">
+							<i class="fas fa-ban rule_icon"></i>
+							<span class="rule_description">반려동물 동반 불가</span>
+						</div>
 					</div>
-					<div class="rule_item">
-						<i class="far fa-clock rule_icon"></i>
-						<span class="rule_description">체크아웃 시간: %CHECK_OUT%</span>
-					</div>
-					<div class="rule_item">
-						<i class="fas fa-smoking-ban rule_icon"></i>
-						<span class="rule_description">흡연 금지</span>
-					</div>
-					<div class="rule_item">
-						<i class="fas fa-ban rule_icon"></i>
-						<span class="rule_description">반려동물 동반 불가</span>
-					</div>
-				</div>
+				</main>
+				<aside class="message_wrap">
+					<button class="message_btn">호스트에게 연락하기</button>
+					<small class="alert">안전한 결제를 위해 에어비앤비 웹사이트나 앱 외부에서 송금하거나 대화를 나누지 마세요.</small>
+				</aside>
 			</section>
-			<aside class="message_wrap">
-				<button class="message_btn">호스트에게 연락하기</button>
-			</aside>
-		</div>
+		</main>
+		<footer class="body_footer">
+			<div class="footer_wrap">
+				<p class="company_info"><span class="right">© 2020 Airbnb, Inc. All rights reserved</span>
+					<span class="project">team2 airbnb clone project</span>
+				</p>
+				<p class="page_config">
+					<i class="fas fa-globe-asia"></i>
+					<span class="language">한국어(KR)</span>
+					<small>￦</small>
+					<span class="currency">KRW</span>
+					<a target="blank" href="https://github.com/HyoJip/team2"><i class="fab fa-github"></i></a>
+					<a target="blank" href="http://www.btc.ac.kr/"><i class="fas fa-school"></i></a>
+					<a target="blank" href="https://www.airbnb.co.kr/"><i class="fab fa-airbnb"></i></a>
+				</p>
+			</div>
+		</footer>
 		<script src="/src/js/index.js"></script>
 	</body>
 </html>

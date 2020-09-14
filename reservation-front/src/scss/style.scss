@@ -350,9 +350,7 @@ body {
 					.form_main {
 						position: relative;
 						margin-top: var(--containerHorizontalMargin);
-						margin-bottom: calc(
-							var(--containerHorizontalMargin) / 2
-						);
+						margin-bottom: calc(var(--containerHorizontalMargin) / 2);
 
 						.pagination_btns {
 							position: absolute;
@@ -519,6 +517,7 @@ body {
 	.room_rule {
 		padding: var(--containerVerticalPadding) 0;
 		margin: 0 var(--containerHorizontalMargin);
+		display: flex;
 
 		.rule_header {
 			font-size: 1.3rem;
@@ -536,6 +535,34 @@ body {
 				.rule_description {
 					@include facility_rule_description;
 				}
+			}
+		}
+
+		.message_wrap {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: flex-start;
+			margin-left: 100px;
+
+			.message_btn {
+				padding: 10px 40px;
+				font-weight: 700;
+				font-family: inherit;
+				opacity: 0.5;
+				border-radius: var(--borderRadius);
+				outline: none;
+				cursor: pointer;
+
+				&:hover {
+					opacity: 0.8;
+				}
+			}
+			.alert {
+				margin-top: 10px;
+				width: 250px;
+				font-size: 0.8rem;
+				font-weight: 300;
 			}
 		}
 	}
