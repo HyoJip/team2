@@ -1,0 +1,130 @@
+$lightGray: #ecf0f1;
+
+.body_header {
+	width: 100%;
+	height: 80px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03), 0 3px 3px rgba(0, 0, 0, 0.06);
+
+	ul {
+		display: flex;
+		padding: 0 25px;
+		justify-content: space-between;
+		align-items: center;
+
+		.airbnb_icon {
+			display: flex;
+			color: var(--red);
+			line-height: 80px;
+			font-weight: 700;
+			font-size: 1.4rem;
+			align-items: center;
+			cursor: pointer;
+
+			i {
+				font-size: 2.7rem;
+				margin-right: 5px;
+			}
+		}
+
+		.room_search {
+			border: 1px solid $lightGray;
+			border-radius: calc(var(--borderRadius) * 2);
+			width: 330px;
+			height: 40px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			transition: all 0.2s ease-in-out;
+
+			&:hover {
+				box-shadow: var(--boxShadow);
+			}
+
+			.search_input {
+				all: unset;
+				padding: 0 15px;
+
+				&::placeholder {
+					color: black;
+					font-size: 0.9em;
+				}
+			}
+
+			i {
+				width: 30px;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				color: white;
+				font-size: 0.7em;
+				border-radius: 50%;
+				background-color: var(--red);
+				margin: 10px;
+				cursor: pointer;
+			}
+		}
+
+		.header_profile {
+			border: 1px solid #ecf0f1;
+			border-radius: calc(var(--borderRadius) * 2);
+			cursor: pointer;
+			padding: 5px 10px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			transition: all 0.2s ease-in-out;
+
+			&:hover {
+				box-shadow: var(--boxShadow);
+			}
+
+			i {
+				margin: 0 5px;
+			}
+
+			.profile_img {
+				width: 30px;
+				height: 30px;
+				content: "";
+				display: inline-block;
+				margin-left: 10px;
+				background-color: var(--red);
+				border-radius: 50%;
+			}
+		}
+	}
+}
+
+.body_footer {
+	background-color: rgba($lightGray, 0.5);
+	border-top: 1px solid $lightGray;
+
+	.footer_wrap {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: var(--containerVerticalPadding) 0;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.company_info {
+		margin: 0 var(--containerHorizontalMargin);
+		font-weight: 300;
+		span {
+			display: block;
+		}
+	}
+
+	.page_config {
+		i {
+			margin-left: 15px;
+			font-size: 1.2rem;
+		}
+
+		span {
+			@include underline;
+			font-size: 0.9rem;
+			margin: 0 10px;
+		}
+	}
+}
