@@ -38,6 +38,11 @@ public class HomeController {
 	public String login(Locale locale, Model model) {
 		return "user/login";
 	}
+	
+	@RequestMapping(value = "/memberjoin", method = RequestMethod.GET)
+	public String memberjoin(Locale locale, Model model) {
+		return "user/memberjoin";
+	}
 
 	
 }
