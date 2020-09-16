@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -16,7 +17,7 @@
 				</li>
 				<li class="header_profile">
 					<i class="fas fa-bars"></i>
-					<a class="profile_img" rel="profile_menu"></a>
+					<a class="profile_img" rel="profile_menu" href="/login"></a>
 				</li>
 			</ul>
 		</header>
@@ -317,6 +318,6 @@
 				</p>
 			</div>
 		</footer>
-		<script src="/src/js/index.js"></script>
+		<script src="/resources/index.js"></script>
 	</body>
 </html>
