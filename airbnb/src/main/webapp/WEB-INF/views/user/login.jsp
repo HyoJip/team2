@@ -12,8 +12,8 @@
     <div class="login">
         <h1>로그인</h1>
         <form method="post" action="">
-          <p><input type="text" name="login" value="" placeholder="Email"></p>
-          <p><input type="password" name="password" value="" placeholder="Password"></p>
+          <p><input type="text" name="login" value="" placeholder="이메일"></p>
+          <p><input type="password" name="password" value="" placeholder="비밀번호"></p>
           <p class="remember_me">
             <label>
               <input type="checkbox" name="remember_me" id="remember_me">
@@ -24,7 +24,7 @@
         </form>
       </div>
       <div class="login-help">
-        <p>회원이 아니신가요?&nbsp;&nbsp;<a href="#">회원가입</a></p>
+        <p>회원이 아니신가요?&nbsp;&nbsp;<a href="/memberjoin">회원가입</a></p>
       </div>
 </body>
 </html>
