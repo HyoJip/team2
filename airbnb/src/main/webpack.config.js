@@ -8,7 +8,7 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, 'webapp/resources'),
 		filename: '[name].js',
-		publicPath: '/airbnb/resources/',
+		publicPath: '/resources/',
 	},
 	module: {
 		rules: [

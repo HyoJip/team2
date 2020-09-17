@@ -6,21 +6,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>reservation</title>
 		<script src="https://kit.fontawesome.com/ad755395c3.js" crossorigin="anonymous"></script>
+		<link href="/resources/css/base.css" rel="stylesheet">
 	</head>
 	<body>
-		<header class="body_header">
-			<ul>
-				<li class="airbnb_icon"><i class="fab fa-airbnb"></i>airbnb</li>
-				<li class="room_search">
-					<input class="search_input" type="text" placeholder="검색 시작하기">
-					<i class="fas fa-search"></i>
-				</li>
-				<li class="header_profile">
-					<i class="fas fa-bars"></i>
-					<a class="profile_img" rel="profile_menu" href="/login"></a>
-				</li>
-			</ul>
-		</header>
+	
+		<jsp:include page="./partial/header.jsp" />
 		<main class="wrap">
 			<div class="nav_category"><a href="#">%ROOM_ADDRESS%</a> &gt; 숙소</div>
 			<div class="room_image">
@@ -302,22 +292,7 @@
 				</aside>
 			</section>
 		</main>
-		<footer class="body_footer">
-			<div class="footer_wrap">
-				<p class="company_info"><span class="right">© 2020 Airbnb, Inc. All rights reserved</span>
-					<span class="project">team2 airbnb clone project</span>
-				</p>
-				<p class="page_config">
-					<i class="fas fa-globe-asia"></i>
-					<span class="language">한국어(KR)</span>
-					<small>￦</small>
-					<span class="currency">KRW</span>
-					<a target="blank" href="https://github.com/HyoJip/team2"><i class="fab fa-github"></i></a>
-					<a target="blank" href="http://www.btc.ac.kr/"><i class="fas fa-school"></i></a>
-					<a target="blank" href="https://www.airbnb.co.kr/"><i class="fab fa-airbnb"></i></a>
-				</p>
-			</div>
-		</footer>
+		<jsp:include page="./partial/footer.jsp" />
 		<script src="/resources/index.js"></script>
 	</body>
 </html>
