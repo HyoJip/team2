@@ -1,4 +1,4 @@
-package util;
+package com.team2.airbnb.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
