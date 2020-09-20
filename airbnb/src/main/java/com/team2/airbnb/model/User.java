@@ -1,4 +1,4 @@
-package com.team2.airbnb.model.reservation;
+package com.team2.airbnb.model;
 
 public class User {
 	private int id;

@@ -400,6 +400,19 @@ const Controller = ((DataCtrl, UICtrl) => {
 	};
 
 	const onClickFormExitBtn = () => UICtrl.closePopup(event);
+	
+	const submitReservationForm = () => {
+		document.querySelector(DOM.checkInInput).value = state.checkInId;
+		document.querySelector(DOM.checkOutInput).value = state.checkOutId;
+		
+		const form = document.querySelector(DOM.reservePopupContainer);
+		const numOfGuest = document.querySelector(DOM.guestCount).textContent;
+		const guestInput = document.createElement("input");
+		guestInput.setAttribute("name", "numOfGuest");
+		guestInput.setAttribute("value", numOfGuest);
+		form.appendChild(guestInput);
+		form.submit();
+	}
 
 	const onClickReserveContainer = event => {
 		// 1-1. 체크인, 체크아웃 버튼 클릭시
@@ -407,7 +420,7 @@ const Controller = ((DataCtrl, UICtrl) => {
 		// 1-2. 예약 버튼 클릭시
 		else if (UICtrl.isClickedRenderBtn(event)) {
 			if (state.checkInId !== "" && state.checkOutId !== "") {
-				// TODO: 예약 페이지로 이동;
+				submitReservationForm();
 			} else UICtrl.openPopup();
 		}
 	};

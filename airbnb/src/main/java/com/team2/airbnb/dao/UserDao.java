@@ -10,14 +10,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.team2.airbnb.model.reservation.User;
+import com.team2.airbnb.model.User;
 
 @Repository
-public class ReservationDao {
-	private JdbcTemplate jdbcTemplate;
+public class UserDao {
+	
+	private final JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	public ReservationDao(DataSource dataSource) {
+	public UserDao(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
