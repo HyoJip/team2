@@ -26,16 +26,6 @@
   height: 300px;
 }
 
-.cont_box01 p:hover img {
-  /* background: url("../../login-front/login.html") 0 0 no-repeat; */
-  transform: scale(1.2);
-}
-
-.cont_box01 dl:hover {
-  /* background: url("../../login-front/login.html") 0 0 no-repeat; */
-  transform: scale(1.2);
-}
-
 .cont_box01 p img {
   height: 100%;
   width: 100%;
@@ -50,6 +40,16 @@
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
+}
+
+.cont_box01 p:hover img {
+  /* background: url("../../login-front/login.html") 0 0 no-repeat; */
+  transform: scale(1.2);
+}
+
+.cont_box01 dl:hover {
+  /* background: url("../../login-front/login.html") 0 0 no-repeat; */
+  transform: scale(1.2);
 }
 
 @media screen and (max-width: 1200px) {
