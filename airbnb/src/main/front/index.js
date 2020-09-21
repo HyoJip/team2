@@ -1,5 +1,6 @@
 import "./scss/style.scss";
 import * as util from "./js/util";
+import axios from "axios";
 
 /*
  ************************** Global State
@@ -10,23 +11,27 @@ let state = {
 	checkInId: "",
 	checkOutId: "",
 };
-
 /*
  ************************** Model
  */
 const DataController = (() => {
 	return {
-		getReservedDays: () => {
-			const mockup = ["2020-09-20", "2020-09-21", "2020-09-22", "2020-09-30", "2020-10-01"];
-			return mockup;
+		getReservedDays: async () => {
+			const url = window.location.pathname;
+			const roomId = url.match(/(?<=room\/)[\d]*/)[0];
+			const response = await axios.get(
+				`http://localhost:8080/api/room/${roomId}`
+			);
+			return response.data;
 		},
 		getReservePayload: () => {
 			// 1. GET DB로부터 숙소 하루당 가격
-			const roomPrice = 100000;
+			const roomPrice = document.querySelector("#roomPriceDB").value;
 
 			// 2. 계산
 			const roomNight =
-				(new Date(state.checkOutId) - new Date(state.checkInId)) / (1000 * 60 * 60 * 24);
+				(new Date(state.checkOutId) - new Date(state.checkInId)) /
+				(1000 * 60 * 60 * 24);
 			const totalPrice = roomNight * roomPrice;
 			return {
 				roomPrice,
@@ -35,7 +40,8 @@ const DataController = (() => {
 			};
 		},
 		getMaxPerson: () => {
-			return 4;
+			const maxPerson = document.querySelector("#roomMaxPersonDB").value;
+			return maxPerson;
 		},
 	};
 })();
@@ -77,15 +83,21 @@ const UIController = (() => {
 	};
 
 	const displayMonth = (year, month) => {
-		const [curMonth, nextMonth] = document.querySelectorAll(DOMString.MonthYear);
+		const [curMonth, nextMonth] = document.querySelectorAll(
+			DOMString.MonthYear
+		);
 		curMonth.textContent = `${month}월 ${year}`;
-		nextMonth.textContent = month === 12 ? `1월 ${year + 1}` : `${month + 1}월 ${year}`;
+		nextMonth.textContent =
+			month === 12 ? `1월 ${year + 1}` : `${month + 1}월 ${year}`;
 	};
 
 	const setButtonStyle = (year, month) => {
 		const prevBtnNode = document.querySelector(DOMString.prevPage);
 		const CL_DISABLED = "BtnDisabled";
-		if (year === state.today.getFullYear() && month === state.today.getMonth() + 1) {
+		if (
+			year === state.today.getFullYear() &&
+			month === state.today.getMonth() + 1
+		) {
 			prevBtnNode.disabled = true;
 			prevBtnNode.classList.add(CL_DISABLED);
 		} else {
@@ -102,7 +114,9 @@ const UIController = (() => {
 		}
 		return `
 		<div class="calendar_day">
-			<span class="${CL_DAY}" id="${year}-${util.setMonthCount(month)}-${util.setFixDayCount(day)}">
+			<span class="${CL_DAY}" id="${year}-${util.setMonthCount(
+			month
+		)}-${util.setFixDayCount(day)}">
 				${day}
 			</span>
 		</div>`;
@@ -133,11 +147,11 @@ const UIController = (() => {
 		return markup;
 	};
 
-	const addInvalidDayClass = cleanedDays => {
+	const addInvalidDayClass = (cleanedDays) => {
 		const CL_VALID_DAY = "valid_day";
 		const CL_INVALID_DAY = "invalid_day";
 
-		cleanedDays.forEach(el => {
+		cleanedDays.forEach((el) => {
 			el.classList.add(CL_INVALID_DAY);
 			el.classList.remove(CL_VALID_DAY);
 		});
@@ -145,17 +159,23 @@ const UIController = (() => {
 
 	return {
 		getDOMString: () => DOMString,
-		closePopup: event => {
+		closePopup: (event) => {
 			if (event) event.preventDefault();
-			document.querySelector(DOMString.reservePopupContainer).style.display = "none";
+			document.querySelector(
+				DOMString.reservePopupContainer
+			).style.display = "none";
 		},
 
 		openPopup: () =>
-			(document.querySelector(DOMString.reservePopupContainer).style.display = "block"),
+			(document.querySelector(
+				DOMString.reservePopupContainer
+			).style.display = "block"),
 
-		isClickedCheckInAndOut: event => event.target.matches(`${DOMString.reserveCheckBox} *`),
+		isClickedCheckInAndOut: (event) =>
+			event.target.matches(`${DOMString.reserveCheckBox} *`),
 
-		isClickedRenderBtn: event => event.target.matches(DOMString.reserveRenderBtn),
+		isClickedRenderBtn: (event) =>
+			event.target.matches(DOMString.reserveRenderBtn),
 
 		renderCalendar: (year, month) => {
 			displayMonth(year, month);
@@ -163,76 +183,102 @@ const UIController = (() => {
 
 			document
 				.querySelector(DOMString.curCalendar)
-				.insertAdjacentHTML("beforeend", createCalendarHTML(year, month));
+				.insertAdjacentHTML(
+					"beforeend",
+					createCalendarHTML(year, month)
+				);
 			document
 				.querySelector(DOMString.nextCalendar)
-				.insertAdjacentHTML("beforeend", createCalendarHTML(year, month + 1));
+				.insertAdjacentHTML(
+					"beforeend",
+					createCalendarHTML(year, month + 1)
+				);
 		},
 
 		clearCalendar: () => {
-			const [curCalendar, nextCalendar] = document.querySelectorAll(DOMString.calendarBox);
+			const [curCalendar, nextCalendar] = document.querySelectorAll(
+				DOMString.calendarBox
+			);
 			curCalendar.parentNode.removeChild(curCalendar);
 			nextCalendar.parentNode.removeChild(nextCalendar);
 		},
 
-		beExceptReservedDay: reservedDays => {
-			const calendarWrap = document.querySelector(DOMString.calendarContainer);
-			const renderedDays = Array.from(calendarWrap.querySelectorAll("span"));
-			const cleanedDays = renderedDays.filter(day => reservedDays.includes(day.id));
+		beExceptReservedDay: (reservedDays) => {
+			const calendarWrap = document.querySelector(
+				DOMString.calendarContainer
+			);
+			const renderedDays = Array.from(
+				calendarWrap.querySelectorAll("span")
+			);
+			const cleanedDays = renderedDays.filter((day) =>
+				reservedDays.includes(day.id)
+			);
 			addInvalidDayClass(cleanedDays);
 		},
 
 		renderInvalidDay: (clickedId, reservedDays = null) => {
-			const calendarWrap = document.querySelector(DOMString.calendarContainer);
+			const calendarWrap = document.querySelector(
+				DOMString.calendarContainer
+			);
 			const days = Array.from(calendarWrap.querySelectorAll("span"));
 			let cleanedDays;
 
 			if (state.checkInId === "") {
 				// 1. GET 클릭된 날짜 이후의 예약된 제일 빠른 날짜
-				const latestDay = reservedDays.filter(daystr => clickedId < daystr).sort()[0];
+				const latestDay = reservedDays
+					.filter((daystr) => clickedId < daystr)
+					.sort()[0];
 				// 2. 체크아웃 불가능한 날짜 마크
-				cleanedDays = days.filter(day => day.id < clickedId || latestDay < day.id);
+				cleanedDays = days.filter(
+					(day) => day.id < clickedId || latestDay < day.id
+				);
 			} else {
-				cleanedDays = days.filter(day => day.id > clickedId);
+				cleanedDays = days.filter((day) => day.id > clickedId);
 			}
 			addInvalidDayClass(cleanedDays);
 		},
 
-		setCheckInInput: id =>
-			(document.querySelector(DOMString.checkInInput).value = util.formatDashToDot(id)),
-		setCheckOutInput: id =>
-			(document.querySelector(DOMString.checkOutInput).value = util.formatDashToDot(id)),
+		setCheckInInput: (id) =>
+			(document.querySelector(
+				DOMString.checkInInput
+			).value = util.formatDashToDot(id)),
+		setCheckOutInput: (id) =>
+			(document.querySelector(
+				DOMString.checkOutInput
+			).value = util.formatDashToDot(id)),
 
-		renderDayBackground: id => {
+		renderDayBackground: (id) => {
 			const days = Array.from(
 				document
 					.querySelector(DOMString.calendarContainer)
 					.querySelectorAll(DOMString.validDay)
 			);
 			const CL_AVAIL_DAY = "available_day";
-			days.map(el => {
+			days.map((el) => {
 				el.parentNode.classList.remove(CL_AVAIL_DAY);
 				return el;
 			})
-				.filter(el => state.checkInId <= el.id && el.id <= id)
-				.forEach(el => {
+				.filter((el) => state.checkInId <= el.id && el.id <= id)
+				.forEach((el) => {
 					el.parentNode.classList.add(CL_AVAIL_DAY);
 				});
 		},
 
 		clearCheckDisplay: () => {
-			document.querySelector(DOMString.checkInDisplay).textContent = "날짜선택";
-			document.querySelector(DOMString.checkOutDisplay).textContent = "날짜선택";
+			document.querySelector(DOMString.checkInDisplay).textContent =
+				"날짜선택";
+			document.querySelector(DOMString.checkOutDisplay).textContent =
+				"날짜선택";
 		},
 
-		renderCheckInDisplay: id =>
-			(document.querySelector(DOMString.checkInDisplay).textContent = util.formatDashToDot(
-				id
-			)),
-		renderCheckOutDisplay: id =>
-			(document.querySelector(DOMString.checkOutDisplay).textContent = util.formatDashToDot(
-				id
-			)),
+		renderCheckInDisplay: (id) =>
+			(document.querySelector(
+				DOMString.checkInDisplay
+			).textContent = util.formatDashToDot(id)),
+		renderCheckOutDisplay: (id) =>
+			(document.querySelector(
+				DOMString.checkOutDisplay
+			).textContent = util.formatDashToDot(id)),
 		renderGuestCount: (event, maxPerson, minPerson = 1) => {
 			const guestValueNode = document.querySelector(DOMString.guestCount);
 			const plusBtn = document.querySelector(DOMString.guestPlusBtn);
@@ -257,25 +303,36 @@ const UIController = (() => {
 			}
 		},
 
-		getGuestCount: () => document.querySelector(DOMString.guestCount).textContent,
+		getGuestCount: () =>
+			document.querySelector(DOMString.guestCount).textContent,
 
-		renderPrice: payload => {
+		renderPrice: (payload) => {
 			const { roomPrice, roomNight, totalPrice } = payload;
-			document.querySelector(DOMString.reservePriceContainer).style.display = "block";
-			document.querySelector(DOMString.reserveRenderBtn).textContent = "예약하기";
-			document.querySelector(DOMString.roomNight).textContent = roomNight + "박";
-			document.querySelector(DOMString.roomPrice).textContent = util.formatWon(roomPrice);
-			document.querySelector(DOMString.priceValue).textContent = util.formatWon(totalPrice);
-			document.querySelector(DOMString.totalPrice).textContent = util.formatWon(
-				totalPrice + 5000
-			);
-			document.querySelector(DOMString.reserveHelpText).innerHTML = `${util.formatWon(
-				roomPrice
-			)}<small>/박</small>`;
+			document.querySelector(
+				DOMString.reservePriceContainer
+			).style.display = "block";
+			document.querySelector(DOMString.reserveRenderBtn).textContent =
+				"예약하기";
+			document.querySelector(DOMString.roomNight).textContent =
+				roomNight + "박";
+			document.querySelector(
+				DOMString.roomPrice
+			).textContent = util.formatWon(roomPrice);
+			document.querySelector(
+				DOMString.priceValue
+			).textContent = util.formatWon(totalPrice);
+			document.querySelector(
+				DOMString.totalPrice
+			).textContent = util.formatWon(totalPrice + 5000);
+			document.querySelector(
+				DOMString.reserveHelpText
+			).innerHTML = `${util.formatWon(roomPrice)}<small>/박</small>`;
 		},
 
 		clearPriceContainer: () => {
-			document.querySelector(DOMString.reservePriceContainer).style.display = "none";
+			document.querySelector(
+				DOMString.reservePriceContainer
+			).style.display = "none";
 			document.querySelector(DOMString.reserveHelpText).textContent =
 				"요금을 확인하려면 날짜를 입력하세요.";
 		},
@@ -290,14 +347,20 @@ const Controller = ((DataCtrl, UICtrl) => {
 	const DOM = UICtrl.getDOMString();
 	const setEventListeners = () => {
 		// 폼 닫기 클릭
-		document.querySelector(DOM.exitBtn).addEventListener("click", onClickFormExitBtn);
+		document
+			.querySelector(DOM.exitBtn)
+			.addEventListener("click", onClickFormExitBtn);
 		// 폼 열기 클릭
 		document
 			.querySelector(DOM.reserveContainer)
 			.addEventListener("click", onClickReserveContainer);
 		// 달력 넘기기 클릭
-		document.querySelector(DOM.prevPage).addEventListener("click", onClickPageBtn);
-		document.querySelector(DOM.nextPage).addEventListener("click", onClickPageBtn);
+		document
+			.querySelector(DOM.prevPage)
+			.addEventListener("click", onClickPageBtn);
+		document
+			.querySelector(DOM.nextPage)
+			.addEventListener("click", onClickPageBtn);
 		// 달력 날짜 클릭
 		document
 			.querySelector(DOM.calendarContainer)
@@ -311,7 +374,9 @@ const Controller = ((DataCtrl, UICtrl) => {
 			.querySelector(DOM.guestCounterBox)
 			.addEventListener("click", onClickGuestCounterBox);
 		// 날짜 폼 리셋 클릭
-		document.querySelector(DOM.resetInput).addEventListener("click", onClickResetBtn);
+		document
+			.querySelector(DOM.resetInput)
+			.addEventListener("click", onClickResetBtn);
 	};
 
 	const clearState = () => {
@@ -332,9 +397,10 @@ const Controller = ((DataCtrl, UICtrl) => {
 		UICtrl.clearPriceContainer();
 	};
 
-	const onClickGuestCounterBox = event => UICtrl.renderGuestCount(event, DataCtrl.getMaxPerson());
+	const onClickGuestCounterBox = (event) =>
+		UICtrl.renderGuestCount(event, DataCtrl.getMaxPerson());
 
-	const onMouseoverCalContainer = event => {
+	const onMouseoverCalContainer = (event) => {
 		if (state.checkInId !== "" && state.checkOutId == "") {
 			if (event.target.matches(DOM.validDay)) {
 				const id = event.target.id;
@@ -343,7 +409,7 @@ const Controller = ((DataCtrl, UICtrl) => {
 		}
 	};
 
-	const onClickCalContainer = event => {
+	const onClickCalContainer = async (event) => {
 		if (state.checkOutId !== "") return;
 		const clickedDay = event.target.closest(".calendar_day span.valid_day");
 		//	체크아웃 클릭
@@ -367,7 +433,7 @@ const Controller = ((DataCtrl, UICtrl) => {
 			}
 			//	체크인 클릭
 			else if (state.checkInId === "") {
-				const reservedDays = DataCtrl.getReservedDays();
+				const reservedDays = await DataCtrl.getReservedDays();
 				// 1. 불가능한 날짜 마크 표시
 				UICtrl.renderInvalidDay(id, reservedDays);
 				// 2. 체크인 인풋에 날짜 동기화
@@ -379,7 +445,7 @@ const Controller = ((DataCtrl, UICtrl) => {
 		}
 	};
 
-	const onClickPageBtn = event => {
+	const onClickPageBtn = async (event) => {
 		event.preventDefault();
 		UICtrl.clearCalendar();
 
@@ -391,20 +457,29 @@ const Controller = ((DataCtrl, UICtrl) => {
 		} else {
 			state.curDate.setMonth(state.curDate.getMonth() + 1);
 		}
-		UICtrl.renderCalendar(state.curDate.getFullYear(), state.curDate.getMonth() + 1);
+		// 1. 달력 렌더링
+		UICtrl.renderCalendar(
+			state.curDate.getFullYear(),
+			state.curDate.getMonth() + 1
+		);
+		// 2. 예약 불가능 렌더링
+		UICtrl.beExceptReservedDay(await DataCtrl.getReservedDays());
 	};
 
-	const setInitailCalendar = () => {
-		UICtrl.renderCalendar(state.curDate.getFullYear(), state.curDate.getMonth() + 1);
-		UICtrl.beExceptReservedDay(DataCtrl.getReservedDays());
+	const setInitailCalendar = async () => {
+		UICtrl.renderCalendar(
+			state.curDate.getFullYear(),
+			state.curDate.getMonth() + 1
+		);
+		UICtrl.beExceptReservedDay(await DataCtrl.getReservedDays());
 	};
 
 	const onClickFormExitBtn = () => UICtrl.closePopup(event);
-	
+
 	const submitReservationForm = () => {
 		document.querySelector(DOM.checkInInput).value = state.checkInId;
 		document.querySelector(DOM.checkOutInput).value = state.checkOutId;
-		
+
 		const form = document.querySelector(DOM.reservePopupContainer);
 		const numOfGuest = document.querySelector(DOM.guestCount).textContent;
 		const guestInput = document.createElement("input");
@@ -412,9 +487,9 @@ const Controller = ((DataCtrl, UICtrl) => {
 		guestInput.setAttribute("value", numOfGuest);
 		form.appendChild(guestInput);
 		form.submit();
-	}
+	};
 
-	const onClickReserveContainer = event => {
+	const onClickReserveContainer = (event) => {
 		// 1-1. 체크인, 체크아웃 버튼 클릭시
 		if (UICtrl.isClickedCheckInAndOut(event)) UICtrl.openPopup();
 		// 1-2. 예약 버튼 클릭시

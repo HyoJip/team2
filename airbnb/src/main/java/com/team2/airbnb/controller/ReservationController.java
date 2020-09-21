@@ -14,6 +14,7 @@ import com.team2.airbnb.dao.ReserveDao;
 import com.team2.airbnb.model.Reservation;
 import com.team2.airbnb.model.ReserveList;
 import com.team2.airbnb.service.ReserveService;
+import com.team2.airbnb.util.NumberUtil;
 
 @Controller
 public class ReservationController {
@@ -32,16 +33,21 @@ public class ReservationController {
 			@PathVariable int id,
 			@RequestParam(value = "checkIn") String checkIn,
 			@RequestParam(value = "checkOut") String checkOut,
-			@RequestParam(value = "numOfGuest") int numOfGuest) {
+			@RequestParam(value = "numOfGuest") int numOfGuest,
+			@RequestParam(value = "roomPrice") int roomPrice) {
 
 		int reserveNight = reserveService.getReserveNight(checkIn, checkOut);
 		String minDateForFullRefund = reserveService.getMinDateForFullRefund(checkIn);
+		int totalPrice = roomPrice * reserveNight;
 		
 		model.addAttribute("checkIn", checkIn);
 		model.addAttribute("checkOut", checkOut);
 		model.addAttribute("numOfGuest", numOfGuest);
 		model.addAttribute("reserveNight", reserveNight);
 		model.addAttribute("minDateForFullRefund", minDateForFullRefund);
+		model.addAttribute("roomPrice", NumberUtil.wonFormatter.format(roomPrice));
+		model.addAttribute("totalPrice", NumberUtil.wonFormatter.format(totalPrice));
+		model.addAttribute("finalPrice", NumberUtil.wonFormatter.format(totalPrice + 5000));
 		return "reservation/reserve_form";
 	}
 

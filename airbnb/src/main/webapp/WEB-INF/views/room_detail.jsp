@@ -115,7 +115,7 @@
 									<h5 class="reservation_check">인원</h5>
 									<p class="reservation_display">게스트 <span id="guestCount">1</span>명
 										<span class="guest_counter_box" id="guestCounterBox">
-											<i class="display_btn_icon fas fa-minus" id="guestMinusBtn"></i>
+											<i class="display_btn_icon fas fa-minus BtnDisabled" id="guestMinusBtn"></i>
 											<i class="display_btn_icon fas fa-plus" id="guestPlusBtn"></i>
 										</span>
 									</p>
@@ -125,7 +125,7 @@
 							<section class="reservation_price" id="reservePriceContainer"style="display: none;">
 								<small class="price_comment">예약 확정 전에는 요금이 청구되지 않습니다.</small>
 								<div class="price_item">
-									<p class="price_name"><span class="room_price" id="roomPrice"><%=room.getPrice()%></span> X <span class="reservation_night" id="roomNight">%reserveNight%</span></p>
+									<p class="price_name"><span class="room_price" id="roomPrice">%ROON_PRICE%</span> X <span class="reservation_night" id="roomNight">%reserveNight%</span></p>
 									<p class="price_value" id="priceValue">%priceValue%</p>
 								</div>
 								<div class="price_item">
@@ -202,6 +202,8 @@
 									<input type="reset" class="input_reset" id="resetInput" value="날짜 지우기">
 									<button class="form_exit" id="formExitBtn">닫기</button>
 								</footer>
+								<input type="hidden" name="roomPrice" id="roomPriceDB" value="<%=room.getPrice()%>">
+								<input type="hidden" name="roomMaxPerson" id="roomMaxPersonDB" value="<%=room.getGuests()%>">
 							</form>
 					</section>
 				</div>

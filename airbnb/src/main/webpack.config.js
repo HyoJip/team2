@@ -4,6 +4,7 @@ module.exports = {
 	context: path.resolve(__dirname, 'front'),
 	entry: {
 		index: './index.js',
+		reserveForm: './js/reservationForm.js'
 	},
 	output: {
 		path: path.resolve(__dirname, 'webapp/resources'),
