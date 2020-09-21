@@ -1,18 +1,20 @@
+<%@page import="com.team2.airbnb.model.Room"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>reservation</title>
-		<script src="https://kit.fontawesome.com/ad755395c3.js" crossorigin="anonymous"></script>
+		<title>에어비엔비|숙소 정보</title>
 		<link href="/resources/css/base.css" rel="stylesheet">
 	</head>
 	<body>
-	
+	<%
+		Room room = (Room) request.getAttribute("room");
+	%>
 		<jsp:include page="./partial/header.jsp" />
 		<main class="wrap">
-			<div class="nav_category"><a href="#">%ROOM_ADDRESS%</a> &gt; 숙소</div>
+			<div class="nav_category"><a href="#"><%=room.getAddress()%></a> &gt; 숙소</div>
 			<div class="room_image">
 				<div class="room_image_grid">
 					<img
@@ -45,36 +47,26 @@
 			<main class="main_wrap">
 				<div class="main_left">
 					<div class="room_header">
-						<h1 class="room_title">%ROOM_NAME%</h1>
+						<h1 class="room_title"><%=room.getName()%></h1>
 						<h4 class="room_info">
 							<small class="room_short_info"
 								><i class="star">★</i> %RATING_VALUE%
 								<span class="rating_count">(%REVIEW_COUNT%)</span></small
 							>
-							<small class="address">%ROOM_ADDRESS%</small>
+							<small class="address"><%=room.getAddress()%></small>
 						</h4>
 					</div>
 					<div class="host_info">
 						<hgroup>
 							<h2 class="username">%USERNAME%님이 호스팅하는 게스트용 숙소</h2>
 							<h3 class="room_short_spec">
-								최대인원 %GUESTS%명 · 침실 %BROOMS%개 · 침대 %BEDS%개 · 욕실 %BATHS%개
+								최대인원 <%=room.getGuests()%>명 · 침실 <%=room.getBedRooms()%>개 · 침대 <%=room.getBeds()%>개 · 욕실 <%=room.getBaths()%>개
 							</h3>
 						</hgroup>
 						<a href="#" role="button"></a><div class="user_profile"></div></a>
 					</div>
 					<div class="room_detail_info">
-						<p class="room_description">
-							Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam consequatur
-							ratione, corrupti dolorem eveniet nostrum maiores labore. Voluptatum sit maiores
-							nesciunt placeat explicabo cumque! Voluptatum aliquam quis dolor dolore et?
-							Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam consequatur
-							ratione, corrupti dolorem eveniet nostrum maiores labore. Voluptatum sit maiores
-							nesciunt placeat explicabo cumque! Voluptatum aliquam quis dolor dolore et?
-							Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam consequatur
-							ratione, corrupti dolorem eveniet nostrum maiores labore. Voluptatum sit maiores
-							nesciunt placeat explicabo cumque! Voluptatum aliquam quis dolor dolore et?
-						</p>
+						<p class="room_description"><%=room.getDescription()%></p>
 						<a href="#">호스트에게 연락하기</a>
 					</div>
 					<div class="room_facilities">
@@ -123,7 +115,7 @@
 									<h5 class="reservation_check">인원</h5>
 									<p class="reservation_display">게스트 <span id="guestCount">1</span>명
 										<span class="guest_counter_box" id="guestCounterBox">
-											<i class="display_btn_icon fas fa-minus" id="guestMinusBtn"></i>
+											<i class="display_btn_icon fas fa-minus BtnDisabled" id="guestMinusBtn"></i>
 											<i class="display_btn_icon fas fa-plus" id="guestPlusBtn"></i>
 										</span>
 									</p>
@@ -133,7 +125,7 @@
 							<section class="reservation_price" id="reservePriceContainer"style="display: none;">
 								<small class="price_comment">예약 확정 전에는 요금이 청구되지 않습니다.</small>
 								<div class="price_item">
-									<p class="price_name"><span class="room_price" id="roomPrice">%roomPrice%</span> X <span class="reservation_night" id="roomNight">%reserveNight%</span></p>
+									<p class="price_name"><span class="room_price" id="roomPrice">%ROON_PRICE%</span> X <span class="reservation_night" id="roomNight">%reserveNight%</span></p>
 									<p class="price_value" id="priceValue">%priceValue%</p>
 								</div>
 								<div class="price_item">
@@ -145,7 +137,7 @@
 									<p class="price_value" id="totalPrice">%totalPrice%</p>
 								</div>
 							</section>
-							<form action="" method="POST" class="reservation_form" id="reservationForm" style="display: none;">
+							<form action="/room/1/reserve" method="GET" class="reservation_form" id="reservationForm" style="display: none;">
 								<header class="form_header">
 									<div class="header_text">
 										<h3 class="header_title">날짜 선택</h3>
@@ -155,13 +147,13 @@
 											<div class="input_item">
 												<label for="" class="reservatioin_label">
 													체크인
-													<input type="text" class="reservation_input" placeholder="YYYY.MM.DD" id="checkInInput">
+													<input type="text" class="reservation_input" placeholder="YYYY.MM.DD" name="checkIn" id="checkInInput">
 												</label>
 											</div>
 											<div class="input_item">
 												<label for="" class="reservatioin_label">
 													체크아웃
-													<input type="text" class="reservation_input" placeholder="YYYY.MM.DD" id="checkOutInput">
+													<input type="text" class="reservation_input" placeholder="YYYY.MM.DD" name="checkOut" id="checkOutInput">
 												</label>
 											</div>
 									</div>
@@ -210,6 +202,10 @@
 									<input type="reset" class="input_reset" id="resetInput" value="날짜 지우기">
 									<button class="form_exit" id="formExitBtn">닫기</button>
 								</footer>
+								<input type="hidden" name="roomPrice" id="roomPriceDB" value="<%=room.getPrice()%>">
+								<input type="hidden" name="roomMaxPerson" id="roomMaxPersonDB" value="<%=room.getGuests()%>">
+								<input type="hidden" name="beds" value="<%=room.getBeds()%>">
+								<input type="hidden" name="baths" value="<%=room.getBaths()%>">
 							</form>
 					</section>
 				</div>
@@ -270,11 +266,11 @@
 					<div class="rules_wrap">
 						<div class="rule_item">
 							<i class="far fa-clock rule_icon"></i>
-							<span class="rule_description">체크인 시간: %CHECK_IN%</span>
+							<span class="rule_description">체크인 시간: <%=room.getCheckIn()%>시 이후</span>
 						</div>
 						<div class="rule_item">
 							<i class="far fa-clock rule_icon"></i>
-							<span class="rule_description">체크아웃 시간: %CHECK_OUT%</span>
+							<span class="rule_description">체크아웃 시간: <%=room.getCheckOut()%>시 이전</span>
 						</div>
 						<div class="rule_item">
 							<i class="fas fa-smoking-ban rule_icon"></i>
