@@ -86,7 +86,7 @@ public class ReserveDao {
 					rs.getString("NAME"),
 					rs.getString("ADDRESS"),
 					rs.getDate("CHECK_IN").toLocalDate(),
-					rs.getDate("CHECK_Out").toLocalDate(),
+					rs.getDate("CHECK_OUT").toLocalDate(),
 					rs.getDate("CREATED").toLocalDate(),
 					rs.getInt("GUESTS"),
 					rs.getInt("PRICE")

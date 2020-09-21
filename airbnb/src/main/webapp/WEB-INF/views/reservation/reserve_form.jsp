@@ -65,8 +65,8 @@
 						<div class="room_info">
 							<small class="room_city"></small>
 							<p class="room_title"></p>
-							<small class="room_spec">침대 <span class="room_beds"></span>개·욕실
-								<span class="room_bath"></span>개
+							<small class="room_spec">침대 <span class="room_beds">${beds}</span>개·욕실
+								<span class="room_bath">${baths}</span>개
 							</small>
 							<p class="room_rating">
 								<i class="star">★</i> <span class="rating_value"></span>(<span
@@ -78,10 +78,10 @@
 						<h2 class="price_title">요금 세부정보</h2>
 						<div class="price_item">
 							<p class="price_name">
-								<span class="room_price" id="roomPrice">%roomPrice%</span> X <span
+								<span class="room_price" id="roomPrice">${roomPrice}</span> X <span
 									class="reservation_night" id="roomNight">${reserveNight}</span>
 							</p>
-							<p class="price_value" id="priceValue">%priceValue%</p>
+							<p class="price_value" id="priceValue">${totalPrice}</p>
 						</div>
 						<div class="price_item">
 							<p class="price_name">서비스 수수료</p>
@@ -89,7 +89,7 @@
 						</div>
 						<div class="total_price">
 							<p class="price_name">총 합계(KRW)</p>
-							<p class="price_value" id="totalPrice">%totalPrice%</p>
+							<p class="price_value" id="totalPrice">%{finalPrice}</p>
 						</div>
 					</section>
 				</div>
