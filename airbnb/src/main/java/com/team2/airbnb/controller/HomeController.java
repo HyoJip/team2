@@ -41,9 +41,6 @@ public class HomeController {
 	@RequestMapping(value = "/api/room/{roomId}", method=RequestMethod.GET)
 	@ResponseBody
 	public List<String> apiCall(HttpServletRequest request, @PathVariable int roomId) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		List<String> reservedDateList = roomService.getReservedDatesById(roomId);
-		result.put("reservedDateList", reservedDateList);
 		return roomService.getReservedDatesById(roomId);
 	}
 	

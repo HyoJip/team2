@@ -20,7 +20,7 @@ const DataController = (() => {
 			const url = window.location.pathname;
 			const roomId = url.match(/(?<=room\/)[\d]*/)[0];
 			const response = await axios.get(
-				`http://localhost:11685/api/room/${roomId}`
+				`http://localhost:8080/api/room/${roomId}`
 			);
 			return response.data;
 		},

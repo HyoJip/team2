@@ -1,3 +1,4 @@
+<%@page import="com.team2.airbnb.util.NumberUtil"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="com.team2.airbnb.util.DateUtil"%>
@@ -16,7 +17,6 @@
 <body>
 <%
 	List<ReserveList> list = (List<ReserveList>) request.getAttribute("reserveList");
-	DecimalFormat numformatter = new DecimalFormat("\u00A4#,###");
 %>
 	<jsp:include page="../partial/header.jsp" />
 	<main class="main_wrap">
@@ -49,7 +49,7 @@
 					<td><%=checkIn%>-<%=checkOut%></td>
 					<td><%=object.getReserveCreated()%></td>
 					<td><%=object.getReserveguests()%></td>
-					<td><%=numformatter.format(price)%></td>
+					<td><%=NumberUtil.wonFormatter.format(price)%></td>
 				</tr>				
 				<%} %>
 			</tbody>

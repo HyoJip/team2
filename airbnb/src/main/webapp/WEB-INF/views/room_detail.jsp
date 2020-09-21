@@ -204,8 +204,6 @@
 								</footer>
 								<input type="hidden" name="roomPrice" id="roomPriceDB" value="<%=room.getPrice()%>">
 								<input type="hidden" name="roomMaxPerson" id="roomMaxPersonDB" value="<%=room.getGuests()%>">
-								<input type="hidden" name="beds" value="<%=room.getBeds()%>">
-								<input type="hidden" name="baths" value="<%=room.getBaths()%>">
 							</form>
 					</section>
 				</div>
