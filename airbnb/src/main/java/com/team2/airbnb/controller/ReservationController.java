@@ -32,16 +32,24 @@ public class ReservationController {
 			@PathVariable int id,
 			@RequestParam(value = "checkIn") String checkIn,
 			@RequestParam(value = "checkOut") String checkOut,
-			@RequestParam(value = "numOfGuest") int numOfGuest) {
+			@RequestParam(value = "numOfGuest") int numOfGuest,
+			@RequestParam(value = "roomPrice") int roomPrice,
+			@RequestParam(value = "beds") int beds,
+			@RequestParam(value = "baths") int baths) {
 
 		int reserveNight = reserveService.getReserveNight(checkIn, checkOut);
 		String minDateForFullRefund = reserveService.getMinDateForFullRefund(checkIn);
+		int totalPrice = roomPrice * reserveNight;
+		int finalPrice = totalPrice + 5000;
 		
 		model.addAttribute("checkIn", checkIn);
 		model.addAttribute("checkOut", checkOut);
 		model.addAttribute("numOfGuest", numOfGuest);
 		model.addAttribute("reserveNight", reserveNight);
 		model.addAttribute("minDateForFullRefund", minDateForFullRefund);
+		model.addAttribute("roomPrice", roomPrice);
+		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("finalPrice", finalPrice);
 		return "reservation/reserve_form";
 	}
 

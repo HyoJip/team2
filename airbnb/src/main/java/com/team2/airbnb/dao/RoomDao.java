@@ -1,14 +1,11 @@
 package com.team2.airbnb.dao;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.team2.airbnb.model.Room;
@@ -31,14 +28,14 @@ public class RoomDao {
 		return (Room) jdbcTemplate.queryForObject(sql.toString(), new Object[] {roomId}, new BeanPropertyRowMapper(Room.class));
 	}
 
-	public List<LocalDate> selectAllReservedDate(int roomId) {
+	public List<String> selectAllReservedDate(int roomId) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT day FROM reservations_bookedday day, reservations_reservation reserve ");
 		sql.append("WHERE reserve.room_id =? ");
 		sql.append("AND day.reservation_id = reserve.id");
 		
-		List<LocalDate> results = jdbcTemplate.query(sql.toString(), new Object[] {roomId}, (ResultSet rs, int rowNum)-> {
-			return rs.getDate("DAY").toLocalDate();
+		List<String> results = jdbcTemplate.query(sql.toString(), new Object[] {roomId}, (ResultSet rs, int rowNum)-> {
+			return rs.getDate("DAY").toString();
 		});
 				
 		return results;
