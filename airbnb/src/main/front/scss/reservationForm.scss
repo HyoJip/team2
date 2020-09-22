@@ -4,10 +4,11 @@
 .main_wrap {
 	margin: 0 auto;
 	max-width: var(--wrapWidth);
-	margin: 0 var(--containerHorizontalMargin);
 	padding: var(--containerVerticalPadding) 0;
 	
 	.main_header {
+		margin: 0 var(--containerHorizontalMargin);
+		
 		i {
 			display: block;
 			cursor: pointer;
@@ -25,6 +26,7 @@
 		
 		.main_left {
 			width: 50%;
+			margin: 0 var(--containerHorizontalMargin);
 			
 			.advise_wrap {
 				padding-bottom: var(--containerVerticalPadding);
@@ -157,10 +159,11 @@
 		}
 		
 		.main_right {
-			width: 45%;
+			width: 50%;
 			position: relative;
 			padding-top: var(--containerVerticalPadding);
 			padding-bottom: calc(var(--containerVerticalPadding) * 2);
+			margin: 0 var(--containerHorizontalMargin);
 			
 			.reservation_wrap {
 				position: sticky;
