@@ -87,10 +87,11 @@ public class ReserveDao {
 
 	public int updateStatus(int id, String status) {
 		int isSuccessed = jdbcTemplate.update((Connection con)-> {
-			String sql = "UPDATE reservations_reservation SET status = '?' WHERE id=?";
+			String sql = "UPDATE reservations_reservation SET status=?, updated=? WHERE id=?";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, status);
-			pstmt.setInt(2, id);
+			pstmt.setDate(2, Date.valueOf(LocalDate.now()));
+			pstmt.setInt(3, id);
 			return pstmt;
 		});
 		return isSuccessed;

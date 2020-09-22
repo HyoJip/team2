@@ -1,6 +1,8 @@
 package com.team2.airbnb.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team2.airbnb.dao.ReserveDao;
 import com.team2.airbnb.model.Reservation;
+import com.team2.airbnb.model.ReserveStatus;
 import com.team2.airbnb.model.RoomReserve;
 import com.team2.airbnb.service.ReserveService;
 import com.team2.airbnb.util.NumberUtil;
@@ -77,11 +81,16 @@ public class ReservationController {
 		return "reservation/room_reserve_list";
 	}
 	
-	@RequestMapping(value = "/api/reserve/patch/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/reserve/{id}", method = RequestMethod.PATCH)
 	@ResponseBody
-	public int approveReserve(@PathVariable int id, HttpServletRequest request) {
-		String status = request.getParameter("status");
-		reserveService.approveReservation(id, status);
-		return reserveService.approveReservation(id, status);
+	public Map<String, Object> approveReserve(@PathVariable int id, @RequestBody Map<String, Object> request) {
+		String status = request.get("status").toString();
+		int isVaild = reserveService.approveReservation(id, status);
+		Map<String, Object> response = new HashMap<>();
+		if (isVaild == 1) {
+			response.put("status", status);
+			response.put("statusName", ReserveStatus.valueOf(status).getName());
+		}
+		return response;
 	}
 }

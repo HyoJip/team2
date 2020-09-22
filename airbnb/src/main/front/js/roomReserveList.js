@@ -1,4 +1,5 @@
 import "../scss/roomReserveList.scss";
+import axios from "axios";
 
 const DOMString = {
 	Form: ".aside_form",
@@ -8,6 +9,9 @@ const DOMString = {
 	detailPopup: ".detailPopup",
 	detailContainer: ".detail",
 	approveBtn: ".approveBtn",
+	refuseBtn: ".rejectBtn",
+	statusDisplay: ".status",
+	btn: ".aside_btn",
 }
 
 const onClickDetailBtn = (event) => {
@@ -22,10 +26,38 @@ const onClickBody = (event) => {
 	}
 }
 
-const onClickApproveBtn = (event) => {
-	event.preventDefault();
+const updateStatusDisplay = (data, form, event) => {
+	const reserveStatus = form.closest("tr").querySelector(DOMString.statusDisplay);
+		// 1. 예약 상태명 변경
+		reserveStatus.textContent = data.statusName;
+		// 2. 예약 상태명 CSS 추가
+		reserveStatus.className = `${DOMString.statusDisplay.slice(1)} ${data.status}`;
+		form.querySelectorAll(DOMString.btn).forEach(btn=> btn.disabled = false);
+		event.target.disabled = true;
+}
+
+const onClickApproveBtn = async (event) => {
 	const form = event.target.closest(DOMString.Form);
-	// 1. STATUS input 생성
+	const reserveId = form.dataset.id;
+	
+	const {status, data} = await axios.patch(`http://localhost:8080/api/reserve/${reserveId}`, {status: "ACCEPTED"});
+	if (status === 200) {
+		updateStatusDisplay(data, form, event);
+	} else {
+		alert("예약 승낙 실패");
+	}
+}
+
+const onClickRefuseBtn = async (event) => {
+	const form = event.target.closest(DOMString.Form);
+	const reserveId = form.dataset.id;
+	
+	const {status, data} = await axios.patch(`http://localhost:8080/api/reserve/${reserveId}`, {status: "REFUSED"});
+	if (status === 200) {
+		updateStatusDisplay(data, form, event);
+	} else {
+		alert("예약 거절 실패");
+	}
 }
 
 
@@ -34,8 +66,10 @@ const init = () => {
 	document.querySelectorAll(DOMString.detailBtn).forEach(btn => btn.addEventListener("click", onClickDetailBtn));
 	// 2. 세부정보 버튼 클릭 취소
 	document.addEventListener("click", onClickBody);
-	// 2. 예약 승인 버튼 클릭시
-	document.querySelectorAll(DOMString.approveBtn).forEach(btn => btn.addEventListener("click"), onClickApproveBtn)
+	// 3. 예약 승인 버튼 클릭시
+	document.querySelectorAll(DOMString.approveBtn).forEach(btn => btn.addEventListener("click", onClickApproveBtn))
+	// 4. 예약 취소 버튼 클릭시
+	document.querySelectorAll(DOMString.refuseBtn).forEach(btn => btn.addEventListener("click", onClickRefuseBtn))
 };
 
 init();
