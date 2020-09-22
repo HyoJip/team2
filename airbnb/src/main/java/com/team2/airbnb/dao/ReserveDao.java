@@ -3,20 +3,19 @@ package com.team2.airbnb.dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.team2.airbnb.model.Reservation;
-import com.team2.airbnb.model.ReserveList;
-import com.team2.airbnb.model.ReserveStatus;
+import com.team2.airbnb.model.RoomReserve;
 import com.team2.airbnb.util.DateUtil;
 
 @Repository
@@ -69,31 +68,32 @@ public class ReserveDao {
 		insertBetweenDate(reservation.getId(), reservation.getCheckIn(), reservation.getCheckOut());
 	}
 
-	public List<ReserveList> selectAll(int id) {
-		List<ReserveList> results = jdbcTemplate.query((Connection con)-> {
+	@SuppressWarnings("unchecked")
+	public List<RoomReserve> selectAll(int id) {
+		List<RoomReserve> results = jdbcTemplate.query((Connection con)-> {
 			StringBuffer sql = new StringBuffer();
-			sql.append("SELECT reserve.status, room.name, room.address, reserve.check_in, reserve.check_out, reserve.created, reserve.guests, room.price ");
-			sql.append("FROM reservations_reservation reserve, rooms_room room ");
-			sql.append("WHERE reserve.guest_id=? ");
-			sql.append("AND reserve.room_id = room.id");
+			sql.append("SELECT reserve.status, guest.username, reserve.check_in, reserve.check_out, reserve.created, reserve.guests, room.price, guest.email, reserve.id ");
+			sql.append("FROM reservations_reservation reserve, rooms_room room, users_user guest ");
+			sql.append("WHERE reserve.room_id=? ");
+			sql.append("AND reserve.room_id = room.id ");
+			sql.append("AND guest.id = reserve.guest_id ");
+			sql.append("ORDER BY reserve.check_in");
 			PreparedStatement pstmt = con.prepareStatement(sql.toString());
-			// 세션에서 유저 아이디 GET
 			pstmt.setInt(1, id);
 			return pstmt;
-		}, (ResultSet rs, int rowNum) -> {
-			ReserveList reserveList = new ReserveList(
-					ReserveStatus.valueOf(rs.getString("STATUS")),
-					rs.getString("NAME"),
-					rs.getString("ADDRESS"),
-					rs.getDate("CHECK_IN").toLocalDate(),
-					rs.getDate("CHECK_OUT").toLocalDate(),
-					rs.getDate("CREATED").toLocalDate(),
-					rs.getInt("GUESTS"),
-					rs.getInt("PRICE")
-					);
-			return reserveList;
-		});
+		}, new BeanPropertyRowMapper(RoomReserve.class));
 		return results;
+	}
+
+	public int updateStatus(int id, String status) {
+		int isSuccessed = jdbcTemplate.update((Connection con)-> {
+			String sql = "UPDATE reservations_reservation SET status = '?' WHERE id=?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, status);
+			pstmt.setInt(2, id);
+			return pstmt;
+		});
+		return isSuccessed;
 	}
 
 }

@@ -3,11 +3,7 @@ package com.team2.airbnb.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +30,10 @@ public class DateUtil {
 		Date date2 = dateFormat.parse(endDay);
 		long diff = date2.getTime() - date1.getTime();
 		return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+	}
+	
+	public static String formatKor(LocalDate date) {
+		return date.getYear()+"년 "+date.getMonthValue()+"월 "+date.getDayOfMonth()+"일";
 	}
 
 }

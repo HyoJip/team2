@@ -44,5 +44,9 @@ public class ReserveService {
 		// 2. INSERT
 		reserveDao.insert(reservation);
 	}
+
+	public int approveReservation(int id, String status) {
+		return reserveDao.updateStatus(id, status);
+	}
 	
 }
