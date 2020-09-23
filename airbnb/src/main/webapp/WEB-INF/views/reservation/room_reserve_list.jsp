@@ -1,3 +1,4 @@
+<%@page import="com.team2.airbnb.model.ReserveStatus"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.team2.airbnb.util.NumberUtil"%>
@@ -14,7 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <link href="/resources/css/base.css" rel="stylesheet">
-<title>에어비엔비|예약확인</title>
+<title>에어비앤비 | 예약관리</title>
 </head>
 <body>
 <%
@@ -46,7 +47,7 @@
 							int income = object.getPrice() * nights;
 				%>
 				<tr>
-					<td class="status"><%=object.getStatus().getName()%></td>
+					<td class="status <%=object.getStatus()%>"><%=object.getStatus().getName()%></td>
 					<td class="guest"><span class="guest_name"><%=object.getUserName()%></span><small class="guest_count">게스트 <%=object.getGuests()%>명</small></td>
 					<td class="trip"><span><%=DateUtil.formatKor(checkIn)%>-</span><span><%=checkOut.getMonthValue()+"월 "+checkOut.getDayOfMonth()+"일"%></span><small class="reserve_night"><%=nights%>박</small></td>
 					<td class="created"><%=DateUtil.formatKor(object.getCreated())%></td>
@@ -54,11 +55,30 @@
 					<td class="detail">
 						<button class="datail_btn detailBtn">세부정보 <i class="fas fa-ellipsis-h"></i></button>
 						<aside class="detail_aside detailPopup">
-							<form action="/api/reserve/patch/<%=object.getId()%>" method="POST" class="aside_form" data-id=<%=object.getId()%>>
-								<button class="aside_btn approveBtn">예약 승인</button>
+							<div class="aside_form" data-id=<%=object.getId()%> data-checkin=<%=object.getCheckIn()%>>
+							<%
+								if (object.getStatus().equals(ReserveStatus.PENDING)) {
+							%>
+								<button class="aside_btn approveBtn">예약 승낙</button>
 								<button class="aside_btn rejectBtn">예약 거절</button>
-								<button class="aside_btn emailBtn">이메일 보내기</button>
-							</form>
+							<%
+								} else if (object.getStatus().equals(ReserveStatus.ACCEPTED)) {
+							%>
+								<button class="aside_btn approveBtn" disabled>예약 승낙</button>
+								<button class="aside_btn rejectBtn">예약 거절</button>
+							<%
+								} else if (object.getStatus().equals(ReserveStatus.REFUSED)) {
+							%>
+								<button class="aside_btn approveBtn">예약 승낙</button>
+								<button class="aside_btn rejectBtn" disabled>예약 거절</button>
+							<%
+								} else if (object.getStatus().equals(ReserveStatus.COMPLETED)) {
+							%>
+								<button class="aside_btn approveBtn" disabled>예약 승낙</button>
+								<button class="aside_btn rejectBtn" disabled>예약 거절</button>
+							<%	}%>
+								<button class="aside_btn emailBtn"><a href="mailto:<%=object.getEmail()%>">이메일 보내기</a></button>
+							</div>
 						</aside>
 					</td>
 				</tr>				

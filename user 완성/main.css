@@ -7,19 +7,13 @@
 body {
   font-family: sans-serif;
 }
-header {
-  text-align: center;
-  font-size: 50px;
-}
-/******header******/
-
 .cont01 {
-  background: url("../main/img/main_3.jpg") 0 0 no-repeat;
+  background: url("../main-front/img/main_3.jpg") 0 0 no-repeat;
   background-size:cover;
   height: 800px;
   width: auto;
-  margin: 100px auto;
   overflow: hidden;
+  padding-top: 50px;
 }
 .cont01 .cont01_text {
   float: right;
@@ -27,7 +21,7 @@ header {
   width: 50%;
   text-align: left;
   line-height: 1.5;
-  font-size: 30px;
+  font-size: 35px;
   font-family: "Nanum Pen Script", cursive;
 }
 h2 {
@@ -35,6 +29,7 @@ h2 {
   letter-spacing: 5px;
   position: relative;
   font-family: "Jua", sans-serif;
+  text-align: center;
 }
 .cont01_text p {
   margin-top: 20px;
@@ -46,14 +41,11 @@ h2 {
   width: 1400px;
   margin: 0 auto;
 }
-h2 {
-  text-align: center;
-  font-family: "Jua", sans-serif;
-}
+
 .box {
   display: flex;
   justify-content: space-evenly;
-  margin-top: 40px;
+  margin: 40px 20px;
 }
 .box div {
   width: 32%;
@@ -107,9 +99,3 @@ h2 {
   transform: scale(1.5);
 }
 /********cont2********/
-
-.footer {
-  background-color: #fff;
-  text-align: center;
-  font-size: 50px;
-}

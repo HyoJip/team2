@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.team2.airbnb.model.Reservation;
+import com.team2.airbnb.model.Room;
 import com.team2.airbnb.model.RoomReserve;
 import com.team2.airbnb.util.DateUtil;
 
@@ -87,13 +88,24 @@ public class ReserveDao {
 
 	public int updateStatus(int id, String status) {
 		int isSuccessed = jdbcTemplate.update((Connection con)-> {
-			String sql = "UPDATE reservations_reservation SET status = '?' WHERE id=?";
+			String sql = "UPDATE reservations_reservation SET status=?, updated=? WHERE id=?";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, status);
-			pstmt.setInt(2, id);
+			pstmt.setDate(2, Date.valueOf(LocalDate.now()));
+			pstmt.setInt(3, id);
 			return pstmt;
 		});
 		return isSuccessed;
+	}
+
+	
+	// TODO: userId로 룸 정보 불러오기
+	public void selectByUserId(int id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT id, host_id as hostId, name, updated, created, description, city, price, address, beds, bedrooms, baths, check_in as checkIn, check_out as checkOut, instant_book as instantBook, guests ");
+		sql.append("FROM rooms_room ");
+		sql.append("WHERE id=?");
+		return (Room) jdbcTemplate.queryForObject(sql.toString(), new Object[] {roomId}, new BeanPropertyRowMapper(Room.class));	
 	}
 
 }

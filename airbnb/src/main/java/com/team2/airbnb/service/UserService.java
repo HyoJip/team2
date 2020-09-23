@@ -15,6 +15,4 @@ public class UserService {
 		this.userDao = userDao;
 	}
 	
-	
-
 }

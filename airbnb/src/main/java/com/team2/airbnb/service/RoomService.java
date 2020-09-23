@@ -1,6 +1,7 @@
 package com.team2.airbnb.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class RoomService {
 		return roomDao.selectObject(roomId);
 	}
 
-	public List<String> getReservedDatesById(int roomId) {
+	public List<Map<String, Object>> getReservedDatesById(int roomId) {
 		return roomDao.selectAllReservedDate(roomId);
 	}
 	

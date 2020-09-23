@@ -3,8 +3,13 @@
 body {
   font: 13px/20px "Lucida Grande", Tahoma, Verdana, sans-serif;
   color: #404040;
-  background-color: #ff5a5f;
 }
+.background{
+  background-color: #ff5a5f;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
 .info {
   position: relative;
   margin: 250px auto;
@@ -36,9 +41,9 @@ body {
   font-style: normal;
 }
 
-.info input[type="password"],
-.info input[type="date"] {
+.info input[type="password"]{
   width: 200px;
+  height: 30px;
 }
 .info p {
   font-size: 18px;
