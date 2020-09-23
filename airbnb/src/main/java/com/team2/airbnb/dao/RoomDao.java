@@ -1,7 +1,9 @@
 package com.team2.airbnb.dao;
 
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -28,14 +30,18 @@ public class RoomDao {
 		return (Room) jdbcTemplate.queryForObject(sql.toString(), new Object[] {roomId}, new BeanPropertyRowMapper(Room.class));
 	}
 
-	public List<String> selectAllReservedDate(int roomId) {
+	public List<Map<String, Object>> selectAllReservedDate(int roomId) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT day FROM reservations_bookedday day, reservations_reservation reserve ");
+		sql.append("SELECT day, reserve.status FROM reservations_bookedday day, reservations_reservation reserve ");
 		sql.append("WHERE reserve.room_id =? ");
-		sql.append("AND day.reservation_id = reserve.id");
+		sql.append("AND day.reservation_id = reserve.id ");
+		sql.append("AND reserve.status in ('PENDING', 'ACCEPTED') ");
 		
-		List<String> results = jdbcTemplate.query(sql.toString(), new Object[] {roomId}, (ResultSet rs, int rowNum)-> {
-			return rs.getDate("DAY").toString();
+		List<Map<String, Object>> results = jdbcTemplate.query(sql.toString(), new Object[] {roomId}, (ResultSet rs, int rowNum)-> {
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put("day", rs.getDate("DAY").toString());
+			data.put("status", rs.getString("STATUS"));
+			return data;
 		});
 				
 		return results;

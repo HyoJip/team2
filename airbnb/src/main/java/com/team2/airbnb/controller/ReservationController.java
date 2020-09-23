@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.team2.airbnb.dao.ReserveDao;
 import com.team2.airbnb.model.Reservation;
 import com.team2.airbnb.model.ReserveStatus;
+import com.team2.airbnb.model.Room;
 import com.team2.airbnb.model.RoomReserve;
 import com.team2.airbnb.service.ReserveService;
+import com.team2.airbnb.service.RoomService;
 import com.team2.airbnb.util.NumberUtil;
 
 @Controller
@@ -28,11 +28,13 @@ public class ReservationController {
 
 	private final ReserveService reserveService;
 	private final ReserveDao reserveDao;
+	private final RoomService roomService;
 
 	@Autowired
-	public ReservationController(ReserveService reserveService, ReserveDao reserveDao) {
+	public ReservationController(ReserveService reserveService, ReserveDao reserveDao, RoomService roomService) {
 		this.reserveService = reserveService;
 		this.reserveDao = reserveDao;
+		this.roomService = roomService;
 	}
 
 	@RequestMapping(value = "/room/{id}/reserve", method = RequestMethod.GET)
@@ -46,6 +48,8 @@ public class ReservationController {
 		int reserveNight = reserveService.getReserveNight(checkIn, checkOut);
 		String minDateForFullRefund = reserveService.getMinDateForFullRefund(checkIn);
 		int totalPrice = roomPrice * reserveNight;
+		Room room = roomService.getRoomById(id);
+		model.addAttribute("room", room);
 		
 		model.addAttribute("checkIn", checkIn);
 		model.addAttribute("checkOut", checkOut);
@@ -55,6 +59,7 @@ public class ReservationController {
 		model.addAttribute("roomPrice", NumberUtil.wonFormatter.format(roomPrice));
 		model.addAttribute("totalPrice", NumberUtil.wonFormatter.format(totalPrice));
 		model.addAttribute("finalPrice", NumberUtil.wonFormatter.format(totalPrice + 5000));
+
 		return "reservation/reserve_form";
 	}
 
@@ -67,7 +72,7 @@ public class ReservationController {
 			reserveReq.setGuestId(1);
 			// 3. 예약서비스 실행
 			reserveService.book(reserveReq);
-			return "redirect:/user/" + id + "/reservations";
+			return "redirect:/room/" + id + "/reservations";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "room_detail";
@@ -81,6 +86,9 @@ public class ReservationController {
 		return "reservation/room_reserve_list";
 	}
 	
+	
+	
+	//////////////////////////////////// API
 	@RequestMapping(value = "/api/reserve/{id}", method = RequestMethod.PATCH)
 	@ResponseBody
 	public Map<String, Object> approveReserve(@PathVariable int id, @RequestBody Map<String, Object> request) {

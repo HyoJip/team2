@@ -10,6 +10,7 @@ const DOMString = {
 	detailContainer: ".detail",
 	approveBtn: ".approveBtn",
 	refuseBtn: ".rejectBtn",
+	emailBtn: ".emailBtn",
 	statusDisplay: ".status",
 	btn: ".aside_btn",
 }
@@ -40,6 +41,19 @@ const onClickApproveBtn = async (event) => {
 	const form = event.target.closest(DOMString.Form);
 	const reserveId = form.dataset.id;
 	
+	// 1. 승낙확정된 다른 예약이랑 겹치는지 확인
+	const url = window.location.pathname;
+	const roomId = url.match(/(?<=room\/)[\d]*/)[0];
+	const {data: datelist} = await axios.get(`/api/room/${roomId}`);
+	if (
+		datelist
+			.filter(el=> el.status=="ACCEPTED")
+			.map(el=>el.day)
+			.includes(form.dataset.checkin)) {
+				alert("이미 승인된 예약과 날짜가 겹칩니다.")
+				return;
+		}
+	
 	const {status, data} = await axios.patch(`http://localhost:8080/api/reserve/${reserveId}`, {status: "ACCEPTED"});
 	if (status === 200) {
 		updateStatusDisplay(data, form, event);
@@ -59,7 +73,6 @@ const onClickRefuseBtn = async (event) => {
 		alert("예약 거절 실패");
 	}
 }
-
 
 const init = () => {
 	// 1. 세부정보 버튼 클릭시
