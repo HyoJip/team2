@@ -1,4 +1,4 @@
--- À¯Àú »ý¼º(°ü¸®ÀÚ:1, È£½ºÆ®:2, °Ô½ºÆ®:3)
+-- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:1, È£ï¿½ï¿½Æ®:2, ï¿½Ô½ï¿½Æ®:3)
 insert into users_user (email, password, username, birthday, is_host, is_superuser)
 values ('goo@gle.com', '1234', 'superuser', '2020-01-01', 0, 1);
 
@@ -9,18 +9,21 @@ insert into users_user (email, password, username, birthday, is_host, is_superus
 values ('kaka@o.com', '1234', 'host', '1999-12-24', 0, 0);
 
 
--- Ã¼Å©ÀÎ, Ã¼Å©¾Æ¿ô µ¥ÀÌÅÍ Å¸ÀÔ: DATE -> CHAR(2)
+-- Ã¼Å©ï¿½ï¿½, Ã¼Å©ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½: DATE -> CHAR(2)
 alter table rooms_room  modify (check_in char(2));
 alter table rooms_room modify (check_out char(2));
 
--- reservation ¿¹¾àÀÎ¿ø ÇÊµå Ãß°¡
+-- reservation ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½Êµï¿½ ï¿½ß°ï¿½
 alter table reservations_reservation add (guests int);
 
--- room »ý¼º(È£½ºÆ®(id:2))
+-- room ï¿½ï¿½ï¿½ï¿½(È£ï¿½ï¿½Æ®(id:2))
 insert into rooms_room (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
-values (2, 'W ½ºÄù¾î', '2020-09-20', '2020-09-20', '±¤¾È¸®°¡ º¸ÀÌ´Â ¸ÚÁø ºä, ´ë½Å ¸¹ÀÌ ºñ½Ó', 'ºÎ»ê',
-            '200000', '¿ëÈ£µ¿ 102µ¿ 2401È£', 2, 1, 1, '15', '12', 1, 2);
+values (2, 'W ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', '2020-09-20', '2020-09-20', 'ï¿½ï¿½ï¿½È¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½', 'ï¿½Î»ï¿½',
+            '200000', 'ï¿½ï¿½È£ï¿½ï¿½ 102ï¿½ï¿½ 2401È£', 2, 1, 1, '15', '12', 1, 2);
+
+SELECT * FROM ROOMS_ROOM ORDER BY ID;
+SELECT * FROM USERS_USER;
             
 commit;
