@@ -1,16 +1,24 @@
 @charset "utf-8";
 
+* {
+  margin: 0;
+  padding: 0;
+}
 body {
   font: 13px/20px "Lucida Grande", Tahoma, Verdana, sans-serif;
   color: #404040;
-  background: #ff5a5f;
+}
+
+.background {
+  background-color: #ff5a5f;
+  padding-top: 1px;
 }
 
 .login {
   position: relative;
   margin: 250px auto;
   padding: 20px;
-  width: 310px;
+  width: 330px;
   background: white;
   border-radius: 6px;
   box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -66,16 +74,16 @@ body {
 }
 
 .login-help {
-  margin: 20px 0;
   font-size: 18px;
   color: white;
   text-align: center;
+  padding-bottom: 200px;
 }
 
 .login-help a {
   color: white;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .login-help a:hover {

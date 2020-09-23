@@ -3,11 +3,14 @@
 body {
   font: 13px/20px "Lucida Grande", Tahoma, Verdana, sans-serif;
   color: #404040;
+}
+.background {
   background: #ff5a5f;
+  padding-top: 1px;
 }
 .member {
   position: relative;
-  margin: 250px auto;
+  margin: 250px auto 100px auto;
   padding: 20px;
   width: 550px;
   background: white;
@@ -28,15 +31,16 @@ body {
   border-radius: 3px 3px 0 0;
   box-shadow: 0 1px whitesmoke;
 }
+
 .member p {
   margin: 20px;
-  font-style:normal;
+  font-style: normal;
 }
 
 .member input[type="text"],
 .member input[type="password"],
 .member input[type="date"] {
-  width: 500px;
+  width: 460px;
 }
 .member p.text {
   font-size: 18px;
@@ -51,6 +55,7 @@ body {
   font-size: 20px;
   color: white;
   text-align: center;
+  padding-bottom: 100px;
 }
 .join-help a {
   color: white;
