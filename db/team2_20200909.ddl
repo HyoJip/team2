@@ -3,8 +3,6 @@
 --   사이트:      Oracle Database 11g
 --   유형:      Oracle Database 11g
 
-
-
 CREATE SEQUENCE conversations_conversation_seq START WITH 1 INCREMENT BY 1;
 
 CREATE SEQUENCE conversations_message_seq START WITH 1 INCREMENT BY 1;
