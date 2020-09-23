@@ -1,6 +1,5 @@
 package com.team2.airbnb.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,9 +37,11 @@ public class HomeController {
 		return "room_detail";
 	}
 	
+	
+	//////////////////////////////////////////// API
 	@RequestMapping(value = "/api/room/{roomId}", method=RequestMethod.GET)
 	@ResponseBody
-	public List<String> apiCall(HttpServletRequest request, @PathVariable int roomId) {
+	public List<Map<String, Object>> apiCall(HttpServletRequest request, @PathVariable int roomId) {
 		return roomService.getReservedDatesById(roomId);
 	}
 	

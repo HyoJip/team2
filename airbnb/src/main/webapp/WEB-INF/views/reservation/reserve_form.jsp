@@ -1,3 +1,4 @@
+<%@page import="com.team2.airbnb.model.Room"%>
 <%@page import="java.util.Calendar"%> <%@page import="java.text.SimpleDateFormat"%> <%@ page
 language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,6 +9,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 		<link href="/resources/css/base.css" rel="stylesheet" />
 	</head>
 	<body>
+	<%
+		Room room = (Room) request.getAttribute("room");
+	%>
 		<jsp:include page="../partial/header.jsp" />
 		<main class="main_wrap">
 			<header class="main_header">
@@ -84,11 +88,11 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 						<section class="reservation_room">
 							<div class="room_img"></div>
 							<div class="room_info">
-								<small class="room_city">%ROOM_ADDR%</small>
-								<p class="room_title">%ROOM_NAME%</p>
+								<small class="room_city"><%=room.getCity()%>, <%=room.getAddress()%></small>
+								<p class="room_title"><%=room.getName()%></p>
 								<small class="room_spec"
-									>침대 <span class="room_beds">${beds}</span>개·욕실
-									<span class="room_bath">${baths}</span>개
+									>침대 <span class="room_beds"><%=room.getBeds()%></span>개·욕실
+									<span class="room_bath"><%=room.getBaths()%></span>개
 								</small>
 								<p class="room_rating">
 									<i class="star">★</i> <span class="rating_value"></span>(<span

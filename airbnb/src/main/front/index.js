@@ -19,10 +19,10 @@ const DataController = (() => {
 		getReservedDays: async () => {
 			const url = window.location.pathname;
 			const roomId = url.match(/(?<=room\/)[\d]*/)[0];
-			const response = await axios.get(
+			const {data} = await axios.get(
 				`http://localhost:8080/api/room/${roomId}`
 			);
-			return response.data;
+			return data.map(el => el.day);
 		},
 		getReservePayload: () => {
 			// 1. GET DB로부터 숙소 하루당 가격
@@ -232,10 +232,19 @@ const UIController = (() => {
 				cleanedDays = days.filter(
 					(day) => day.id < clickedId || latestDay < day.id
 				);
+				// 3. 예외) 체크인 날짜 앞뒤로 불가능한 날짜일 경우
+				const clickedDate = new Date(clickedId);
+				clickedDate.setDate(clickedDate.getDate() + 1);
+				const onePlusDay = clickedDate.toISOString().split('T')[0];
+				if (reservedDays.includes(onePlusDay)) {
+					document.getElementById(onePlusDay).classList.remove("invalid_day");
+					document.getElementById(onePlusDay).classList.add("valid_day");
+				}
+				addInvalidDayClass(cleanedDays);
 			} else {
 				cleanedDays = days.filter((day) => day.id > clickedId);
+				addInvalidDayClass(cleanedDays);
 			}
-			addInvalidDayClass(cleanedDays);
 		},
 
 		setCheckInInput: (id) =>

@@ -15,7 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <link href="/resources/css/base.css" rel="stylesheet">
-<title>에어비엔비|예약확인</title>
+<title>에어비앤비 | 예약관리</title>
 </head>
 <body>
 <%
@@ -55,7 +55,7 @@
 					<td class="detail">
 						<button class="datail_btn detailBtn">세부정보 <i class="fas fa-ellipsis-h"></i></button>
 						<aside class="detail_aside detailPopup">
-							<div class="aside_form" data-id=<%=object.getId()%>>
+							<div class="aside_form" data-id=<%=object.getId()%> data-checkin=<%=object.getCheckIn()%>>
 							<%
 								if (object.getStatus().equals(ReserveStatus.PENDING)) {
 							%>
@@ -77,7 +77,7 @@
 								<button class="aside_btn approveBtn" disabled>예약 승낙</button>
 								<button class="aside_btn rejectBtn" disabled>예약 거절</button>
 							<%	}%>
-								<button class="aside_btn emailBtn">이메일 보내기</button>
+								<button class="aside_btn emailBtn"><a href="mailto:<%=object.getEmail()%>">이메일 보내기</a></button>
 							</div>
 						</aside>
 					</td>
