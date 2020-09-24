@@ -16,6 +16,51 @@ public class RoomReserve {
 	private String city;
 	private String address;
 	private int roomId;
+	private String roomCheckIn;
+	private String roomCheckOut;
+	private int beds;
+	private int baths;
+	private int bedrooms;
+
+	public int getBeds() {
+		return beds;
+	}
+
+	public void setBeds(int beds) {
+		this.beds = beds;
+	}
+
+	public int getBaths() {
+		return baths;
+	}
+
+	public void setBaths(int baths) {
+		this.baths = baths;
+	}
+
+	public int getBedrooms() {
+		return bedrooms;
+	}
+
+	public void setBedrooms(int bedrooms) {
+		this.bedrooms = bedrooms;
+	}
+
+	public String getRoomCheckIn() {
+		return roomCheckIn;
+	}
+
+	public void setRoomCheckIn(String roomCheckIn) {
+		this.roomCheckIn = roomCheckIn;
+	}
+
+	public String getRoomCheckOut() {
+		return roomCheckOut;
+	}
+
+	public void setRoomCheckOut(String roomCheckOut) {
+		this.roomCheckOut = roomCheckOut;
+	}
 
 	public int getRoomId() {
 		return roomId;

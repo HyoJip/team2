@@ -68,7 +68,6 @@ public class ReserveDao {
 		insertBetweenDate(reservation.getId(), reservation.getCheckIn(), reservation.getCheckOut());
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<RoomReserve> selectAll(int id) {
 		List<RoomReserve> results = jdbcTemplate.query((Connection con)-> {
 			StringBuffer sql = new StringBuffer();
@@ -83,6 +82,17 @@ public class ReserveDao {
 			return pstmt;
 		}, new BeanPropertyRowMapper<RoomReserve>(RoomReserve.class));
 		return results;
+	}
+	
+	public RoomReserve selectObject(int reserve_id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT reserve.id, reserve.created, reserve.updated, status, reserve.check_in as checkIn, reserve.check_out as checkOut, guest_id as guestId, room.id as roomId, ");
+		sql.append("host_id as hostId, name,  description, city, price, address, beds, bedrooms, baths, room.check_in as roomCheckIn, room.check_out as roomCheckOut, instant_book as instantBook, room.guests ");
+		sql.append("FROM reservations_reservation reserve, rooms_room room ");
+		sql.append("WHERE reserve.id = ?");
+		sql.append("AND reserve.room_id = room.id");
+		RoomReserve roomReserve = jdbcTemplate.queryForObject(sql.toString(), new Object[] {reserve_id},new BeanPropertyRowMapper<RoomReserve>(RoomReserve.class));
+		return roomReserve;
 	}
 
 	public int updateStatus(int id, String status) {

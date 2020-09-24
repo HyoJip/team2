@@ -88,6 +88,8 @@ public class ReservationController {
 	
 	@RequestMapping(value = "/user/{userId}/reservations/{reserveId}", method = RequestMethod.GET)
 	public String reserveDetail(@PathVariable int userId, @PathVariable int reserveId, Model model) {
+		RoomReserve roomReserve = reserveService.getReserve(reserveId);
+		model.addAttribute("reserve", roomReserve);
 		return "reservation/reserve_detail";
 	}
 	

@@ -55,5 +55,10 @@ public class ReserveService {
 		List<RoomReserve> rooms = reserveDao.selectByUserId(id);
 		return rooms;
 	}
+
+	public RoomReserve getReserve(int reserveId) {
+		RoomReserve roomReserve = reserveDao.selectObject(reserveId);
+		return roomReserve;
+	}
 	
 }
