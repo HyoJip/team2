@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.team2.airbnb.dao.ReserveDao;
 import com.team2.airbnb.model.Reservation;
 import com.team2.airbnb.model.ReserveStatus;
+import com.team2.airbnb.model.RoomReserve;
 import com.team2.airbnb.util.DateUtil;
 
 @Service
@@ -47,6 +49,11 @@ public class ReserveService {
 
 	public int approveReservation(int id, String status) {
 		return reserveDao.updateStatus(id, status);
+	}
+
+	public List<RoomReserve> getListByUserId(int id) {
+		List<RoomReserve> rooms = reserveDao.selectByUserId(id);
+		return rooms;
 	}
 	
 }

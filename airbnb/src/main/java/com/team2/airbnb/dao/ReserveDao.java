@@ -15,7 +15,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.team2.airbnb.model.Reservation;
-import com.team2.airbnb.model.Room;
 import com.team2.airbnb.model.RoomReserve;
 import com.team2.airbnb.util.DateUtil;
 
@@ -82,7 +81,7 @@ public class ReserveDao {
 			PreparedStatement pstmt = con.prepareStatement(sql.toString());
 			pstmt.setInt(1, id);
 			return pstmt;
-		}, new BeanPropertyRowMapper(RoomReserve.class));
+		}, new BeanPropertyRowMapper<RoomReserve>(RoomReserve.class));
 		return results;
 	}
 
@@ -98,14 +97,13 @@ public class ReserveDao {
 		return isSuccessed;
 	}
 
-	
-	// TODO: userId로 룸 정보 불러오기
-	public void selectByUserId(int id) {
+	public List<RoomReserve> selectByUserId(int id) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id, host_id as hostId, name, updated, created, description, city, price, address, beds, bedrooms, baths, check_in as checkIn, check_out as checkOut, instant_book as instantBook, guests ");
-		sql.append("FROM rooms_room ");
-		sql.append("WHERE id=?");
-		return (Room) jdbcTemplate.queryForObject(sql.toString(), new Object[] {roomId}, new BeanPropertyRowMapper(Room.class));	
+		sql.append("SELECT reserve.id, reserve.created, reserve.status, reserve.check_in, reserve.check_out, room.name, room.city, room.address, room.id as roomId ");
+		sql.append("FROM reservations_reservation reserve, rooms_room room ");
+		sql.append("WHERE guest_id=?");
+		sql.append("AND room.id = reserve.room_id ");
+		return (List<RoomReserve>) jdbcTemplate.query(sql.toString(), new Object[] {id}, new BeanPropertyRowMapper<RoomReserve>(RoomReserve.class));	
 	}
 
 }

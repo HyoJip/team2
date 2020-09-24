@@ -1,5 +1,7 @@
 package com.team2.airbnb.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.team2.airbnb.model.RoomReserve;
 import com.team2.airbnb.service.ReserveService;
 import com.team2.airbnb.service.RoomService;
 import com.team2.airbnb.service.UserService;
@@ -28,7 +31,8 @@ public class UserController {
 
 	@RequestMapping(value = "/user/{id}/reservations", method = RequestMethod.GET)
 	public String userReservationList(@PathVariable int id, Model model) {
-		reserveService.getListByUserId(id);
+		List<RoomReserve> rooms = reserveService.getListByUserId(id);
+		model.addAttribute("rooms", rooms);
 		
 		return "reservation/user_reserve_list";
 	}

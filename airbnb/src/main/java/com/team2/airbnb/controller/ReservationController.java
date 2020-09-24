@@ -86,7 +86,10 @@ public class ReservationController {
 		return "reservation/room_reserve_list";
 	}
 	
-	
+	@RequestMapping(value = "/user/{userId}/reservations/{reserveId}", method = RequestMethod.GET)
+	public String reserveDetail(@PathVariable int userId, @PathVariable int reserveId, Model model) {
+		return "reservation/reserve_detail";
+	}
 	
 	//////////////////////////////////// API
 	@RequestMapping(value = "/api/reserve/{id}", method = RequestMethod.PATCH)
