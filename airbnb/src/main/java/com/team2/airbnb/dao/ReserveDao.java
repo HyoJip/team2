@@ -15,7 +15,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.team2.airbnb.model.Reservation;
-import com.team2.airbnb.model.Room;
 import com.team2.airbnb.model.RoomReserve;
 import com.team2.airbnb.util.DateUtil;
 
@@ -69,7 +68,6 @@ public class ReserveDao {
 		insertBetweenDate(reservation.getId(), reservation.getCheckIn(), reservation.getCheckOut());
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<RoomReserve> selectAll(int id) {
 		List<RoomReserve> results = jdbcTemplate.query((Connection con)-> {
 			StringBuffer sql = new StringBuffer();
@@ -82,8 +80,19 @@ public class ReserveDao {
 			PreparedStatement pstmt = con.prepareStatement(sql.toString());
 			pstmt.setInt(1, id);
 			return pstmt;
-		}, new BeanPropertyRowMapper(RoomReserve.class));
+		}, new BeanPropertyRowMapper<RoomReserve>(RoomReserve.class));
 		return results;
+	}
+	
+	public RoomReserve selectObject(int reserve_id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT reserve.id, reserve.created, reserve.updated, status, reserve.check_in as checkIn, reserve.check_out as checkOut, guest_id as guestId, room.id as roomId, ");
+		sql.append("host_id as hostId, name,  description, city, price, address, beds, bedrooms, baths, room.check_in as roomCheckIn, room.check_out as roomCheckOut, instant_book as instantBook, room.guests ");
+		sql.append("FROM reservations_reservation reserve, rooms_room room ");
+		sql.append("WHERE reserve.id = ?");
+		sql.append("AND reserve.room_id = room.id");
+		RoomReserve roomReserve = jdbcTemplate.queryForObject(sql.toString(), new Object[] {reserve_id},new BeanPropertyRowMapper<RoomReserve>(RoomReserve.class));
+		return roomReserve;
 	}
 
 	public int updateStatus(int id, String status) {
@@ -98,14 +107,13 @@ public class ReserveDao {
 		return isSuccessed;
 	}
 
-	
-	// TODO: userId로 룸 정보 불러오기
-	public void selectByUserId(int id) {
+	public List<RoomReserve> selectByUserId(int id) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id, host_id as hostId, name, updated, created, description, city, price, address, beds, bedrooms, baths, check_in as checkIn, check_out as checkOut, instant_book as instantBook, guests ");
-		sql.append("FROM rooms_room ");
-		sql.append("WHERE id=?");
-		return (Room) jdbcTemplate.queryForObject(sql.toString(), new Object[] {roomId}, new BeanPropertyRowMapper(Room.class));	
+		sql.append("SELECT reserve.id, reserve.created, reserve.status, reserve.check_in, reserve.check_out, room.name, room.city, room.address, room.id as roomId ");
+		sql.append("FROM reservations_reservation reserve, rooms_room room ");
+		sql.append("WHERE guest_id=?");
+		sql.append("AND room.id = reserve.room_id ");
+		return (List<RoomReserve>) jdbcTemplate.query(sql.toString(), new Object[] {id}, new BeanPropertyRowMapper<RoomReserve>(RoomReserve.class));	
 	}
 
 }

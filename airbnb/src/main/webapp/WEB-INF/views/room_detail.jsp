@@ -5,7 +5,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>에어비엔비|숙소 정보</title>
+		<title>에어비엔비 | 숙소 정보</title>
 		<link href="/resources/css/base.css" rel="stylesheet">
 	</head>
 	<body>

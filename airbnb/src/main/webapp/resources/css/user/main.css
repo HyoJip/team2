@@ -1,0 +1,95 @@
+body {
+  font-family: sans-serif;
+}
+.cont01 {
+  background: url("../main-front/img/main_3.jpg") 0 0 no-repeat;
+  background-size:cover;
+  height: 800px;
+  width: auto;
+  overflow: hidden;
+  padding-top: 50px;
+}
+.cont01 .cont01_text {
+  float: right;
+  margin-top: 180px;
+  width: 50%;
+  text-align: left;
+  line-height: 1.5;
+  font-size: 35px;
+  font-family: "Nanum Pen Script", cursive;
+}
+h2 {
+  font-size: 40px;
+  letter-spacing: 5px;
+  position: relative;
+  font-family: "Jua", sans-serif;
+  text-align: center;
+}
+.cont01_text p {
+  margin-top: 20px;
+  text-align: center;
+}
+/*****cont1 end****/
+
+.cont02 {
+  width: 1400px;
+  margin: 0 auto;
+}
+
+.box {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 40px 20px;
+}
+.box div {
+  width: 32%;
+  height: 400px;
+  overflow: hidden;
+  position: relative;
+}
+.box div img {
+  height: 100%;
+  transition: 0.5s;
+}
+.cont02 h2 {
+  text-align: center;
+}
+.box div dl {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+  display: none;
+}
+.box div dl dt {
+  font-size: 25px;
+  font-weight: 800;
+}
+.box div dl dd {
+  font-size: 20px;
+  margin-top: 15px;
+}
+.box div a::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+}
+.box div a:hover dl {
+  display: block;
+  z-index: 9;
+}
+.box div a:hover::before {
+  display: block;
+  z-index: 1;
+}
+.box div a:hover img {
+  transform: scale(1.5);
+}
+/********cont2********/

@@ -12,6 +12,87 @@ public class RoomReserve {
 	private int guests;
 	private int price;
 	private String email;
+	private String name;
+	private String city;
+	private String address;
+	private int roomId;
+	private String roomCheckIn;
+	private String roomCheckOut;
+	private int beds;
+	private int baths;
+	private int bedrooms;
+
+	public int getBeds() {
+		return beds;
+	}
+
+	public void setBeds(int beds) {
+		this.beds = beds;
+	}
+
+	public int getBaths() {
+		return baths;
+	}
+
+	public void setBaths(int baths) {
+		this.baths = baths;
+	}
+
+	public int getBedrooms() {
+		return bedrooms;
+	}
+
+	public void setBedrooms(int bedrooms) {
+		this.bedrooms = bedrooms;
+	}
+
+	public String getRoomCheckIn() {
+		return roomCheckIn;
+	}
+
+	public void setRoomCheckIn(String roomCheckIn) {
+		this.roomCheckIn = roomCheckIn;
+	}
+
+	public String getRoomCheckOut() {
+		return roomCheckOut;
+	}
+
+	public void setRoomCheckOut(String roomCheckOut) {
+		this.roomCheckOut = roomCheckOut;
+	}
+
+	public int getRoomId() {
+		return roomId;
+	}
+
+	public void setRoomId(int roomId) {
+		this.roomId = roomId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public int getId() {
 		return id;

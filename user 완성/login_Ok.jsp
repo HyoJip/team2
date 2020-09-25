@@ -1,37 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<%@ page import="member.*" %>
-
-<%
-	request.setCharacterEncoding("euc-kr");
-	
-	String email = request.getParameter("email");
-	String password = request.getParameter("password");
-	
-	memberDBBean db = memberDBBean.getInstance();
-	int check = db.login(email, password);
-	memberBean mb = db.getMember(email);
-	
-	if(check == 1){	//·Î±×ÀÎÁ¤º¸ ÀÏÄ¡
-		String name = mb.getUsername();
-		session.setAttribute("name", name);
-		session.setAttribute("email", email);
-		session.setAttribute("Member", "yes");
-	
-		response.sendRedirect("main.jsp");
-	}else if(check == 0){	//ºñ¹Ð¹øÈ£°¡ Æ²¸±½Ã
-%>
-	<script>
-		alert("ºñ¹Ð¹øÈ£°¡ Æ²¸³´Ï´Ù.")
-		history.go(-1);
-	</script>
-<%
-	}else{
-%>
-	<script>
-		alert("È¸¿øÁ¤º¸°¡ ¾ø½À´Ï´Ù.")
-		history.go(-1);
-	</script>
-<%			
-	}
-%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%@ page
+import="member.*" %> <% request.setCharacterEncoding("UTF-8"); String email =
+request.getParameter("email"); String password = request.getParameter("password"); memberDBBean db =
+memberDBBean.getInstance(); int check = db.login(email, password); memberBean mb =
+db.getMember(email); if(check == 1){ String name = mb.getUsername(); session.setAttribute("name",
+name); session.setAttribute("email", email); session.setAttribute("Member", "yes");
+response.sendRedirect("main.jsp"); }else if(check == 0){ %>
+<script>
+	alert("ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ Æ²ï¿½ï¿½ï¿½Ï´ï¿½.");
+	history.go(-1);
+</script>
+<% }else{ %>
+<script>
+	alert("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+	history.go(-1);
+</script>
+<% } %>
