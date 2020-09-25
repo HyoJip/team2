@@ -60,11 +60,11 @@ COMMENT ON COLUMN rooms_photo."file" IS
 ALTER TABLE rooms_photo ADD CONSTRAINT rooms_photo_pk PRIMARY KEY ( id );
 
 CREATE TABLE rooms_room (
-    id             INTEGER NOT NULL,
+    id             INTEGER NOT NULL,       
     host_id        INTEGER,
     name           VARCHAR2(40),
-    updated        DATE,
-    created        DATE,
+    updated        DATE,    --LOCALDATE
+    created        DATE,    --LOCALDATE
     description    VARCHAR2(500),
     city           VARCHAR2(50),
     price          INTEGER,
@@ -76,7 +76,41 @@ CREATE TABLE rooms_room (
     check_out      TIMESTAMP,
     instant_book   INTEGER,
     guests         INTEGER
-)
+);
+
+SELECT * FROM users_user;
+SELECT * FROM rooms_room order by id;
+delete from rooms_room where id=43;
+
+desc users_user;  
+desc rooms_room;  
+commit;
+
+drop table rooms_room;
+drop table users_user;
+
+delete from rooms_room;
+
+INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
+                                city, price, address, beds, bedrooms, baths, check_in, check_out,
+                                instant_book, guests) 
+VALUES(2,'민성','2020-09-01','2020-09-01','숙소','서울',50000,'부산시 연제구',3,1,2,'5','3',2,2);
+
+INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
+                                city, price, address, beds, bedrooms, baths, check_in, check_out,
+                                instant_book, guests)
+VALUES(1,'오성','2020-09-03','2020-09-03','집','부산',50000,'부산시 수영구',5,2,3,'8','5',3,5);
+
+INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
+                                city, price, address, beds, bedrooms, baths, check_in, check_out,
+                                instant_book, guests)
+VALUES(3,'주성','2020-09-05','2020-09-05','호텔','부산',200000,'부산시 해운대구',7,8,4,'3','6',2,3);
+
+INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
+                                city, price, address, beds, bedrooms, baths, check_in, check_out,
+                                instant_book, guests)
+VALUES(4,'YS','2020-09-10','2020-09-10','HOTEL','BUSAN',200000,'Hae-un-dae',7,8,4,'3','6',2,3);
+
 LOGGING;
 
 COMMENT ON COLUMN rooms_room.name IS
@@ -138,3 +172,4 @@ CREATE TABLE rooms_room_facilities (
     facility_id   INTEGER NOT NULL
 )
 LOGGING;
+
