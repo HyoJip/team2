@@ -80,8 +80,9 @@ CREATE TABLE rooms_room (
 
 SELECT * FROM users_user;
 SELECT * FROM rooms_room order by id;
-delete from rooms_room;
+delete from rooms_room where id=43;
 
+desc users_user;  
 desc rooms_room;  
 commit;
 
