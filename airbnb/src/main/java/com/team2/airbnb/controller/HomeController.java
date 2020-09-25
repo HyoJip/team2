@@ -3,8 +3,6 @@ package com.team2.airbnb.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,23 +35,16 @@ public class HomeController {
 		return "room_detail";
 	}
 	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String index(Model model) {
+		return "main";
+	}
+	
 	
 	//////////////////////////////////////////// API
 	@RequestMapping(value = "/api/room/{roomId}", method=RequestMethod.GET)
 	@ResponseBody
-	public List<Map<String, Object>> apiCall(HttpServletRequest request, @PathVariable int roomId) {
+	public List<Map<String, Object>> apiCall(@PathVariable int roomId) {
 		return roomService.getReservedDatesById(roomId);
 	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model) {
-		return "user/login";
-	}
-	
-	@RequestMapping(value = "/memberjoin", method = RequestMethod.GET)
-	public String memberjoin(Model model) {
-		return "user/memberjoin";
-	}
-
-	
 }

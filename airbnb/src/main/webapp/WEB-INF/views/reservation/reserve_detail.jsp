@@ -13,6 +13,7 @@
 <body>
 <%
 	RoomReserve reserve = (RoomReserve) request.getAttribute("reserve");
+	int nights = DateUtil.getDateDiff(reserve.getCheckIn().toString(), reserve.getCheckOut().toString());
 %>
 <jsp:include page="../partial/header.jsp" />
 	<div class="wrap">
@@ -34,7 +35,7 @@
 						<small class="room_check">체크아웃 시간: <%=reserve.getRoomCheckOut()%>:00</small>
 					</div>
 					<div class="reserve_detail">
-						<p class="reserve_night"><%=DateUtil.getDateDiff(reserve.getCheckIn().toString(), reserve.getCheckOut().toString())%>박</p>
+						<p class="reserve_night"><%=nights%>박</p>
 						<p class="reserve_guests">인원 <%=reserve.getGuests()%>명</p>
 					</div>
 				</div>
@@ -46,7 +47,9 @@
 			<aside class="aside">
 				<div class="bills">
 					<small class="room_detail"><span class="beds">침대 <%=reserve.getBeds()%></span>개 · 침실 <span class="bedrooms"><%=reserve.getBedrooms()%></span>개 · 화장실 <span class="baths"><%=reserve.getBaths()%>개</span></small>
-					<h5 class="price"><%=NumberUtil.wonFormatter.format(reserve.getPrice() + 5000)%></h5>
+					<h5 class="price">가격<span><%=NumberUtil.wonFormatter.format(reserve.getPrice())%></span></h5>
+					<small class="service">서비스 금액<span><%=NumberUtil.wonFormatter.format(5000)%></span></small>
+					<h3 class="total_price"><%=NumberUtil.wonFormatter.format(reserve.getPrice()*nights + 5000)%></h3>
 					<h2 class="status <%=reserve.getStatus()%>"><%=reserve.getStatus().getName()%></h2>
 				</div>
 			</aside>

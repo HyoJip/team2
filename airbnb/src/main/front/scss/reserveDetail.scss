@@ -90,8 +90,18 @@
 			display: flex;
 			align-items: center;
 			
-			.price {
-				font-size: 2rem;
+			.room_detail {
+				display: block;
+				margin-bottom: 20px;
+			}
+			
+			.price, .service{
+				display: flex;
+				justify-content: space-between;
+			}
+			
+			.total_price {
+				font-size: 3rem;
     			font-weight: 700;
 			}
 			

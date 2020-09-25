@@ -18,17 +18,16 @@
 	rel="stylesheet">
 </head>
 <body>
+	<jsp:include page="./partial/header.jsp" />
 	<header>
 		<%
 			if (session.getAttribute("name") == null) { //세션이 설정되지 않았을 경우 출력
 		%>
-		<form method="post" action="login.jsp">
-			<input type="submit" value="로그인하기">
-		</form>
+		<a href="/login">로그인하기</a>
 		<%
 			} else { //세션이 설정되었을 경우 출력
 		%>
-		<form method="post" action="logOut.jsp">
+		<form method="post" action="/logout">
 			<p>
 				안녕하세요.
 				<%=name%>님
@@ -65,7 +64,7 @@
 				</a>
 			</div>
 			<div class="box2">
-				<a href="#"> <!-- list페이지 연결 --> <img src="/resources/images//main_1.jpg"
+				<a href="#"> <!-- list페이지 연결 --> <img src="/resources/images/main_2.jpg"
 					alt="숙소리스트" />
 					<dl>
 						<dt>숙소리스트</dt>
@@ -78,7 +77,7 @@
 	</div>
 	<!--cont02 END-->
 
-	<jsp:include page="../partial/footer.jsp" />
+	<jsp:include page="./partial/footer.jsp" />
 	<!-- footer END -->
 </body>
 </html>

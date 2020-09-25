@@ -91,7 +91,7 @@ public class ReserveDao {
 		sql.append("FROM reservations_reservation reserve, rooms_room room ");
 		sql.append("WHERE reserve.id = ?");
 		sql.append("AND reserve.room_id = room.id");
-		RoomReserve roomReserve = jdbcTemplate.queryForObject(sql.toString(), new Object[] {reserve_id},new BeanPropertyRowMapper<RoomReserve>(RoomReserve.class));
+		RoomReserve roomReserve = jdbcTemplate.queryForObject(sql.toString(), new Object[] {reserve_id}, new BeanPropertyRowMapper<RoomReserve>(RoomReserve.class));
 		return roomReserve;
 	}
 

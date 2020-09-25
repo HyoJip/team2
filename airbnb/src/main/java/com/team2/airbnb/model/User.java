@@ -1,15 +1,19 @@
 package com.team2.airbnb.model;
 
+import java.time.LocalDate;
+
 public class User {
 	private int id;
 	private String email;
 	private String password;
 	private String username;
-	private String birthDay;
+	private LocalDate birthDay;
 	private int isHost;
 	private int isSuperuser;
 
-	public User(String email, String password, String username, String birthDay) {
+	public User() {}
+	
+	public User(String email, String password, String username, LocalDate birthDay) {
 		this.email = email;
 		this.password = password;
 		this.username = username;
@@ -48,12 +52,12 @@ public class User {
 		this.username = username;
 	}
 
-	public String getBirthDay() {
+	public LocalDate getBirthDay() {
 		return birthDay;
 	}
 
 	public void setBirthDay(String birthDay) {
-		this.birthDay = birthDay;
+		this.birthDay = LocalDate.parse(birthDay);
 	}
 
 	public int getIsHost() {

@@ -25,7 +25,7 @@ function check_ok(event){
 		form.passcheck.focus();
 		return;
 	}
-	if(document.form.birthday.value == ""){
+	if(document.form.birthDay.value == ""){
 		alert("생년월일을 입력해주세요");
 		form.birthday.focus();
 		return;

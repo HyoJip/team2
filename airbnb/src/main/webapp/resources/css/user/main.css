@@ -2,7 +2,7 @@ body {
   font-family: sans-serif;
 }
 .cont01 {
-  background: url("../main-front/img/main_3.jpg") 0 0 no-repeat;
+  background: url("/resources/images/main_3.jpg") 0 0 no-repeat;
   background-size:cover;
   height: 800px;
   width: auto;
