@@ -1,24 +1,6 @@
 @import "./_base";
 @import "./_mixins";
 
-:root {
-	--blue: lightseagreen;
-}
-
-.ACCEPTED {
-	color: #23c382
-}
-
-.PENDING, .COMPLETED {
-	color: var(--gray);
-}
-
-.REFUSED, .CANCLED {
-	color: var(--red);
-}
-
-
-
 .main_wrap {
 	max-width: var(--wrapWidth);
 	margin: 0 auto;

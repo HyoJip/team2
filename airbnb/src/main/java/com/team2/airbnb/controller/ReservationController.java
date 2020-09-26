@@ -86,7 +86,20 @@ public class ReservationController {
 		return "reservation/room_reserve_list";
 	}
 	
+	@RequestMapping(value = "/user/{userId}/reservations/{reserveId}", method = RequestMethod.GET)
+	public String reserveDetail(@PathVariable int userId, @PathVariable int reserveId, Model model) {
+		RoomReserve roomReserve = reserveService.getReserve(reserveId);
+		model.addAttribute("reserve", roomReserve);
+		return "reservation/reserve_detail";
+	}
 	
+	@RequestMapping(value = "/user/{id}/reservations", method = RequestMethod.GET)
+	public String userReservationList(@PathVariable int id, Model model) {
+		List<RoomReserve> rooms = reserveService.getListByUserId(id);
+		model.addAttribute("rooms", rooms);
+		
+		return "reservation/user_reserve_list";
+	}
 	
 	//////////////////////////////////// API
 	@RequestMapping(value = "/api/reserve/{id}", method = RequestMethod.PATCH)
@@ -101,4 +114,5 @@ public class ReservationController {
 		}
 		return response;
 	}
+	
 }

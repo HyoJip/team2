@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.team2.airbnb.model.Room;
+import com.team2.airbnb.model.RoomReserve;
 
 @Repository
 public class RoomDao {
@@ -27,7 +28,7 @@ public class RoomDao {
 		sql.append("SELECT id, host_id as hostId, name, updated, created, description, city, price, address, beds, bedrooms, baths, check_in as checkIn, check_out as checkOut, instant_book as instantBook, guests ");
 		sql.append("FROM rooms_room ");
 		sql.append("WHERE id=?");
-		return (Room) jdbcTemplate.queryForObject(sql.toString(), new Object[] {roomId}, new BeanPropertyRowMapper(Room.class));
+		return (Room) jdbcTemplate.queryForObject(sql.toString(), new Object[] {roomId}, new BeanPropertyRowMapper<Room>(Room.class));
 	}
 
 	public List<Map<String, Object>> selectAllReservedDate(int roomId) {
