@@ -22,13 +22,13 @@ alter table reservations_reservation add (guests int);
 insert into rooms_room (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
-values (1, '민성', '2020-09-03', '2020-09-05', 'GREAT', 
+values (41, '민성', '2020-09-03', '2020-09-05', 'GREAT', 
         '부산', 50000, '부산시 해운대구', 2, 1, 1, '15', '12', 1, 2);
             
 insert into rooms_room (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
-values (2, 'W ������', '2020-09-20', '2020-09-20', '���ȸ��� ���̴� ���� ��, ��� ���� ���', '�λ�',
+values (42, 'W ������', '2020-09-20', '2020-09-20', '���ȸ��� ���̴� ���� ��, ��� ���� ���', '�λ�',
             200000, '��ȣ�� 102�� 2401ȣ', 2, 1, 1, '15', '12', 1, 2);
 
 SELECT * FROM ROOMS_ROOM;
@@ -39,3 +39,4 @@ delete from rooms_room;
 desc rooms_room;
             
 commit;
+
