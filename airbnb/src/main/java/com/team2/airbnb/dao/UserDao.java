@@ -3,6 +3,7 @@ package com.team2.airbnb.dao;
 import java.sql.Date;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,7 +23,7 @@ public class UserDao {
 	
 	public int insertUser(User user) {
 		String sql = "INSERT INTO users_user(email, password, username, birthDay, is_host, is_superuser) values (?,?,?,?,?,?)";
-		return jdbcTemplate.update(sql, new Object[] {user.getEmail(), user.getPassword(), user.getUsername(), Date.valueOf(user.getBirthDay()), user.getIsHost(), user.getIsSuperuser()});
+		return jdbcTemplate.update(sql, new Object[] {user.getEmail(), BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()), user.getUsername(), Date.valueOf(user.getBirthDay()), user.getIsHost(), user.getIsSuperuser()});
 	}
 	
 	public User getUserByEmail(String email) {

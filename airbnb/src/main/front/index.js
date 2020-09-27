@@ -114,9 +114,7 @@ const UIController = (() => {
 		}
 		return `
 		<div class="calendar_day">
-			<span class="${CL_DAY}" id="${year}-${util.setMonthCount(
-			month
-		)}-${util.setFixDayCount(day)}">
+			<span class="${CL_DAY}" id="${month == 13? year+1: year}-${month == 13? "01": util.setMonthCount(month)}-${util.setFixDayCount(day)}">
 				${day}
 			</span>
 		</div>`;

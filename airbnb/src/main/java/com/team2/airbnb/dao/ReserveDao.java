@@ -15,7 +15,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.team2.airbnb.model.Reservation;
-import com.team2.airbnb.model.RoomReserve;
+import com.team2.airbnb.model.vo.ReserveVO;
 import com.team2.airbnb.util.DateUtil;
 
 @Repository
@@ -44,6 +44,11 @@ public class ReserveDao {
 			
 		}
 	}
+	
+	private int deleteBetweenDate(int reserveId) {
+		String sql = "DELETE FROM reservations_bookedday WHERE reservation_id = ?";
+		return jdbcTemplate.update(sql, new Object[] {reserveId});
+	}
 
 	public void insert(Reservation reservation) {
 		// 1. reservations_reservation 테이블에 INSERT
@@ -68,8 +73,8 @@ public class ReserveDao {
 		insertBetweenDate(reservation.getId(), reservation.getCheckIn(), reservation.getCheckOut());
 	}
 
-	public List<RoomReserve> selectAll(int id) {
-		List<RoomReserve> results = jdbcTemplate.query((Connection con)-> {
+	public List<ReserveVO> selectAll(int id) {
+		List<ReserveVO> results = jdbcTemplate.query((Connection con)-> {
 			StringBuffer sql = new StringBuffer();
 			sql.append("SELECT reserve.status, guest.username, reserve.check_in, reserve.check_out, reserve.created, reserve.guests, room.price, guest.email, reserve.id ");
 			sql.append("FROM reservations_reservation reserve, rooms_room room, users_user guest ");
@@ -80,18 +85,18 @@ public class ReserveDao {
 			PreparedStatement pstmt = con.prepareStatement(sql.toString());
 			pstmt.setInt(1, id);
 			return pstmt;
-		}, new BeanPropertyRowMapper<RoomReserve>(RoomReserve.class));
+		}, new BeanPropertyRowMapper<ReserveVO>(ReserveVO.class));
 		return results;
 	}
 	
-	public RoomReserve selectObject(int reserve_id) {
+	public ReserveVO selectObject(int reserve_id) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT reserve.id, reserve.created, reserve.updated, status, reserve.check_in as checkIn, reserve.check_out as checkOut, guest_id as guestId, room.id as roomId, ");
-		sql.append("host_id as hostId, name,  description, city, price, address, beds, bedrooms, baths, room.check_in as roomCheckIn, room.check_out as roomCheckOut, instant_book as instantBook, room.guests ");
+		sql.append("SELECT reserve.id, reserve.created, reserve.updated, status, reserve.check_in as checkIn, reserve.check_out as checkOut, reserve.guests, guest_id as guestId, room.id as roomId, ");
+		sql.append("host_id as hostId, name,  description, city, price, address, beds, bedrooms, baths, room.check_in as roomCheckIn, room.check_out as roomCheckOut, instant_book as instantBook, room.guests as roomMaxGuests ");
 		sql.append("FROM reservations_reservation reserve, rooms_room room ");
 		sql.append("WHERE reserve.id = ?");
 		sql.append("AND reserve.room_id = room.id");
-		RoomReserve roomReserve = jdbcTemplate.queryForObject(sql.toString(), new Object[] {reserve_id}, new BeanPropertyRowMapper<RoomReserve>(RoomReserve.class));
+		ReserveVO roomReserve = jdbcTemplate.queryForObject(sql.toString(), new Object[] {reserve_id}, new BeanPropertyRowMapper<ReserveVO>(ReserveVO.class));
 		return roomReserve;
 	}
 
@@ -107,13 +112,31 @@ public class ReserveDao {
 		return isSuccessed;
 	}
 
-	public List<RoomReserve> selectByUserId(int id) {
+	public List<ReserveVO> selectByUserId(int id) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT reserve.id, reserve.created, reserve.status, reserve.check_in, reserve.check_out, room.name, room.city, room.address, room.id as roomId ");
 		sql.append("FROM reservations_reservation reserve, rooms_room room ");
 		sql.append("WHERE guest_id=?");
 		sql.append("AND room.id = reserve.room_id ");
-		return (List<RoomReserve>) jdbcTemplate.query(sql.toString(), new Object[] {id}, new BeanPropertyRowMapper<RoomReserve>(RoomReserve.class));	
+		return (List<ReserveVO>) jdbcTemplate.query(sql.toString(), new Object[] {id}, new BeanPropertyRowMapper<ReserveVO>(ReserveVO.class));	
+	}
+
+	public int update(Reservation reservation) {
+		deleteBetweenDate(reservation.getId());
+		int isCompleted = 0;
+		StringBuffer sql = new StringBuffer();
+		sql.append("UPDATE reservations_reservation SET ");
+		sql.append("check_in=?, ");
+		sql.append("check_out=?, ");
+		sql.append("guests=? ");
+		sql.append("WHERE id=?");
+		int isUpdated = jdbcTemplate.update(sql.toString(), new Object[] { Date.valueOf(reservation.getCheckIn()),  Date.valueOf(reservation.getCheckOut()), reservation.getNumOfGuest(), reservation.getId()});
+		
+		if (isUpdated == 1) {
+			insertBetweenDate(reservation.getId(), reservation.getCheckIn(), reservation.getCheckOut());
+			isCompleted = 1;
+		}
+		return isCompleted;
 	}
 
 }

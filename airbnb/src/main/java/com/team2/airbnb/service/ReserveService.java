@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.team2.airbnb.dao.ReserveDao;
 import com.team2.airbnb.model.Reservation;
 import com.team2.airbnb.model.ReserveStatus;
-import com.team2.airbnb.model.RoomReserve;
+import com.team2.airbnb.model.vo.ReserveVO;
 import com.team2.airbnb.util.DateUtil;
 
 @Service
@@ -51,14 +51,18 @@ public class ReserveService {
 		return reserveDao.updateStatus(id, status);
 	}
 
-	public List<RoomReserve> getListByUserId(int id) {
-		List<RoomReserve> rooms = reserveDao.selectByUserId(id);
+	public List<ReserveVO> getListByUserId(int id) {
+		List<ReserveVO> rooms = reserveDao.selectByUserId(id);
 		return rooms;
 	}
 
-	public RoomReserve getReserve(int reserveId) {
-		RoomReserve roomReserve = reserveDao.selectObject(reserveId);
+	public ReserveVO getReserve(int reserveId) {
+		ReserveVO roomReserve = reserveDao.selectObject(reserveId);
 		return roomReserve;
+	}
+	
+	public int changeReserve(Reservation reservation) {
+		return reserveDao.update(reservation);
 	}
 	
 }

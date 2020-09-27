@@ -3,6 +3,8 @@ package com.team2.airbnb.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.team2.airbnb.model.Room;
+import com.team2.airbnb.model.vo.RoomVO;
 import com.team2.airbnb.service.RoomService;
 
 @Controller
@@ -24,14 +26,10 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/room/{roomId}", method = RequestMethod.GET)
-	public String room_detail(@PathVariable int roomId , Model model) {
-		// 1. get user from session
-		
-		// 2. get room info
-		 Room room = roomService.getRoomById(roomId);
-		 model.addAttribute("room", room);
+	public String room_detail(@PathVariable int roomId , HttpSession session, Model model) {
+		RoomVO room = roomService.getRoomById(roomId);
+		model.addAttribute("room", room);
 		 
-		// 3. put info into model
 		return "room_detail";
 	}
 	

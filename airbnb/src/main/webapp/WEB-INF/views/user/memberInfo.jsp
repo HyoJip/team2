@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/resources/css/user/memberInfo.css" />
 </head>
 <body>
-	<jsp:include page="../partial/header.jsp" />
+	<%@ include  file="../partial/header.jsp"%>
 
 	<form method="POST" name="form" action="">
 		<div class="background">
@@ -43,15 +43,15 @@
 	if (request.getMethod().equalsIgnoreCase("POST")) {
 		int isValid = Integer.parseInt(request.getAttribute("isValid").toString());
 		if (isValid == 1) {
-	%>
+%>
 		<script>
 			alert("회원정보가 수정되었습니다.");
 			document.location.href="/";
 		</script>
-	<% } else {%>
+<% 		} else { %>
 		<script>
 			alert("회원정보 수정 실패 \n다시 시도해 주세요.");
-			history.go(-1);
+			document.location.href="/user/update";
 		</script>
 <%
 		}

@@ -3,6 +3,7 @@ package com.team2.airbnb.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,7 @@ public class UserService {
 			User user = userDao.getUserByEmail(email);
 			if(user != null) {	// 입력된 아이디에 해당 비밀번호가 있는 경우
 				String dbPW = user.getPassword();
-				isValid = dbPW.equals(password)? 1: 0; //비밀번호가 일치 할 경우 인증 성공
+				isValid = BCrypt.checkpw(password, dbPW)? 1: 0; //비밀번호가 일치 할 경우 인증 성공
 				map.put("user", user);
 			}			
 		}

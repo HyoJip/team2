@@ -8,6 +8,7 @@ public class Reservation {
 	
 	private int id;
 	private LocalDate created;
+	private LocalDate updated;
 	private ReserveStatus status;
 	private LocalDate checkIn;
 	private LocalDate checkOut;
@@ -37,6 +38,14 @@ public class Reservation {
 
 	public void setCreated(LocalDate created) {
 		this.created = created;
+	}
+
+	public LocalDate getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(LocalDate updated) {
+		this.updated = updated;
 	}
 
 	public ReserveStatus getStatus() {

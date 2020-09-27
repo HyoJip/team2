@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%
-	String name = (String) session.getAttribute("name"); //정상적으로 처리가 되면 세션값을 아이디에 담는다.
-%>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -18,29 +15,7 @@
 	rel="stylesheet">
 </head>
 <body>
-	<jsp:include page="./partial/header.jsp" />
-	<header>
-		<%
-			if (session.getAttribute("name") == null) { //세션이 설정되지 않았을 경우 출력
-		%>
-		<a href="/login">로그인하기</a>
-		<%
-			} else { //세션이 설정되었을 경우 출력
-		%>
-		<form method="post" action="/logout">
-			<p>
-				안녕하세요.
-				<%=name%>님
-			</p>
-			<input type="submit" value="로그아웃"> <input type="button"
-				value="회원정보" onclick="location='memberinfo.jsp'" />
-		</form>
-		<%
-			}
-		%>
-	</header>
-	<!-- 상단 메뉴바 END-->
-
+	<%@ include  file="./partial/header.jsp"%>
 	<div class="cont01">
 		<div class="cont01_text">
 			<h2>이제 여행은 가까운 곳에서</h2>
