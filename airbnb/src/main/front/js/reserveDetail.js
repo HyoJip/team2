@@ -75,6 +75,8 @@ const UIController = (() => {
 		updateBtn: "#formUpdateBtn",
 		footer: "#footer",
 		updateForm: "#changeStep1",
+		cancelForm: "#deleteStep1",
+		status: "#reserveStatus",
 	};
 
 	const displayMonth = (year, month) => {
@@ -290,11 +292,28 @@ const UIController = (() => {
 			).textContent = util.formatWon(totalPrice + 5000);
 		},
 		
-		displayUpdateDisplayer: () => document.querySelector(DOMString.footer).style.display = "flex",
+		displayUpdateDisplayer: () => {
+			const status = document.querySelector(DOMString.status).classList;
+			if (status.contains("PENDING")) {
+				document.querySelector(DOMString.footer).style.display = "flex";				
+			} else {
+				alert("예약대기중 상태가 아니면 변경할 수 없습니다.")			
+			}
+		},
+		
 		displayUpdateForm: () => {
 			const updateForm = document.querySelector(DOMString.updateForm);
+			const cancelForm = document.querySelector(DOMString.cancelForm);
+			cancelForm.style.display = "none";
 			updateForm.style.display = "block";
 		},
+		
+		displayCancelForm: () => {
+			const updateForm = document.querySelector(DOMString.updateForm);
+			const cancelForm = document.querySelector(DOMString.cancelForm);
+			updateForm.style.display = "none";
+			cancelForm.style.display = "block";	
+		}
 		
 	};
 })();
@@ -339,6 +358,8 @@ const Controller = ((DataCtrl, UICtrl) => {
 		document.querySelector("#updateNextBtn").addEventListener("click", onClickUpdateNextBtn);
 		// 뒤로가기 버튼 클릭
 		document.querySelector("#backIcon").addEventListener("click", () => location.href = location.pathname.match(/.*reservations/)[0]);
+		// 예약 취소 다음 버튼 클릭
+		document.querySelector("#cancelNextBtn").addEventListener("click", () => UICtrl.displayCancelForm());
 	};
 
 	const clearState = () => {
@@ -441,7 +462,7 @@ const Controller = ((DataCtrl, UICtrl) => {
 		form.submit();
 	};
 	
-	const onClickUpdateDisplayer = () => UICtrl.displayUpdateDisplayer();
+	const onClickUpdateDisplayer = () => UICtrl.displayUpdateDisplayer()
 	
 	const onClickUpdateNextBtn = () => {
 		UICtrl.displayUpdateForm();

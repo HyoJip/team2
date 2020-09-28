@@ -45,7 +45,7 @@ public class ReserveDao {
 		}
 	}
 	
-	private int deleteBetweenDate(int reserveId) {
+	public int deleteBetweenDate(int reserveId) {
 		String sql = "DELETE FROM reservations_bookedday WHERE reservation_id = ?";
 		return jdbcTemplate.update(sql, new Object[] {reserveId});
 	}
@@ -73,19 +73,14 @@ public class ReserveDao {
 		insertBetweenDate(reservation.getId(), reservation.getCheckIn(), reservation.getCheckOut());
 	}
 
-	public List<ReserveVO> selectAll(int id) {
-		List<ReserveVO> results = jdbcTemplate.query((Connection con)-> {
-			StringBuffer sql = new StringBuffer();
-			sql.append("SELECT reserve.status, guest.username, reserve.check_in, reserve.check_out, reserve.created, reserve.guests, room.price, guest.email, reserve.id ");
-			sql.append("FROM reservations_reservation reserve, rooms_room room, users_user guest ");
-			sql.append("WHERE reserve.room_id=? ");
-			sql.append("AND reserve.room_id = room.id ");
-			sql.append("AND guest.id = reserve.guest_id ");
-			sql.append("ORDER BY reserve.check_in");
-			PreparedStatement pstmt = con.prepareStatement(sql.toString());
-			pstmt.setInt(1, id);
-			return pstmt;
-		}, new BeanPropertyRowMapper<ReserveVO>(ReserveVO.class));
+	public List<ReserveVO> selectByHostId(int hostId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT reserve.status, member.username, reserve.check_in, reserve.check_out, reserve.created, reserve.guests, room.price, member.email, reserve.id, room.name, room.id as roomId ");
+		sql.append("FROM reservations_reservation reserve, rooms_room room, users_user member ");
+		sql.append("WHERE room.host_id=? ");
+		sql.append("AND member.id = reserve.guest_id ");
+		sql.append("ORDER BY reserve.check_in");
+		List<ReserveVO> results = jdbcTemplate.query(sql.toString(), new Object[] {hostId}, new BeanPropertyRowMapper<ReserveVO>(ReserveVO.class));
 		return results;
 	}
 	

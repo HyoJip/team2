@@ -1,6 +1,7 @@
 package com.team2.airbnb.controller;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,14 +71,14 @@ public class ReservationController {
 		return "reservation/reserve_form";
 	}
 
-	@RequestMapping(value = "/room/{id}/reserve", method = RequestMethod.POST)
-	public String reserve(Reservation reserveReq, @PathVariable int id, HttpSession session) {
+	@RequestMapping(value = "/room/{roomId}/reserve", method = RequestMethod.POST)
+	public String reserve(Reservation reserveReq, @PathVariable int roomId, HttpSession session) {
 		try {
 			// 1. 세션에서 guestID 주입
 			User user = (User) session.getAttribute("login");
 			reserveReq.setGuestId(user.getId());
 			// 2. roomID 주입
-			reserveReq.setRoomId(id);
+			reserveReq.setRoomId(roomId);
 			// 3. 예약서비스 실행
 			reserveService.book(reserveReq);
 			return "redirect:/user/" + user.getId() + "/reservations/" + reserveReq.getId();
@@ -87,18 +88,31 @@ public class ReservationController {
 		}
 	}
 	
-	@RequestMapping(value = "/room/{id}/reservations", method = RequestMethod.GET)
-	public String reserveList(@PathVariable int id, HttpSession session, Model model) {
+	@RequestMapping(value = "/host/{hostId}/reservations", method = RequestMethod.GET)
+	public String reserveList(@PathVariable int hostId, HttpSession session, Model model) {
+		// 본인인지 확인
 			User user = (User) session.getAttribute("login");
-			List<ReserveVO> list = reserveDao.selectAll(id);
+			if (user.getId() != hostId)
+				return "redirect:/";
+		// 본인 숙소 예약 리스트 GET
+			List<ReserveVO> list = reserveDao.selectByHostId(hostId);
 			model.addAttribute("reserveList", list);
 		return "reservation/room_reserve_list";
 	}
 	
 	@RequestMapping(value = "/user/{userId}/reservations/{reserveId}", method = RequestMethod.GET)
 	public String reserveDetail(@PathVariable int userId, @PathVariable int reserveId, Model model) {
+		// 1. 예약 정보 GET
 		ReserveVO roomReserve = reserveService.getReserve(reserveId);
+		// 2. 환불 금액 GET
+		double refundPrice;
+		if (roomReserve.getCheckIn().isBefore(LocalDate.now())) {
+			refundPrice = roomReserve.getPrice() * 0.5;
+		} else {
+			refundPrice = roomReserve.getPrice();
+		}
 		model.addAttribute("reserve", roomReserve);
+		model.addAttribute("refundPrice", refundPrice);
 		return "reservation/reserve_detail";
 	}
 	
@@ -112,6 +126,23 @@ public class ReservationController {
 			return "redirect:/user/" + userId + "/reservations/" + reserveId;
 		}
 		return "redirect:/user/" + userId + "/reservations";
+	}
+	
+	@RequestMapping(value = "/user/{userId}/reservations/{reserveId}/cancel", method = RequestMethod.POST)
+	public String reserveDelete(@RequestParam(value = "checkIn") String CheckIn, @PathVariable int userId, @PathVariable int reserveId, HttpSession session) {
+		// 1. 권한 확인
+		User user = (User) session.getAttribute("login");
+		if (userId == user.getId()) {
+			// 2. 하루전(+당일) 예약 취소 불가 확인
+			if (LocalDate.parse(CheckIn).isBefore(LocalDate.now().minus(1, ChronoUnit.DAYS))) {
+				reserveService.doCancel(reserveId);
+				return "redirect:/user/" + userId + "/reservations";
+			} else {
+				return "redirect:/user/" + userId + "/reservations/" + reserveId + "?error=outOfDate";
+			}
+			// 3. 취소
+		}
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/user/{id}/reservations", method = RequestMethod.GET)

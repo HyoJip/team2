@@ -176,6 +176,9 @@ ul {
 .body_footer .company_info span {
 	display: block;
 }
+.body_footer .page_config {
+	margin-right: var(--containerHorizontalMargin);	
+}
 .body_footer .page_config i {
 	margin-left: 15px;
 	font-size: 1.2rem;

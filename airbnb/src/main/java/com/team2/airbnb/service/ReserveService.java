@@ -64,5 +64,16 @@ public class ReserveService {
 	public int changeReserve(Reservation reservation) {
 		return reserveDao.update(reservation);
 	}
+
+	public int doCancel(int reserveId) {
+		// 1. 예약 STATUS PENDING -> CANCLE
+		int statusIsChanged = reserveDao.updateStatus(reserveId, "CANCLED");
+		// 2. 예약된 날짜(BookkedDay) 삭제
+		int isDeleted = reserveDao.deleteBetweenDate(reserveId);
+		if (statusIsChanged == 1 && isDeleted == 1) {
+			return 1;
+		}
+		return 0;
+	}
 	
 }

@@ -26,7 +26,13 @@
 	%>
                 <li class="submenu"><a>메시지</a></li>
                 <li class="submenu"><a href="/user/<%=user.getId()%>/reservations">여행</a></li>
-                <li class="submenu become_host_btn">숙소 호스트 되기</li>
+    <%
+    				if (user.getIsHost() == 1) {    					
+    					out.print("<li class='submenu become_host_btn'><a href='host/" + user.getId() + "/reservations'>내 숙소 예약 관리</a></li>");
+    				} else {
+    					out.print("<li class='submenu become_host_btn'>숙소 호스트 되기</li>");
+    				}
+    %>
                 <li class="submenu"><a href="/user/update">회원 정보 수정</a></li>
                 <li class="submenu" onclick="document.logoutForm.submit()"><form name="logoutForm" action="/logout" method="POST">로그아웃</form></li>
     <%

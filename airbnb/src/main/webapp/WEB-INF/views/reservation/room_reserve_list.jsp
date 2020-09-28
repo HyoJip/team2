@@ -24,7 +24,8 @@
 	<%@ include  file="../partial/header.jsp"%>
 	<main class="main_wrap">
 		<header class="main_header">
-			<h1 class="main_header_title">예약</h1>
+			<h1 class="main_header_title"><%=list.get(0).getName() %> 예약</h1>
+			<input type="hidden" value="<%= list.get(0).getRoomId() %>" id="roomId">
 		</header>
 		<table class="reserve_list">
 			<thead>
