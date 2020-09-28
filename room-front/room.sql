@@ -6,35 +6,6 @@ CREATE TABLE romms_room_houserules (
 )
 LOGGING;
 
-ALTER TABLE romms_room_houserules ADD CONSTRAINT romms_room_houserules_pk PRIMARY KEY ( id );
-
-CREATE TABLE rooms_amenity (        --생활 편의 시설
-    id            INTEGER NOT NULL,
-    name          VARCHAR2(20) NOT NULL,
-    description   VARCHAR2(100)
-)
-LOGGING;
-
-ALTER TABLE rooms_amenity ADD CONSTRAINT rooms_amenity_pk PRIMARY KEY ( id );
-
-CREATE TABLE rooms_facility (
-    id            INTEGER NOT NULL,
-    name          VARCHAR2(20) NOT NULL,
-    description   VARCHAR2(100)
-)
-LOGGING;
-
-ALTER TABLE rooms_facility ADD CONSTRAINT rooms_facility_pk PRIMARY KEY ( id );
-
-CREATE TABLE rooms_houserule (
-    id            INTEGER NOT NULL,
-    name          VARCHAR2(20) NOT NULL,
-    description   VARCHAR2(100)
-)
-LOGGING;
-
-ALTER TABLE rooms_houserule ADD CONSTRAINT rooms_houserule_pk PRIMARY KEY ( id );
-
 CREATE TABLE rooms_photo (
     id         INTEGER NOT NULL,
     rooms_id   INTEGER,
@@ -43,6 +14,10 @@ CREATE TABLE rooms_photo (
     caption    VARCHAR2(80),
     "file"     VARCHAR2(100)
 )
+
+INSERT INTO ROOMS_PHOTO(ROOMS_ID, CREATED, UPDATED, CAPTION, FILE)
+VALUES(1, );
+
 LOGGING;
 
 COMMENT ON COLUMN rooms_photo.created IS
@@ -78,18 +53,15 @@ CREATE TABLE rooms_room (
     guests         INTEGER
 );
 
-SELECT * FROM users_user;
+SELECT * FROM users_user order by id;
 SELECT * FROM rooms_room order by id;
-<<<<<<< HEAD
+
 delete from rooms_room;
 
 desc rooms_room;  
 commit;
 
-drop table rooms_room CASCADE CONSTRAINTS;
-drop table users_user CASCADE CONSTRAINTS;
-=======
-delete from rooms_room where id=43;
+delete from rooms_room where id=62;
 
 desc users_user;  
 desc rooms_room;  
@@ -97,46 +69,33 @@ commit;
 
 drop table rooms_room;
 drop table users_user;
->>>>>>> 8f04d36ef58a1c55cf8ab1bc75f8a6e2e5b54c22
 
 delete from rooms_room;
 
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests) 
-<<<<<<< HEAD
+
 VALUES(2,'민성','2020-09-01', '2020-09-01', '숙소','서울',50000,'부산시 연제구',3,1,2,'5','3',2,2);
-=======
-VALUES(2,'민성','2020-09-01','2020-09-01','숙소','서울',50000,'부산시 연제구',3,1,2,'5','3',2,2);
->>>>>>> 8f04d36ef58a1c55cf8ab1bc75f8a6e2e5b54c22
 
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
-<<<<<<< HEAD
+
 VALUES(1,'오성','2020-09-03','2020-09-03','집','부산',50000,'부산시 수영구',5,2,3,'8','3',3,5);
-=======
-VALUES(1,'오성','2020-09-03','2020-09-03','집','부산',50000,'부산시 수영구',5,2,3,'8','5',3,5);
->>>>>>> 8f04d36ef58a1c55cf8ab1bc75f8a6e2e5b54c22
+
 
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
-<<<<<<< HEAD
 VALUES(43,'주성','2020-09-05','2020-09-05','호텔','부산',200000,'부산시 해운대구',7,8,4,'3','6',2,3);
-=======
-VALUES(3,'주성','2020-09-05','2020-09-05','호텔','부산',200000,'부산시 해운대구',7,8,4,'3','6',2,3);
->>>>>>> 8f04d36ef58a1c55cf8ab1bc75f8a6e2e5b54c22
 
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
-<<<<<<< HEAD
+
 VALUES(44,'YS','2020-09-10','2020-09-10','HOTEL','BUSAN',200000,'Hae-un-dae',7,8,4,'3','6',2,3);
 commit;
-=======
-VALUES(4,'YS','2020-09-10','2020-09-10','HOTEL','BUSAN',200000,'Hae-un-dae',7,8,4,'3','6',2,3);
->>>>>>> 8f04d36ef58a1c55cf8ab1bc75f8a6e2e5b54c22
 
 LOGGING;
 
@@ -184,19 +143,7 @@ COMMENT ON COLUMN rooms_room.guests IS
 
 ALTER TABLE rooms_room ADD CONSTRAINT rooms_room_pk PRIMARY KEY ( id );
 
-CREATE TABLE rooms_room_amentities (
-    id           INTEGER NOT NULL,
-    room_id      INTEGER NOT NULL,
-    amenity_id   INTEGER NOT NULL
-)
 LOGGING;
 
-ALTER TABLE rooms_room_amentities ADD CONSTRAINT rooms_room_amentities_pk PRIMARY KEY ( id );
 
-CREATE TABLE rooms_room_facilities (
-    id            INTEGER NOT NULL,
-    room_id       INTEGER NOT NULL,
-    facility_id   INTEGER NOT NULL
-)
-LOGGING;
 
