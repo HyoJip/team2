@@ -1,8 +1,10 @@
-package com.team2.airbnb.model;
+package com.team2.airbnb.model.vo;
 
 import java.time.LocalDate;
 
-public class RoomReserve {
+import com.team2.airbnb.model.ReserveStatus;
+
+public class ReserveVO {
 	private int id;
 	private ReserveStatus status;
 	private String userName;
@@ -21,6 +23,7 @@ public class RoomReserve {
 	private int beds;
 	private int baths;
 	private int bedrooms;
+	private int roomMaxGuests;
 
 	public int getBeds() {
 		return beds;
@@ -166,4 +169,11 @@ public class RoomReserve {
 		this.email = email;
 	}
 
+	public int getRoomMaxGuests() {
+		return roomMaxGuests;
+	}
+
+	public void setRoomMaxGuests(int roomMaxGuests) {
+		this.roomMaxGuests = roomMaxGuests;
+	}
 }

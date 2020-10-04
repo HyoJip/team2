@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.team2.airbnb.dao.ReserveDao;
 import com.team2.airbnb.model.Reservation;
 import com.team2.airbnb.model.ReserveStatus;
-import com.team2.airbnb.model.RoomReserve;
+import com.team2.airbnb.model.vo.ReserveVO;
 import com.team2.airbnb.util.DateUtil;
 
 @Service
@@ -51,14 +51,29 @@ public class ReserveService {
 		return reserveDao.updateStatus(id, status);
 	}
 
-	public List<RoomReserve> getListByUserId(int id) {
-		List<RoomReserve> rooms = reserveDao.selectByUserId(id);
+	public List<ReserveVO> getListByUserId(int id) {
+		List<ReserveVO> rooms = reserveDao.selectByUserId(id);
 		return rooms;
 	}
 
-	public RoomReserve getReserve(int reserveId) {
-		RoomReserve roomReserve = reserveDao.selectObject(reserveId);
+	public ReserveVO getReserve(int reserveId) {
+		ReserveVO roomReserve = reserveDao.selectObject(reserveId);
 		return roomReserve;
+	}
+	
+	public int changeReserve(Reservation reservation) {
+		return reserveDao.update(reservation);
+	}
+
+	public int doCancel(int reserveId) {
+		// 1. 예약 STATUS PENDING -> CANCLE
+		int statusIsChanged = reserveDao.updateStatus(reserveId, "CANCLED");
+		// 2. 예약된 날짜(BookkedDay) 삭제
+		int isDeleted = reserveDao.deleteBetweenDate(reserveId);
+		if (statusIsChanged == 1 && isDeleted == 1) {
+			return 1;
+		}
+		return 0;
 	}
 	
 }

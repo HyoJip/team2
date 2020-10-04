@@ -42,8 +42,7 @@ const onClickApproveBtn = async (event) => {
 	const reserveId = form.dataset.id;
 	
 	// 1. 승낙확정된 다른 예약이랑 겹치는지 확인
-	const url = window.location.pathname;
-	const roomId = url.match(/(?<=room\/)[\d]*/)[0];
+	const roomId = document.getElementById("roomId").value;
 	const {data: datelist} = await axios.get(`/api/room/${roomId}`);
 	if (
 		datelist

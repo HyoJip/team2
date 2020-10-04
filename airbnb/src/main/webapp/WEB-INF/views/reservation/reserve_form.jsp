@@ -1,4 +1,4 @@
-<%@page import="com.team2.airbnb.model.Room"%>
+<%@page import="com.team2.airbnb.model.vo.RoomVO"%>
 <%@page import="java.util.Calendar"%> <%@page import="java.text.SimpleDateFormat"%> <%@ page
 language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -10,12 +10,12 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	</head>
 	<body>
 	<%
-		Room room = (Room) request.getAttribute("room");
+		RoomVO room = (RoomVO) request.getAttribute("room");
 	%>
-		<jsp:include page="../partial/header.jsp" />
+		<%@ include  file="../partial/header.jsp"%>
 		<main class="main_wrap">
 			<header class="main_header">
-				<i class="fas fa-arrow-left"></i>
+				<i class="fas fa-arrow-left" id="backIcon"></i>
 				<h1 class="main_title">예약 요청하기</h1>
 			</header>
 			<main class="main_main">
@@ -23,7 +23,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 					<div class="advise_wrap">
 						<p class="advise">
 							<strong>흔치 않은 기회입니다.</strong><br>
-							%username%님의 숙소는 보통 예약이
+							${room.username}님의 숙소는 보통 예약이
 							가득 차 있습니다.
 						</p>
 						<i class="fas fa-gem"></i>
@@ -31,7 +31,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 					<form
 						class="reservation_form"
 						id="reserveForm"
-						action="/room/1/reserve"
+						action="/room/${room.id}/reserve"
 						method="POST"
 					>
 						<div class="reservation_info_wrap">

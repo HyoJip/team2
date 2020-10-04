@@ -2,6 +2,8 @@ package com.team2.airbnb.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.support.SessionStatus;
 import com.team2.airbnb.model.User;
 import com.team2.airbnb.service.UserService;
 
-@SessionAttributes("user")
 @Controller
 public class UserController {
 
@@ -38,14 +39,14 @@ public class UserController {
 		if (isValid == 1) {			
 			User user = (User) map.get("user");
 			model.addAttribute("user", user);
-			return "redirect:/";
+//			servlet-context: LoginInterceptor가 리다이렉트 처리";
 		}
 		return "user/login";
 	}
 	
 	@RequestMapping(value = "/logout", method= RequestMethod.POST)
-	public String userLogout(SessionStatus status) {
-		if (!status.isComplete()) status.setComplete();
+	public String userLogout(HttpSession session) {
+		session.invalidate();
 		return "redirect:/";
 	}
 	
@@ -66,7 +67,9 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/user/update", method= RequestMethod.GET)
-	public String userJoinUpdate(@SessionAttribute("user") User user) {
+	public String userJoinUpdate(HttpSession session, Model model) {
+		User user = (User) session.getAttribute("login");
+		model.addAttribute("user", user);
 		return "user/memberInfo";
 	}
 	

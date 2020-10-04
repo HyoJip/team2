@@ -12,7 +12,7 @@
 <!-- script를 사용하기 위해 작성 -->
 </head>
 <body>
-	<jsp:include page="../partial/header.jsp" />
+	<%@ include  file="../partial/header.jsp"%>
 	<form method="POST" action="" name="form">
 		<!-- memberjoinOk로 값을 넘겨준다. -->
 
@@ -51,38 +51,38 @@
 	</form>
 	<jsp:include page="../partial/footer.jsp" />
 	<!-- footer END -->
-<%
-	if (request.getMethod().equalsIgnoreCase("POST")) {
-		int isDuplicated = Integer.parseInt(request.getAttribute("isDuplicated").toString());
-		System.out.println(isDuplicated);
-		if (isDuplicated == 1) {
-%>
-		
+	<%
+		if (request.getMethod().equalsIgnoreCase("POST")) {
+			int isDuplicated = Integer.parseInt(request.getAttribute("isDuplicated").toString());
+			System.out.println(isDuplicated);
+			if (isDuplicated == 1) {
+	%>
+
 	<script language=javascript>
 		alert("중복된 아이디가 존재합니다.");
 		history.back();
 	</script>
-<%
-		} else if(isDuplicated == 0){
-			int isSucessed = Integer.parseInt(request.getAttribute("isSucessed").toString());
-			System.out.println(isSucessed);
-			if (isSucessed == 0) {
-%>
+	<%
+			} else if (isDuplicated == 0) {
+				int isSucessed = Integer.parseInt(request.getAttribute("isSucessed").toString());
+				System.out.println(isSucessed);
+				if (isSucessed == 0) {
+	%>
 	<script language=javascript>
 		alert("회원가입에 실패 했습니다. \n다시 시도해 주세요.");
 		document.location.href = "/join";
 	</script>
-<%
+	<%
 			} else {
-%>
+	%>
 	<script language=javascript>
 		alert("회원가입 완료. \n로그인 페이지에서 로그인 해주세요.");
 		document.location.href = "/login";
 	</script>
-<%
+	<%
 			}
 		}
 	}
-%>
+	%>
 </body>
 </html>

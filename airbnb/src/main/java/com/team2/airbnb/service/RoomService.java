@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team2.airbnb.dao.RoomDao;
-import com.team2.airbnb.model.Room;
+import com.team2.airbnb.model.vo.RoomVO;
 
 @Service
 public class RoomService {
-	
+
 	private final RoomDao roomDao;
 
 	@Autowired
@@ -19,14 +19,12 @@ public class RoomService {
 		this.roomDao = roomDao;
 	}
 
-	public Room getRoomById(int roomId) {
+	public RoomVO getRoomById(int roomId) {
 		return roomDao.selectObject(roomId);
 	}
 
 	public List<Map<String, Object>> getReservedDatesById(int roomId) {
 		return roomDao.selectAllReservedDate(roomId);
 	}
-	
-	
-	
+
 }

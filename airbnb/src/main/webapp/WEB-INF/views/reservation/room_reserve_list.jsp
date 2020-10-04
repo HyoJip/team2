@@ -5,7 +5,7 @@
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="com.team2.airbnb.util.DateUtil"%>
-<%@page import="com.team2.airbnb.model.RoomReserve"%>
+<%@page import="com.team2.airbnb.model.vo.ReserveVO"%>
 <%@page import="java.util.List"%>
 <%@page import="com.team2.airbnb.model.Reservation"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -19,12 +19,13 @@
 </head>
 <body>
 <%
-	List<RoomReserve> list = (List<RoomReserve>) request.getAttribute("reserveList");
+	List<ReserveVO> list = (List<ReserveVO>) request.getAttribute("reserveList");
 %>
-	<jsp:include page="../partial/header.jsp" />
+	<%@ include  file="../partial/header.jsp"%>
 	<main class="main_wrap">
 		<header class="main_header">
-			<h1 class="main_header_title">예약</h1>
+			<h1 class="main_header_title"><%=list.get(0).getName() %> 예약</h1>
+			<input type="hidden" value="<%= list.get(0).getRoomId() %>" id="roomId">
 		</header>
 		<table class="reserve_list">
 			<thead>
@@ -39,12 +40,12 @@
 			</thead>
 			<tbody>
 				<%
-					for (RoomReserve object : list) {
-							// 가격 포멧팅
-							LocalDate checkIn = object.getCheckIn();
-							LocalDate checkOut = object.getCheckOut();
-							int nights = DateUtil.getDateDiff(checkIn.toString(), checkOut.toString());
-							int income = object.getPrice() * nights;
+					for (ReserveVO object : list) {
+									// 가격 포멧팅
+									LocalDate checkIn = object.getCheckIn();
+									LocalDate checkOut = object.getCheckOut();
+									int nights = DateUtil.getDateDiff(checkIn.toString(), checkOut.toString());
+									int income = object.getPrice() * nights;
 				%>
 				<tr>
 					<td class="status <%=object.getStatus()%>"><%=object.getStatus().getName()%></td>

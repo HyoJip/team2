@@ -34,6 +34,12 @@
 				<p class="submit">
 					<input type="submit" name="commit" value="로그인" onclick="loginCheck(event)"/>
 				</p>
+				<% 
+					String errorMsg = request.getParameter("error");
+					if (errorMsg != null && errorMsg.equalsIgnoreCase("loginRequired")) {
+				%>
+				<p class="error_msg">숙소 예약을 위해선 로그인 해야합니다.</p>
+				<%	}%>
 			</form>
 		</div>
 		<div class="login-help">

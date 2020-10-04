@@ -9,12 +9,9 @@
 		<link href="/resources/css/base.css" rel="stylesheet">
 	</head>
 	<body>
-	<%
-		Room room = (Room) request.getAttribute("room");
-	%>
-		<jsp:include page="./partial/header.jsp" />
+		<%@ include  file="./partial/header.jsp"%>
 		<main class="wrap">
-			<div class="nav_category"><a href="#"><%=room.getAddress()%></a> &gt; 숙소</div>
+			<div class="nav_category"><a href="#">${room.address}</a> &gt; 숙소</div>
 			<div class="room_image">
 				<div class="room_image_grid">
 					<img
@@ -47,26 +44,27 @@
 			<main class="main_wrap">
 				<div class="main_left">
 					<div class="room_header">
-						<h1 class="room_title"><%=room.getName()%></h1>
+						<h1 class="room_title">${room.name}</h1>
 						<h4 class="room_info">
 							<small class="room_short_info"
 								><i class="star">★</i> %RATING_VALUE%
 								<span class="rating_count">(%REVIEW_COUNT%)</span></small
 							>
-							<small class="address"><%=room.getAddress()%></small>
+							<small class="address">${room.address}</small>
 						</h4>
 					</div>
 					<div class="host_info">
 						<hgroup>
-							<h2 class="username">%USERNAME%님이 호스팅하는 게스트용 숙소</h2>
+							<h2 class="username">${room.username}님이 호스팅하는 게스트용 숙소</h2>
 							<h3 class="room_short_spec">
-								최대인원 <%=room.getGuests()%>명 · 침실 <%=room.getBedRooms()%>개 · 침대 <%=room.getBeds()%>개 · 욕실 <%=room.getBaths()%>개
+								최대인원 ${room.guests}명 · 침실 ${room.bedRooms}개 · 침대${room.beds}개 · 욕실 ${room.baths}개
 							</h3>
 						</hgroup>
-						<a href="#" role="button"></a><div class="user_profile"></div></a>
+						<a href="#" role="button"></a>
+						<div class="user_profile"></div>
 					</div>
 					<div class="room_detail_info">
-						<p class="room_description"><%=room.getDescription()%></p>
+						<p class="room_description">${room.description}</p>
 						<a href="#">호스트에게 연락하기</a>
 					</div>
 					<div class="room_facilities">
@@ -111,16 +109,16 @@
 									<p class="reservation_display" id="checkOutDisplay">날짜추가</p>
 								</div>
 							</div>
-								<div class="reservation_people">
-									<h5 class="reservation_check">인원</h5>
-									<p class="reservation_display">게스트 <span id="guestCount">1</span>명
-										<span class="guest_counter_box" id="guestCounterBox">
-											<i class="display_btn_icon fas fa-minus BtnDisabled" id="guestMinusBtn"></i>
-											<i class="display_btn_icon fas fa-plus" id="guestPlusBtn"></i>
-										</span>
-									</p>
-								</div>
-							</main>
+							<div class="reservation_people">
+								<h5 class="reservation_check">인원</h5>
+								<p class="reservation_display">게스트 <span id="guestCount">1</span>명
+									<span class="guest_counter_box" id="guestCounterBox">
+										<i class="display_btn_icon fas fa-minus BtnDisabled" id="guestMinusBtn"></i>
+										<i class="display_btn_icon fas fa-plus" id="guestPlusBtn"></i>
+									</span>
+								</p>
+							</div>
+						</main>
 							<button class="reservation_btn" id="reservationBtn">예약 가능 여부 보기</button>
 							<section class="reservation_price" id="reservePriceContainer"style="display: none;">
 								<small class="price_comment">예약 확정 전에는 요금이 청구되지 않습니다.</small>
@@ -137,25 +135,25 @@
 									<p class="price_value" id="totalPrice">%totalPrice%</p>
 								</div>
 							</section>
-							<form action="/room/1/reserve" method="GET" class="reservation_form" id="reservationForm" style="display: none;">
+							<form action="/room/${room.id}/reserve" method="GET" class="reservation_form" id="reservationForm" style="display: none;">
 								<header class="form_header">
 									<div class="header_text">
 										<h3 class="header_title">날짜 선택</h3>
 										<p class="header_body">여행 날짜를 입력하여 정확한 요금을 확인하세요.</p>
 									</div>
 									<div class="header_inputs">
-											<div class="input_item">
-												<label for="" class="reservatioin_label">
-													체크인
-													<input type="text" class="reservation_input" placeholder="YYYY.MM.DD" name="checkIn" id="checkInInput">
-												</label>
-											</div>
-											<div class="input_item">
-												<label for="" class="reservatioin_label">
-													체크아웃
-													<input type="text" class="reservation_input" placeholder="YYYY.MM.DD" name="checkOut" id="checkOutInput">
-												</label>
-											</div>
+										<div class="input_item">
+											<label for="" class="reservatioin_label">
+												체크인
+												<input type="text" class="reservation_input" placeholder="YYYY.MM.DD" name="checkIn" id="checkInInput">
+											</label>
+										</div>
+										<div class="input_item">
+											<label for="" class="reservatioin_label">
+												체크아웃
+												<input type="text" class="reservation_input" placeholder="YYYY.MM.DD" name="checkOut" id="checkOutInput">
+											</label>
+										</div>
 									</div>
 								</header>
 								<main class="form_main">
@@ -202,8 +200,8 @@
 									<input type="reset" class="input_reset" id="resetInput" value="날짜 지우기">
 									<button class="form_exit" id="formExitBtn">닫기</button>
 								</footer>
-								<input type="hidden" name="roomPrice" id="roomPriceDB" value="<%=room.getPrice()%>">
-								<input type="hidden" name="roomMaxPerson" id="roomMaxPersonDB" value="<%=room.getGuests()%>">
+								<input type="hidden" name="roomPrice" id="roomPriceDB" value="${room.price}">
+								<input type="hidden" name="roomMaxPerson" id="roomMaxPersonDB" value="${room.guests}">
 							</form>
 					</section>
 				</div>
@@ -264,11 +262,11 @@
 					<div class="rules_wrap">
 						<div class="rule_item">
 							<i class="far fa-clock rule_icon"></i>
-							<span class="rule_description">체크인 시간: <%=room.getCheckIn()%>시 이후</span>
+							<span class="rule_description">체크인 시간: ${room.checkIn}시 이후</span>
 						</div>
 						<div class="rule_item">
 							<i class="far fa-clock rule_icon"></i>
-							<span class="rule_description">체크아웃 시간: <%=room.getCheckOut()%>시 이전</span>
+							<span class="rule_description">체크아웃 시간: ${room.checkOut}시 이전</span>
 						</div>
 						<div class="rule_item">
 							<i class="fas fa-smoking-ban rule_icon"></i>

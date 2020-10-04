@@ -1,8 +1,12 @@
 package com.team2.airbnb.controller;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,8 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.team2.airbnb.dao.ReserveDao;
 import com.team2.airbnb.model.Reservation;
 import com.team2.airbnb.model.ReserveStatus;
-import com.team2.airbnb.model.Room;
-import com.team2.airbnb.model.RoomReserve;
+import com.team2.airbnb.model.User;
+import com.team2.airbnb.model.vo.ReserveVO;
+import com.team2.airbnb.model.vo.RoomVO;
 import com.team2.airbnb.service.ReserveService;
 import com.team2.airbnb.service.RoomService;
 import com.team2.airbnb.util.NumberUtil;
@@ -38,7 +43,7 @@ public class ReservationController {
 	}
 
 	@RequestMapping(value = "/room/{id}/reserve", method = RequestMethod.GET)
-	public String reserveGet(Model model,
+	public String reserve(Model model,
 			@PathVariable int id,
 			@RequestParam(value = "checkIn") String checkIn,
 			@RequestParam(value = "checkOut") String checkOut,
@@ -48,9 +53,12 @@ public class ReservationController {
 		int reserveNight = reserveService.getReserveNight(checkIn, checkOut);
 		String minDateForFullRefund = reserveService.getMinDateForFullRefund(checkIn);
 		int totalPrice = roomPrice * reserveNight;
-		Room room = roomService.getRoomById(id);
+		
+		// DB에 저장된 정보
+		RoomVO room = roomService.getRoomById(id);
 		model.addAttribute("room", room);
 		
+		// 게스트가 입력한  정보
 		model.addAttribute("checkIn", checkIn);
 		model.addAttribute("checkOut", checkOut);
 		model.addAttribute("numOfGuest", numOfGuest);
@@ -63,42 +71,90 @@ public class ReservationController {
 		return "reservation/reserve_form";
 	}
 
-	@RequestMapping(value = "/room/{id}/reserve", method = RequestMethod.POST)
-	public String reservePost(Reservation reserveReq, @PathVariable int id) {
+	@RequestMapping(value = "/room/{roomId}/reserve", method = RequestMethod.POST)
+	public String reserve(Reservation reserveReq, @PathVariable int roomId, HttpSession session) {
 		try {
-			// 1. roomID 주입
-			reserveReq.setRoomId(id);
-			// 2. 세션에서 guestID 주입
-			reserveReq.setGuestId(1);
+			// 1. 세션에서 guestID 주입
+			User user = (User) session.getAttribute("login");
+			reserveReq.setGuestId(user.getId());
+			// 2. roomID 주입
+			reserveReq.setRoomId(roomId);
 			// 3. 예약서비스 실행
 			reserveService.book(reserveReq);
-			return "redirect:/room/" + id + "/reservations";
+			return "redirect:/user/" + user.getId() + "/reservations/" + reserveReq.getId();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "room_detail";
 		}
 	}
 	
-	@RequestMapping(value = "/room/{id}/reservations", method = RequestMethod.GET)
-	public String reserveList(@PathVariable int id, Model model) {
-			List<RoomReserve> list = reserveDao.selectAll(id);
+	@RequestMapping(value = "/host/{hostId}/reservations", method = RequestMethod.GET)
+	public String reserveList(@PathVariable int hostId, HttpSession session, Model model) {
+		// 본인인지 확인
+			User user = (User) session.getAttribute("login");
+			if (user.getId() != hostId)
+				return "redirect:/";
+		// 본인 숙소 예약 리스트 GET
+			List<ReserveVO> list = reserveDao.selectByHostId(hostId);
 			model.addAttribute("reserveList", list);
 		return "reservation/room_reserve_list";
 	}
 	
 	@RequestMapping(value = "/user/{userId}/reservations/{reserveId}", method = RequestMethod.GET)
 	public String reserveDetail(@PathVariable int userId, @PathVariable int reserveId, Model model) {
-		RoomReserve roomReserve = reserveService.getReserve(reserveId);
+		// 1. 예약 정보 GET
+		ReserveVO roomReserve = reserveService.getReserve(reserveId);
+		// 2. 환불 금액 GET
+		double refundPrice;
+		if (roomReserve.getCheckIn().isBefore(LocalDate.now())) {
+			refundPrice = roomReserve.getPrice() * 0.5;
+		} else {
+			refundPrice = roomReserve.getPrice();
+		}
 		model.addAttribute("reserve", roomReserve);
+		model.addAttribute("refundPrice", refundPrice);
 		return "reservation/reserve_detail";
 	}
 	
+	@RequestMapping(value = "/user/{userId}/reservations/{reserveId}", method = RequestMethod.POST)
+	public String reserveUpdate(Reservation reserveReq, @PathVariable int userId, @PathVariable int reserveId) {
+		reserveReq.setId(reserveId);
+		reserveReq.setGuestId(userId);
+		reserveReq.setUpdated(LocalDate.now());
+		int isValid = reserveService.changeReserve(reserveReq);
+		if (isValid == 1) {
+			return "redirect:/user/" + userId + "/reservations/" + reserveId;
+		}
+		return "redirect:/user/" + userId + "/reservations";
+	}
+	
+	@RequestMapping(value = "/user/{userId}/reservations/{reserveId}/cancel", method = RequestMethod.POST)
+	public String reserveDelete(@RequestParam(value = "checkIn") String CheckIn, @PathVariable int userId, @PathVariable int reserveId, HttpSession session) {
+		// 1. 권한 확인
+		User user = (User) session.getAttribute("login");
+		if (userId == user.getId()) {
+			// 2. 하루전(+당일) 예약 취소 불가 확인
+			if (LocalDate.parse(CheckIn).isBefore(LocalDate.now().minus(1, ChronoUnit.DAYS))) {
+				reserveService.doCancel(reserveId);
+				return "redirect:/user/" + userId + "/reservations";
+			} else {
+				return "redirect:/user/" + userId + "/reservations/" + reserveId + "?error=outOfDate";
+			}
+			// 3. 취소
+		}
+		return "redirect:/";
+	}
+	
 	@RequestMapping(value = "/user/{id}/reservations", method = RequestMethod.GET)
-	public String userReservationList(@PathVariable int id, Model model) {
-		List<RoomReserve> rooms = reserveService.getListByUserId(id);
-		model.addAttribute("rooms", rooms);
-		
-		return "reservation/user_reserve_list";
+	public String userReservationList(@PathVariable int id, HttpSession session, Model model) {
+		User user = (User) session.getAttribute("login");
+		if (user.getId() == id) {
+			List<ReserveVO> rooms = reserveService.getListByUserId(id);
+			model.addAttribute("rooms", rooms);
+			
+			return "reservation/user_reserve_list";			
+		}
+		return "redirect:/";
 	}
 	
 	//////////////////////////////////// API
