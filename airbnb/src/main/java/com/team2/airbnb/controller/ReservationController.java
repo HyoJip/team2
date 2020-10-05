@@ -104,9 +104,9 @@ public class ReservationController {
 	public String reserveDetail(@PathVariable int userId, @PathVariable int reserveId, Model model) {
 		// 1. 예약 정보 GET
 		ReserveVO roomReserve = reserveService.getReserve(reserveId);
-		// 2. 환불 금액 GET
+		// 2. 환불 금액 계산
 		double refundPrice;
-		if (roomReserve.getCheckIn().isBefore(LocalDate.now())) {
+		if (LocalDate.now().isAfter(roomReserve.getCheckIn().minus(7, ChronoUnit.DAYS))) {
 			refundPrice = roomReserve.getPrice() * 0.5;
 		} else {
 			refundPrice = roomReserve.getPrice();
@@ -134,7 +134,7 @@ public class ReservationController {
 		User user = (User) session.getAttribute("login");
 		if (userId == user.getId()) {
 			// 2. 하루전(+당일) 예약 취소 불가 확인
-			if (LocalDate.parse(CheckIn).isBefore(LocalDate.now().minus(1, ChronoUnit.DAYS))) {
+			if (LocalDate.now().isBefore(LocalDate.parse(CheckIn).minus(2, ChronoUnit.DAYS))) {
 				reserveService.doCancel(reserveId);
 				return "redirect:/user/" + userId + "/reservations";
 			} else {
