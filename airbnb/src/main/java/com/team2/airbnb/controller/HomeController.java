@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.team2.airbnb.model.vo.ReviewVO;
 import com.team2.airbnb.model.vo.RoomVO;
 import com.team2.airbnb.service.RoomService;
 
@@ -28,8 +29,17 @@ public class HomeController {
 	@RequestMapping(value = "/room/{roomId}", method = RequestMethod.GET)
 	public String room_detail(@PathVariable int roomId , HttpSession session, Model model) {
 		RoomVO room = roomService.getRoomById(roomId);
+		List<ReviewVO> reviews = roomService.getReviews(roomId);
+		Map<String, Object> reviewCountAndAvg = roomService.getReviewCount(roomId);
+		int count = (int) reviewCountAndAvg.get("count");
+		double avg = (double) reviewCountAndAvg.get("avg");
+		avg = Math.round(avg * 100)/ 100;
+		
 		model.addAttribute("room", room);
-		 
+		model.addAttribute("reviews", reviews);
+		model.addAttribute("count", count);
+		model.addAttribute("avg", avg);
+		
 		return "room_detail";
 	}
 	

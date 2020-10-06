@@ -437,6 +437,19 @@ html {
 				.status {
 					margin: var(--containerVerticalPadding) 0;
 				}
+				
+				.delete_info {
+					display: none;
+					
+					* {
+						font-weight: 700;
+					}
+					
+					.refund_price-value {
+					    font-size: 3em;
+					    color: var(--green);
+					}
+				}
 			}
 
 		}
@@ -453,3 +466,5 @@ html {
 		}
 	}
 }
+
+@include changeHeaderColor;

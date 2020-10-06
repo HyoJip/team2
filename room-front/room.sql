@@ -55,14 +55,21 @@ CREATE TABLE rooms_room (
 
 SELECT * FROM users_user order by id;
 SELECT * FROM rooms_room order by id;
+<<<<<<< HEAD
 SELECT * FROM rooms_photo order by id;
+=======
+>>>>>>> c8fdb29fbed6d734543484ee80aef89aee1eebd8
 
 delete from rooms_room;
 
 desc rooms_room;  
 commit;
 
+<<<<<<< HEAD
 delete from rooms_room where id=62;
+=======
+delete from rooms_room where id=43;
+>>>>>>> c8fdb29fbed6d734543484ee80aef89aee1eebd8
 
 desc users_user;  
 desc rooms_room;  
@@ -76,26 +83,59 @@ delete from rooms_room;
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests) 
+<<<<<<< HEAD
 
 VALUES(2,'민성','2020-09-01', '2020-09-01', '숙소','서울',50000,'부산시 연제구',3,1,2,'5','3',2,2);
+=======
+VALUES(43,'주성','2020-09-05','2020-09-05','호텔','부산',200000,'부산시 해운대구',7,8,4,'3','6',2,3);
+>>>>>>> c8fdb29fbed6d734543484ee80aef89aee1eebd8
 
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
+<<<<<<< HEAD
 
 VALUES(1,'오성','2020-09-03','2020-09-03','집','부산',50000,'부산시 수영구',5,2,3,'8','3',3,5);
 
+=======
+values (45, '울트라', '2020-09-13', '2020-09-13', 'Wow', 
+        '울산', 100000, '울산시', 4, 5, 6, '3', '9', 1, 2);
+>>>>>>> c8fdb29fbed6d734543484ee80aef89aee1eebd8
 
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
+<<<<<<< HEAD
 VALUES(43,'주성','2020-09-05','2020-09-05','호텔','부산',200000,'부산시 해운대구',7,8,4,'3','6',2,3);
+=======
+VALUES(44,'YS','2020-09-10','2020-09-10','HOTEL','BUSAN',200000,'Hae-un-dae',7,8,4,'3','6',2,3);
+>>>>>>> c8fdb29fbed6d734543484ee80aef89aee1eebd8
 
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
+<<<<<<< HEAD
 
 VALUES(44,'YS','2020-09-10','2020-09-10','HOTEL','BUSAN',200000,'Hae-un-dae',7,8,4,'3','6',2,3);
+=======
+VALUES(46,'JP','2020-09-30','2020-09-30','POWER','INCHEON',500000,'China-Town',3,4,5,'3','3',1,5);
+
+INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
+                                city, price, address, beds, bedrooms, baths, check_in, check_out,
+                                instant_book, guests)
+VALUES(47,'JP','2020-09-30','2020-09-30','POWER','INCHEON',500000,'China-Town',3,4,5,'3','3',1,5);
+
+INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
+                                city, price, address, beds, bedrooms, baths, check_in, check_out,
+                                instant_book, guests)
+VALUES(48,'주성','2020-09-05','2020-09-05','호텔','부산',200000,'부산시 해운대구',7,8,4,'3','6',2,3);
+
+INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
+                                city, price, address, beds, bedrooms, baths, check_in, check_out,
+                                instant_book, guests)
+VALUES(49,'YS','2020-09-10','2020-09-10','HOTEL','BUSAN',200000,'Hae-un-dae',7,8,4,'3','6',2,3);
+
+>>>>>>> c8fdb29fbed6d734543484ee80aef89aee1eebd8
 commit;
 
 LOGGING;

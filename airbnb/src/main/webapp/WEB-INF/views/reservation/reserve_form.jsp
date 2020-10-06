@@ -5,7 +5,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 	<head>
 		<meta charset="UTF-8" />
-		<title>에어비엔비|예약</title>
+		<title>에어비엔비 | 예약</title>
 		<link href="/resources/css/base.css" rel="stylesheet" />
 	</head>
 	<body>

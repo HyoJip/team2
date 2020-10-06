@@ -1,3 +1,5 @@
+<%@page import="com.team2.airbnb.model.vo.ReviewVO"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.team2.airbnb.model.Room"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -47,8 +49,8 @@
 						<h1 class="room_title">${room.name}</h1>
 						<h4 class="room_info">
 							<small class="room_short_info"
-								><i class="star">★</i> %RATING_VALUE%
-								<span class="rating_count">(%REVIEW_COUNT%)</span></small
+								><i class="star">★</i> ${avg}
+								<span class="rating_count">(${count})</span></small
 							>
 							<small class="address">${room.address}</small>
 						</h4>
@@ -95,7 +97,7 @@
 							<h2 class="reservation_help_text" id="reserveHelpText">요금을 확인하려면 날짜를 입력하세요.</h2>
 							<small>
 								<i class="star">★</i>
-								<span class="rating_value">3.54</span>(<span class="rating_count">79</span>)
+								<span class="rating_value">${avg}</span>(<span class="rating_count">${count}</span>)
 							</small>
 						</header>
 						<main class="reservation_main">
@@ -208,53 +210,25 @@
 			</main>
 			<section class="review_wrap">
 				<h1 class="review_title">
-					<i class="star">★</i> %RATING_VALUE%점(후기 %REVIEW_COUNT%개)
+					<i class="star">★</i> ${avg}점(후기 ${count}개)
 				</h1>
+				<%
+					ArrayList<ReviewVO> reviews = (ArrayList<ReviewVO>) request.getAttribute("reviews");
+					for (ReviewVO review: reviews) {
+				%>
 				<article class="review_item">
 					<header class="review_header">
 						<div class="guest_profile_img"></div>
 						<div class="review_info">
-							<h5 class="guest_name">%GUEST_NAME%</h5>
-							<p class="review_created">%REVIEW_CREATED%</p>
+							<h5 class="guest_name"><%=review.getUsername()%></h5>
+							<p class="review_created"><%=review.getCreated()%></p>
 						</div>
 					</header>
-					<main class="review_main">
-						Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati odit
-						doloribus illo nemo! Placeat blanditiis itaque impedit sed, dolorum ducimus
-						consequatur aspernatur explicabo sapiente. At id vitae vel distinctio
-						laudantium.
-					</main>
+					<main class="review_main"><%=review.getContext()%></main>
 				</article>
-				<article class="review_item">
-					<header class="review_header">
-						<div class="guest_profile_img"></div>
-						<div class="review_info">
-							<h5 class="guest_name">%GUEST_NAME%</h5>
-							<p class="review_created">%REVIEW_CREATED%</p>
-						</div>
-					</header>
-					<main class="review_main">
-						Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati odit
-						doloribus illo nemo! Placeat blanditiis itaque impedit sed, dolorum ducimus
-						consequatur aspernatur explicabo sapiente. At id vitae vel distinctio
-						laudantium.
-					</main>
-				</article>
-				<article class="review_item">
-					<header class="review_header">
-						<div class="guest_profile_img"></div>
-						<div class="review_info">
-							<h5 class="guest_name">%GUEST_NAME%</h5>
-							<p class="review_created">%REVIEW_CREATED%</p>
-						</div>
-					</header>
-					<main class="review_main">
-						Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati odit
-						doloribus illo nemo! Placeat blanditiis itaque impedit sed, dolorum ducimus
-						consequatur aspernatur explicabo sapiente. At id vitae vel distinctio
-						laudantium.
-					</main>
-				</article>
+				<%
+					}
+				%>
 			</section>
 			<section class="room_rule">
 				<main>

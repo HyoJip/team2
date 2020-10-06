@@ -77,6 +77,7 @@ const UIController = (() => {
 		updateForm: "#changeStep1",
 		cancelForm: "#deleteStep1",
 		status: "#reserveStatus",
+		deleteInfo: "#deleteInfo",
 	};
 
 	const displayMonth = (year, month) => {
@@ -312,8 +313,11 @@ const UIController = (() => {
 			const updateForm = document.querySelector(DOMString.updateForm);
 			const cancelForm = document.querySelector(DOMString.cancelForm);
 			updateForm.style.display = "none";
-			cancelForm.style.display = "block";	
-		}
+			cancelForm.style.display = "block";
+		},
+		
+		displayRefundPrice: () => document.querySelector(DOMString.deleteInfo).style.display = "block",
+		clearRefundPrice: () => document.querySelector(DOMString.deleteInfo).style.display = "none",
 		
 	};
 })();
@@ -359,7 +363,10 @@ const Controller = ((DataCtrl, UICtrl) => {
 		// 뒤로가기 버튼 클릭
 		document.querySelector("#backIcon").addEventListener("click", () => location.href = location.pathname.match(/.*reservations/)[0]);
 		// 예약 취소 다음 버튼 클릭
-		document.querySelector("#cancelNextBtn").addEventListener("click", () => UICtrl.displayCancelForm());
+		document.querySelector("#cancelNextBtn").addEventListener("click", () => {
+			UICtrl.displayCancelForm();
+			UICtrl.displayRefundPrice();
+		});
 	};
 
 	const clearState = () => {
@@ -462,10 +469,11 @@ const Controller = ((DataCtrl, UICtrl) => {
 		form.submit();
 	};
 	
-	const onClickUpdateDisplayer = () => UICtrl.displayUpdateDisplayer()
+	const onClickUpdateDisplayer = () => UICtrl.displayUpdateDisplayer();
 	
 	const onClickUpdateNextBtn = () => {
 		UICtrl.displayUpdateForm();
+		UICtrl.clearRefundPrice();
 		
 		// 기존에 예약된 체크인 체크아웃 클릭
 		const initialCheckIn = document.querySelector("#checkInInput").placeholder;
@@ -473,7 +481,7 @@ const Controller = ((DataCtrl, UICtrl) => {
 		
 		document.getElementById(initialCheckIn).click();
 		setTimeout(()=> document.getElementById(initialCheckOut).click(), 500);
-	}
+	};
 
 	return {
 		init: () => {

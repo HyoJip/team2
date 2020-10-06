@@ -12,8 +12,8 @@
 	<body>
 		<%
 			ReserveVO reserve = (ReserveVO) request.getAttribute("reserve");
-			String refundPrice = NumberUtil.wonFormatter.format(Double.parseDouble(request.getAttribute("refundPrice").toString()));
 			int nights = DateUtil.getDateDiff(reserve.getCheckIn().toString(), reserve.getCheckOut().toString());
+			String refundPrice = NumberUtil.wonFormatter.format(Double.parseDouble(request.getAttribute("refundPrice").toString()) * nights);
 		%>
 		<jsp:include page="../partial/header.jsp" />
 		<div class="wrap">
@@ -214,10 +214,12 @@
 					<section class="cancel_step-1" id="deleteStep1">
 						<h2 class="cancel_step_title">정말 취소하시겠습니까?</h2>
 						<p class="cancel_step_body">취소하기 전에 환불되는 금액을 확인하세요.</p>
-						<small>체크인 <span>일주일 전</span>에는 <span>전액 환불</span> 받을 수 있습니다.</small>
+						<small>체크인 <span>일주일 전</span>에는 <span>서비스 수수료</span>를 제외하고 <span>전액 환불</span> 받을 수 있습니다.</small>
 						<%
-							if (request.getParameter("error").equalsIgnoreCase("outOfDate")) {
+							if (request.getParameter("error") != null) {
+								if (request.getParameter("error").equalsIgnoreCase("outOfDate")){
 								out.print("<small>체크인 <span>하루 전</span>에는 취소할 수 없습니다.</small>");
+								}
 							}
 						%>
 						<form action="./${reserve.id}/cancel" method="POST">
@@ -245,7 +247,7 @@
 						<h2 class="status <%=reserve.getStatus()%>" id="reserveStatus">
 							<%=reserve.getStatus().getName()%>
 						</h2>
-						<section class="delete_info">
+						<section class="delete_info" id="deleteInfo">
 							<h3 class="refund_price-name">총 환불 금액</h3>
 							<h4 class="refund_price-value"><%=refundPrice%></h4>
 						</section>

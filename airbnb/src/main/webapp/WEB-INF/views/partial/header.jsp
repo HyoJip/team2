@@ -28,7 +28,7 @@
                 <li class="submenu"><a href="/user/<%=user.getId()%>/reservations">여행</a></li>
     <%
     				if (user.getIsHost() == 1) {    					
-    					out.print("<li class='submenu become_host_btn'><a href='host/" + user.getId() + "/reservations'>내 숙소 예약 관리</a></li>");
+    					out.print("<li class='submenu become_host_btn'><a href='/host/" + user.getId() + "/reservations'>내 숙소 예약 관리</a></li>");
     				} else {
     					out.print("<li class='submenu become_host_btn'>숙소 호스트 되기</li>");
     				}
