@@ -101,11 +101,4 @@
 	}
 }
 
-.body_header ul .airbnb_icon,
-.body_header ul .header_profile .profile_img {
-	color: var(--blue);
-}
-
-.body_header ul .room_search i {
-	background-color: var(--blue);
-}
+@include changeHeaderColor;

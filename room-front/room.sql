@@ -6,35 +6,6 @@ CREATE TABLE romms_room_houserules (
 )
 LOGGING;
 
-ALTER TABLE romms_room_houserules ADD CONSTRAINT romms_room_houserules_pk PRIMARY KEY ( id );
-
-CREATE TABLE rooms_amenity (        --생활 편의 시설
-    id            INTEGER NOT NULL,
-    name          VARCHAR2(20) NOT NULL,
-    description   VARCHAR2(100)
-)
-LOGGING;
-
-ALTER TABLE rooms_amenity ADD CONSTRAINT rooms_amenity_pk PRIMARY KEY ( id );
-
-CREATE TABLE rooms_facility (
-    id            INTEGER NOT NULL,
-    name          VARCHAR2(20) NOT NULL,
-    description   VARCHAR2(100)
-)
-LOGGING;
-
-ALTER TABLE rooms_facility ADD CONSTRAINT rooms_facility_pk PRIMARY KEY ( id );
-
-CREATE TABLE rooms_houserule (
-    id            INTEGER NOT NULL,
-    name          VARCHAR2(20) NOT NULL,
-    description   VARCHAR2(100)
-)
-LOGGING;
-
-ALTER TABLE rooms_houserule ADD CONSTRAINT rooms_houserule_pk PRIMARY KEY ( id );
-
 CREATE TABLE rooms_photo (
     id         INTEGER NOT NULL,
     rooms_id   INTEGER,
@@ -42,7 +13,11 @@ CREATE TABLE rooms_photo (
     updated    DATE,
     caption    VARCHAR2(80),
     "file"     VARCHAR2(100)
-)
+);
+
+INSERT INTO ROOMS_PHOTO(rooms_id, CREATED, UPDATED, CAPTION, file)
+VALUES(4,'2020-9-29', '2020-9-29', '멋진 방안','ㅋㅋㅋ');
+
 LOGGING;
 
 COMMENT ON COLUMN rooms_photo.created IS
@@ -78,15 +53,27 @@ CREATE TABLE rooms_room (
     guests         INTEGER
 );
 
-SELECT * FROM users_user;
+SELECT * FROM users_user order by id;
 SELECT * FROM rooms_room order by id;
+<<<<<<< HEAD
 SELECT * FROM rooms_photo order by id;
+=======
+<<<<<<< HEAD
+SELECT * FROM rooms_photo order by id;
+=======
+>>>>>>> c8fdb29fbed6d734543484ee80aef89aee1eebd8
+
+>>>>>>> 806eb44604c594242a913536337e3fc8d449445c
 delete from rooms_room;
 
 desc rooms_room;  
 commit;
 
+<<<<<<< HEAD
+delete from rooms_room where id=62;
+=======
 delete from rooms_room where id=43;
+>>>>>>> c8fdb29fbed6d734543484ee80aef89aee1eebd8
 
 desc users_user;  
 desc rooms_room;  
@@ -100,22 +87,41 @@ delete from rooms_room;
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests) 
+<<<<<<< HEAD
+
+VALUES(2,'민성','2020-09-01', '2020-09-01', '숙소','서울',50000,'부산시 연제구',3,1,2,'5','3',2,2);
+=======
 VALUES(43,'주성','2020-09-05','2020-09-05','호텔','부산',200000,'부산시 해운대구',7,8,4,'3','6',2,3);
+>>>>>>> c8fdb29fbed6d734543484ee80aef89aee1eebd8
 
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
+<<<<<<< HEAD
+
+VALUES(1,'오성','2020-09-03','2020-09-03','집','부산',50000,'부산시 수영구',5,2,3,'8','3',3,5);
+
+=======
 values (45, '울트라', '2020-09-13', '2020-09-13', 'Wow', 
         '울산', 100000, '울산시', 4, 5, 6, '3', '9', 1, 2);
+>>>>>>> c8fdb29fbed6d734543484ee80aef89aee1eebd8
 
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
+<<<<<<< HEAD
+VALUES(43,'주성','2020-09-05','2020-09-05','호텔','부산',200000,'부산시 해운대구',7,8,4,'3','6',2,3);
+=======
 VALUES(44,'YS','2020-09-10','2020-09-10','HOTEL','BUSAN',200000,'Hae-un-dae',7,8,4,'3','6',2,3);
+>>>>>>> c8fdb29fbed6d734543484ee80aef89aee1eebd8
 
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
+<<<<<<< HEAD
+
+VALUES(44,'YS','2020-09-10','2020-09-10','HOTEL','BUSAN',200000,'Hae-un-dae',7,8,4,'3','6',2,3);
+=======
 VALUES(46,'JP','2020-09-30','2020-09-30','POWER','INCHEON',500000,'China-Town',3,4,5,'3','3',1,5);
 
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
@@ -133,6 +139,7 @@ INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 instant_book, guests)
 VALUES(49,'YS','2020-09-10','2020-09-10','HOTEL','BUSAN',200000,'Hae-un-dae',7,8,4,'3','6',2,3);
 
+>>>>>>> c8fdb29fbed6d734543484ee80aef89aee1eebd8
 commit;
 
 LOGGING;
@@ -181,19 +188,7 @@ COMMENT ON COLUMN rooms_room.guests IS
 
 ALTER TABLE rooms_room ADD CONSTRAINT rooms_room_pk PRIMARY KEY ( id );
 
-CREATE TABLE rooms_room_amentities (
-    id           INTEGER NOT NULL,
-    room_id      INTEGER NOT NULL,
-    amenity_id   INTEGER NOT NULL
-)
 LOGGING;
 
-ALTER TABLE rooms_room_amentities ADD CONSTRAINT rooms_room_amentities_pk PRIMARY KEY ( id );
 
-CREATE TABLE rooms_room_facilities (
-    id            INTEGER NOT NULL,
-    room_id       INTEGER NOT NULL,
-    facility_id   INTEGER NOT NULL
-)
-LOGGING;
 

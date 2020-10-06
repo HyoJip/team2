@@ -31,9 +31,10 @@
 		</interceptor>
 		<interceptor>
 			<mapping path="/room/*/reserve" />
-			<mapping path="/user/**/*" />
 			<mapping path="/room/*/reservations" />
+			<mapping path="/user/**/*" />
 			<mapping path="/user/*" />
+			<mapping path="/review/create" />
 			<exclude-mapping path="/resources/**"/>
 			<beans:bean class="com.team2.airbnb.interceptor.AuthInterceptor" />
 		</interceptor>
