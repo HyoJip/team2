@@ -80,7 +80,7 @@ CREATE TABLE rooms_room (
 
 SELECT * FROM users_user;
 SELECT * FROM rooms_room order by id;
-
+SELECT * FROM rooms_photo order by id;
 delete from rooms_room;
 
 desc rooms_room;  
