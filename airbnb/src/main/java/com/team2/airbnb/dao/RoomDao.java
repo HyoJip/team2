@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.team2.airbnb.model.vo.ReviewVO;
 import com.team2.airbnb.model.vo.RoomVO;
 
 @Repository
@@ -46,6 +47,26 @@ public class RoomDao {
 		});
 				
 		return results;
+	}
+
+	public List<ReviewVO> selectAllReview(int roomId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT guest.username, reviews.created, reviews.review as context, reviews.value as rating ");
+		sql.append("FROM users_user guest, reviews ");
+		sql.append("WHERE guest.id = reviews.user_id ");
+		sql.append("AND reviews.room_id = ?");
+		return jdbcTemplate.query(sql.toString(), new Object[] {roomId}, new BeanPropertyRowMapper<ReviewVO>(ReviewVO.class));
+	}
+
+	public Map<String, Object> selectReviewCount(int roomId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT count(*) as count, avg(value) as avg FROM reviews WHERE room_id = ?");
+		return jdbcTemplate.queryForObject(sql.toString(), new Object[] {roomId}, (ResultSet rs, int rowNum)-> {
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put("count", rs.getInt("count"));
+			data.put("avg", rs.getDouble("avg"));
+			return data;
+		});
 	}
 	
 	

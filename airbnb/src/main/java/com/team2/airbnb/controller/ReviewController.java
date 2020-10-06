@@ -7,10 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team2.airbnb.model.Review;
 import com.team2.airbnb.model.User;
 import com.team2.airbnb.model.vo.RoomVO;
+import com.team2.airbnb.service.ReserveService;
 import com.team2.airbnb.service.ReviewService;
 import com.team2.airbnb.service.RoomService;
 
@@ -18,25 +20,34 @@ import com.team2.airbnb.service.RoomService;
 public class ReviewController {
 	private final ReviewService reviewService;
 	private final RoomService roomService;
+	private final ReserveService reserveService;
 
-	public ReviewController(ReviewService reviewService, RoomService roomService) {
+	public ReviewController(ReviewService reviewService, RoomService roomService, ReserveService reserveService) {
 		this.reviewService = reviewService;
 		this.roomService = roomService;
+		this.reserveService = reserveService;
 	}
 	
 	@RequestMapping(value = "/review/create/{roomId}", method = RequestMethod.GET)
-	public String reviewForm(@PathVariable int roomId, HttpSession session, Model model) {
-		User user = (User) session.getAttribute("login");
+	public String reviewForm(@PathVariable int roomId, @RequestParam int reserveId, Model model) {
 		RoomVO room = roomService.getRoomById(roomId);
+		
 		model.addAttribute("room", room);
+		model.addAttribute("reserveId", reserveId);
 		return "review/review_form";
 	}
 	
 	@RequestMapping(value = "/review/create/{roomId}", method = RequestMethod.POST)
-	public String reviewForm(@PathVariable int roomId, Review reviewReq, HttpSession session) {
+	public String reviewForm(@PathVariable int roomId, @RequestParam int reserveId, Review reviewReq, HttpSession session) {
 		User user = (User) session.getAttribute("login");
 		reviewReq.setUserId(user.getId());
+		reviewReq.setRoomId(roomId);
 		
+		int isSuccessed = reviewService.createReview(reviewReq);
+		if (isSuccessed == 1) {
+			reserveService.completeReservation(reserveId);
+			return "redirect:/room/" + roomId;
+		}
 		return "redirect:/";
 	}
 }

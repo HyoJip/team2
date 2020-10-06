@@ -1,13 +1,14 @@
-package com.team2.airbnb.model;
+package com.team2.airbnb.model.vo;
 
 import java.time.LocalDate;
 
-public class Review {
+public class ReviewVO {
 	private LocalDate created;
 	private String context;
 	private int rating;
 	private int userId;
 	private int roomId;
+	private String username;
 
 	public LocalDate getCreated() {
 		return created;
@@ -21,16 +22,16 @@ public class Review {
 		return context;
 	}
 
-	public void setContext(String content) {
-		this.context = content;
+	public void setContext(String context) {
+		this.context = context;
 	}
 
-	public int getValue() {
+	public int getRating() {
 		return rating;
 	}
 
-	public void setValue(int value) {
-		this.rating = value;
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 
 	public int getUserId() {
@@ -47,6 +48,14 @@ public class Review {
 
 	public void setRoomId(int roomId) {
 		this.roomId = roomId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

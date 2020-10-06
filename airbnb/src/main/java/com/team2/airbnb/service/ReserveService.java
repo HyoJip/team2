@@ -50,6 +50,10 @@ public class ReserveService {
 	public int approveReservation(int id, String status) {
 		return reserveDao.updateStatus(id, status);
 	}
+	
+	public int completeReservation(int id) {
+		return reserveDao.updateStatus(id, "COMPLETED");
+	}
 
 	public List<ReserveVO> getListByUserId(int id) {
 		List<ReserveVO> rooms = reserveDao.selectByUserId(id);

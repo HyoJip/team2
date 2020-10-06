@@ -150,6 +150,15 @@ public class ReservationController {
 		User user = (User) session.getAttribute("login");
 		if (user.getId() == id) {
 			List<ReserveVO> rooms = reserveService.getListByUserId(id);
+			
+			for (ReserveVO reserve: rooms) {
+				if (reserve.getStatus().equals(ReserveStatus.ACCEPTED)) {
+					if (LocalDate.now().isAfter(reserve.getCheckOut().plusDays(14))) {
+						reserveDao.updateStatus(reserve.getId(), "COMPLETED");
+					}
+				}
+					
+			}
 			model.addAttribute("rooms", rooms);
 			
 			return "reservation/user_reserve_list";			

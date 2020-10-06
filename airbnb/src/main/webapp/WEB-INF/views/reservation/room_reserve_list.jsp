@@ -73,11 +73,8 @@
 								<button class="aside_btn approveBtn">예약 승낙</button>
 								<button class="aside_btn rejectBtn" disabled>예약 거절</button>
 							<%
-								} else if (object.getStatus().equals(ReserveStatus.COMPLETED)) {
+								}
 							%>
-								<button class="aside_btn approveBtn" disabled>예약 승낙</button>
-								<button class="aside_btn rejectBtn" disabled>예약 거절</button>
-							<%	}%>
 								<button class="aside_btn emailBtn"><a href="mailto:<%=object.getEmail()%>">이메일 보내기</a></button>
 							</div>
 						</aside>
