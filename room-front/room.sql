@@ -13,10 +13,10 @@ CREATE TABLE rooms_photo (
     updated    DATE,
     caption    VARCHAR2(80),
     "file"     VARCHAR2(100)
-)
+);
 
-INSERT INTO ROOMS_PHOTO(ROOMS_ID, CREATED, UPDATED, CAPTION, FILE)
-VALUES(1, );
+INSERT INTO ROOMS_PHOTO(rooms_id, CREATED, UPDATED, CAPTION, file)
+VALUES(4,'2020-9-29', '2020-9-29', '멋진 방안','ㅋㅋㅋ');
 
 LOGGING;
 
@@ -55,6 +55,7 @@ CREATE TABLE rooms_room (
 
 SELECT * FROM users_user order by id;
 SELECT * FROM rooms_room order by id;
+SELECT * FROM rooms_photo order by id;
 
 delete from rooms_room;
 
