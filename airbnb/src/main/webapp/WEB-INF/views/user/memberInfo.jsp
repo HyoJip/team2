@@ -31,6 +31,8 @@
 				</p>
 				<p>생년월일</p>
 				<p class="line">${user.birthDay}</p>
+				<p>프로필 사진</p>
+        		<p class="line"><input type="file" name="photo" /></p>
 				<div class="button">
 					<input type="button" value="수정" onclick="update_check_ok(event)" />
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

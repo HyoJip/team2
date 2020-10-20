@@ -15,7 +15,7 @@ import com.team2.airbnb.model.User;
 public class UserDao {
 	
 	private final JdbcTemplate jdbcTemplate;
-
+	
 	@Autowired
 	public UserDao(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
