@@ -12,8 +12,9 @@ import com.team2.airbnb.model.User;
 
 @Service
 public class UserService {
-	
+
 	private final UserDao userDao;
+	private User user;
 
 	@Autowired
 	public UserService(UserDao userDao) {
@@ -28,7 +29,6 @@ public class UserService {
 	
 	public int EmailIsDuplicated(String email) {
 		User user = userDao.getUserByEmail(email);
-		System.out.println(user);
 		if (user == null) {
 			return 0;
 		}
@@ -56,7 +56,12 @@ public class UserService {
 		return map;
 	}
 
-	public int updateInfo(User user) {
-		return userDao.updateUser(user);
+	public int changePassword(User user) {
+		return userDao.updatePassword(user);
+	}
+
+	public void setHost(User user) {
+		userDao.updateGuestToHost(user);
+		user.setIsHost(1);
 	}
 }

@@ -22,6 +22,8 @@ public class RoomVO {
 	private String email;
 	private String username;
 	private String birthDay;
+	private int reviewCount;
+	private double reviewAvg;
 	
 	@Override
 	public int hashCode() {
@@ -158,7 +160,16 @@ public class RoomVO {
 	public void setBirthDay(String birthDay) {
 		this.birthDay = birthDay;
 	}
-	
-	
-
+	public int getReviewCount() {
+		return reviewCount;
+	}
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+	public double getReviewAvg() {
+		return reviewAvg;
+	}
+	public void setReviewAvg(double reviewAvg) {
+		this.reviewAvg = reviewAvg;
+	}
 }

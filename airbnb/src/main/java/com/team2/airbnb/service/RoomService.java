@@ -35,4 +35,16 @@ public class RoomService {
 	public Map<String, Object> getReviewCount(int roomId) {
 		return roomDao.selectReviewCount(roomId);
 	}
+
+	public int roomCreate(RoomVO room) {
+		return roomDao.insertRoom(room);
+	}
+
+	public List<RoomVO> getAllRoom() {
+		return roomDao.selectAllRoom();
+	}
+
+	public List<RoomVO> getRooms(String keyword) {
+		return roomDao.selectRoomsByAddrOrName(keyword);
+	}
 }
