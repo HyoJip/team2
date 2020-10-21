@@ -1,0 +1,55 @@
+@charset "utf-8";
+
+body {
+  font: 13px/20px "Lucida Grande", Tahoma, Verdana, sans-serif;
+  color: #404040;
+}
+.background {
+  background-color: #008489;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.host {
+  position: relative;
+  margin: 250px auto;
+  padding: 20px;
+  width: 550px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+h1 {
+  margin: -10px -10px 21px;
+  line-height: 40px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
+}
+.host .headtext {
+  font-size: 20px;
+  text-align: center;
+  border-bottom: 1px dashed #cfcfcf;
+}
+.host .subtext {
+  font-size: 13px;
+  text-align: center;
+}
+.host p {
+  margin: 20px 30px;
+  font-size: 25px;
+  font-style: normal;
+}
+.host .button {
+  text-align: center;
+}
+input[type="button"] {
+  padding: 0 80px;
+  height: 30px;
+  font-size: 20px;
+  color: #008489;
+  background: white;
+  border: 2px solid #008489;
+  border-radius: 16px;
+}
