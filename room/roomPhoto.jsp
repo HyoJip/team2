@@ -1,5 +1,6 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +9,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RoomPhoto등록</title>
-
 </head>
 
 <body>
@@ -32,7 +32,6 @@ function check_ok() {
   document.form.submit();
 }
 </script>
-
         <div class="background">
             <div class="host">
                 <h1>Room Photo 등록하기</h1>
@@ -42,13 +41,12 @@ function check_ok() {
                 <p>주소
                     <a></br>룸에 대해 소개해 주세요.</a>
                 </p>
-                <textarea name="r_caption" id="caption" cols="60" rows="10" maxlength="80" placeholder="80자 내외로 입력해주세요."></textarea>
-                <input type="file" name="r_file" id="images" multiple required />
                 <div class="button">
                     <input type="button" value="다음" onclick="check_ok()" />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="button" value="돌아가기" onclick="javascript:window.location='roomPhoto.jsp'" />
                 </div>  
+
             </div>
         </div>
         <!-- footer END -->
