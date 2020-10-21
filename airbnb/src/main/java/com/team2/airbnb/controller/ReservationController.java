@@ -55,7 +55,8 @@ public class ReservationController {
 		int totalPrice = roomPrice * reserveNight;
 		
 		// DB에 저장된 정보
-		RoomVO room = roomService.getRoomById(id);
+		Map map = roomService.getRoomById(id);
+		RoomVO room = (RoomVO) map.get("room");
 		model.addAttribute("room", room);
 		
 		// 게스트가 입력한  정보

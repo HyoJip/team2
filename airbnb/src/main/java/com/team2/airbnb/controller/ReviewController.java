@@ -1,5 +1,7 @@
 package com.team2.airbnb.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -30,8 +32,8 @@ public class ReviewController {
 	
 	@RequestMapping(value = "/review/create/{roomId}", method = RequestMethod.GET)
 	public String reviewForm(@PathVariable int roomId, @RequestParam int reserveId, Model model) {
-		RoomVO room = roomService.getRoomById(roomId);
-		
+		Map<String, Object> map = roomService.getRoomById(roomId);
+		RoomVO room = (RoomVO) map.get("room");
 		model.addAttribute("room", room);
 		model.addAttribute("reserveId", reserveId);
 		return "review/review_form";

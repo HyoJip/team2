@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.team2.airbnb.model.User;
 import com.team2.airbnb.model.vo.ReviewVO;
 import com.team2.airbnb.model.vo.RoomVO;
 
@@ -34,6 +35,11 @@ public class RoomDao {
 		sql.append("FROM rooms_room room, users_user host ");
 		sql.append("WHERE room.id=? and room.host_id = host.id");
 		return (RoomVO) jdbcTemplate.queryForObject(sql.toString(), new Object[] {roomId}, new BeanPropertyRowMapper<RoomVO>(RoomVO.class));
+	}
+	
+	public User selectHost(int roomId) {
+		String sql = "SELECT member.* FROM users_user member, rooms_room room WHERE member.id = room.host_id AND room.id = ?";
+		return (User) jdbcTemplate.queryForObject(sql, new Object[] {roomId}, new BeanPropertyRowMapper<User>(User.class));
 	}
 
 	public List<Map<String, Object>> selectAllReservedDate(int roomId) {
@@ -56,7 +62,7 @@ public class RoomDao {
 
 	public List<ReviewVO> selectAllReview(int roomId) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT guest.username, reviews.created, reviews.review as context, reviews.value as rating ");
+		sql.append("SELECT guest.username, reviews.created, reviews.review as context, reviews.value as rating, guest.photo ");
 		sql.append("FROM users_user guest, reviews ");
 		sql.append("WHERE guest.id = reviews.user_id ");
 		sql.append("AND reviews.room_id = ?");

@@ -68,14 +68,16 @@
 						<small class="reservation_dates"><%=DateUtil.formatKor(reserve.getCheckIn())%> - <%=DateUtil.formatKor(reserve.getCheckOut())%></small>
 						<h3 class="room_name"><%=reserve.getName()%></h3>
 						<p class="room_city"><%=reserve.getCity()%> <span class="status <%=reserve.getStatus()%>"><%=reserve.getStatus().getName()%></p>
-						<a class="reservation_deatil" href="./reservations/<%=reserve.getId()%>">여행 세부사항 보기</a>
+						<p class="reservation_detail_wrap">
+							<a class="reservation_deatil" href="./reservations/<%=reserve.getId()%>">여행 세부사항 보기</a>
 						<%
 							if (reserve.getStatus().equals(ReserveStatus.ACCEPTED)) {
 						%>
 							<a class="reservation_deatil" href="/review/create/<%=reserve.getRoomId()%>?reserveId=<%=reserve.getId()%>">여행 후기 쓰기</a>
 						<%
 						}
-						%>
+						%>						
+						</p>
 					</div>
 				</article>
 			<%

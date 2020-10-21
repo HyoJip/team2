@@ -100,8 +100,8 @@
 				}
 
 				.user_profile {
-					background-image: url("../img/thumbnail1.jpg");
 					background-position: center;
+					background-size: cover;
 					min-width: 80px;
 					height: 80px;
 					border-radius: 50%;
@@ -471,7 +471,6 @@
 				display: flex;
 
 				.guest_profile_img {
-					background-image: url("../img/thumbnail1.jpg");
 					background-size: cover;
 					background-position: center;
 					width: 50px;
@@ -496,6 +495,7 @@
 			}
 
 			.review_main {
+			    padding: 10px 0;
 			}
 		}
 	}
