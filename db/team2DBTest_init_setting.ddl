@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 -- ���� ����(������:1, ȣ��Ʈ:2, �Խ�Ʈ:3)
 insert into users_user (email, password, username, birthday, is_host, is_superuser)
 values ('goo@gle.com', '1234', 'superuser', '2020-01-01', 0, 1);
@@ -19,7 +18,7 @@ insert into users_user (email, password, username, birthday, is_host, is_superus
 values ('ly@cos.com', '1234', 'guest', '1970-08-15', 0, 0);
 
 -- üũ��, üũ�ƿ� ������ Ÿ��: DATE -> CHAR(2)
-=======
+
 ﻿-- 체크인, 체크아웃 HH24 형태로 고정: DATE -> CHAR(2)
 >>>>>>> f8d47b216beef5302e46852f122ec45ddb534207
 alter table rooms_room  modify (check_in char(2));
@@ -40,9 +39,7 @@ values (41, '민성', '2020-09-03', '2020-09-05', 'GREAT',
         '부산', 50000, '부산시 해운대구', 2, 1, 1, '15', '12', 1, 2);
             
 insert into rooms_room (host_id, name, updated, created, description,
-                                city, price, address, beds, bedrooms, baths, check_in, check_out,
-<<<<<<< HEAD
-                                instant_book, guests);
+                                city, price, address, beds, bedrooms, baths, check_in, check_out, instant_book, guests);
 
 SELECT * FROM ROOMS_ROOM;
 SELECT * FROM USERS_USER;
@@ -52,11 +49,8 @@ delete from rooms_room;
 delete from rooms_room where host_id = 42;
 
 desc rooms_room;
-=======
-                                instant_book, guests)
 
 values (2, 'W스퀘어', '2020-09-20', '2020-09-20', '숙소 설명, 부산에서 비싼 아파트, 뷰가 좋음, 광안대교가 한눈에 보이는', '부산광역시',
             '200000', ' 용호동 102동 2401호', 2, 1, 1, '15', '12', 1, 2);
->>>>>>> f8d47b216beef5302e46852f122ec45ddb534207
             
 commit;
