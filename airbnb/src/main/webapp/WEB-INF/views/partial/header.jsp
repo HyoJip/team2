@@ -7,8 +7,8 @@
 	<ul>
 		<li class="airbnb_icon"><a href="/"><i class="fab fa-airbnb"></i>airbnb</a></li>
 		<li class="room_search">
-			<input class="search_input" type="text" placeholder="검색 시작하기">
-			<i class="fas fa-search"></i>
+			<input class="search_input" type="text" id="keyword" placeholder="검색 시작하기">
+			<i class="fas fa-search" id="searchBtn"></i>
 		</li>
 		<li class="header_profile" id="userNav">
 			<i class="fas fa-bars"></i>
@@ -20,7 +20,7 @@
    	%>
 		        <li class="submenu"><a href="/login">로그인</a></li>
                 <li class="submenu"><a href="/join">회원 가입</a></li>
-                <li class="submenu" class="become_host_btn">숙소 호스트 되기</li>
+                <li class="submenu" class="become_host_btn"><a href='/room/create'>숙소 호스트 되기</a></li>
     <%
     	} else {
 	%>
@@ -30,7 +30,7 @@
     				if (user.getIsHost() == 1) {    					
     					out.print("<li class='submenu become_host_btn'><a href='/host/" + user.getId() + "/reservations'>내 숙소 예약 관리</a></li>");
     				} else {
-    					out.print("<li class='submenu become_host_btn'>숙소 호스트 되기</li>");
+    					out.print("<li class='submenu become_host_btn'><a href='/room/create'>숙소 호스트 되기</a></li>");
     				}
     %>
                 <li class="submenu"><a href="/user/update">회원 정보 수정</a></li>
@@ -55,8 +55,23 @@
             if (target !== null) return;
             document.querySelector("#subNav").style.display = "none";
         }
+        
+        const onClickSearchBtn = () => {
+        	const keyword = document.querySelector("#keyword").value;
+        	if (keyword == "" || keyword == null) return;
+        	location.href = "/s/" + keyword;        		
+        }
+        
+        const onKeyDownSearchBtn = (event) => {
+        	const keyword = document.querySelector("#keyword").value;
+        	if (event.keyCode === 13 || event.which === 13) {
+	        	location.href = "/s/" + keyword;        		
+        	} 
+        }
 
-		document.querySelector("#userNav").addEventListener("click", onClickUserNav)
-        document.addEventListener("click", onClickDocumnet)
+		document.querySelector("#userNav").addEventListener("click", onClickUserNav);
+        document.addEventListener("click", onClickDocumnet);
+        document.querySelector("#searchBtn").addEventListener("click", onClickSearchBtn);
+        document.querySelector("#keyword").addEventListener("keydown", onKeyDownSearchBtn);
 	})();
 </script>

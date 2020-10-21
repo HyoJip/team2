@@ -11,7 +11,7 @@
 		<link href="/resources/css/base.css" rel="stylesheet">
 	</head>
 	<body>
-		<%@ include  file="./partial/header.jsp"%>
+		<%@ include  file="../partial/header.jsp"%>
 		<main class="wrap">
 			<div class="nav_category"><a href="#">${room.address}</a> &gt; 숙소</div>
 			<div class="room_image">
@@ -258,7 +258,7 @@
 				</aside>
 			</section>
 		</main>
-		<jsp:include page="./partial/footer.jsp" />
+		<jsp:include page="../partial/footer.jsp" />
 		<script src="/resources/index.js"></script>
 	</body>
 </html>

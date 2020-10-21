@@ -15,7 +15,7 @@ import com.team2.airbnb.model.User;
 public class UserDao {
 	
 	private final JdbcTemplate jdbcTemplate;
-
+	
 	@Autowired
 	public UserDao(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -35,9 +35,14 @@ public class UserDao {
 		}
 	}
 
-	public int updateUser(User user) {
+	public int updatePassword(User user) {
 		String sql = "UPDATE users_user SET password=? WHERE email=?";
 		return jdbcTemplate.update(sql, new Object[] {user.getPassword(), user.getEmail()});
 		
+	}
+
+	public void updateGuestToHost(User user) {
+		String sql = "UPDATE users_user SET is_host = 1 WHERE id=?";
+		jdbcTemplate.update(sql, (Object) user.getId());
 	}
 }

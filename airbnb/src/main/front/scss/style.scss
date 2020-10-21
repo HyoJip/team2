@@ -120,6 +120,10 @@
 					@include underline;
 					font-weight: 700;
 				}
+				
+				p {
+					word-break: break-all;
+				}
 			}
 
 			.room_facilities {

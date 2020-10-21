@@ -54,7 +54,6 @@
 	<%
 		if (request.getMethod().equalsIgnoreCase("POST")) {
 			int isDuplicated = Integer.parseInt(request.getAttribute("isDuplicated").toString());
-			System.out.println(isDuplicated);
 			if (isDuplicated == 1) {
 	%>
 
@@ -65,7 +64,6 @@
 	<%
 			} else if (isDuplicated == 0) {
 				int isSucessed = Integer.parseInt(request.getAttribute("isSucessed").toString());
-				System.out.println(isSucessed);
 				if (isSucessed == 0) {
 	%>
 	<script language=javascript>

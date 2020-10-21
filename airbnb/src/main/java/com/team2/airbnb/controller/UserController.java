@@ -10,9 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.team2.airbnb.model.User;
 import com.team2.airbnb.service.UserService;
@@ -25,6 +23,11 @@ public class UserController {
 	@Autowired
 	public UserController(UserService userService) {
 		this.userService = userService;
+	}
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String index(Model model) {
+		return "main";
 	}
 	
 	@RequestMapping(value = "/login", method= RequestMethod.GET)
@@ -74,8 +77,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/user/update", method= RequestMethod.POST)
-	public String userJoinUpdate(User user, Model model) {
-		int isValid = userService.updateInfo(user);
+	public String userJoinUpdate(User user, Model model, @RequestParam("photo") MultipartFile photo) {
+		int isValid = userService.changePassword(user, photo);
 		model.addAttribute("isValid", isValid);
 		return "user/memberInfo";
 	}
