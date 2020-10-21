@@ -13,7 +13,7 @@
 	<body>
 		<%@ include  file="../partial/header.jsp"%>
 		<main class="wrap">
-			<div class="nav_category"><a href="#">${room.address}</a> &gt; 숙소</div>
+			<div class="nav_category"><a href="/s/${room.address}">${room.address}</a> &gt; 숙소</div>
 			<div class="room_image">
 				<div class="room_image_grid">
 					<img
@@ -52,7 +52,7 @@
 								><i class="star">★</i> ${avg}
 								<span class="rating_count">(${count})</span></small
 							>
-							<small class="address">${room.address}</small>
+							<small class="address"><a href="/s/${room.address}">${room.address}</a></small>
 						</h4>
 					</div>
 					<div class="host_info">
@@ -62,12 +62,13 @@
 								최대인원 ${room.guests}명 · 침실 ${room.bedRooms}개 · 침대${room.beds}개 · 욕실 ${room.baths}개
 							</h3>
 						</hgroup>
-						<a href="#" role="button"></a>
-						<div class="user_profile"></div>
+						<div class="user_profile"
+						style="background-image: url('/resources/${empty host.photo? 'images/': 'media/'}${empty host.photo? 'user.jsp': host.photo}')"
+						></div>
 					</div>
 					<div class="room_detail_info">
 						<p class="room_description">${room.description}</p>
-						<a href="#">호스트에게 연락하기</a>
+						<a href="mailto:${host.email}">호스트에게 연락하기</a>
 					</div>
 					<div class="room_facilities">
 						<h3>편의시설</h3>
@@ -218,7 +219,11 @@
 				%>
 				<article class="review_item">
 					<header class="review_header">
-						<div class="guest_profile_img"></div>
+						<div class="guest_profile_img"
+						style="background-image: url('<%= review.getPhoto() == null
+															? "/resources/images/user.jsp"
+															: "/resources/media/" + review.getPhoto()%>')"
+						></div>
 						<div class="review_info">
 							<h5 class="guest_name"><%=review.getUsername()%></h5>
 							<p class="review_created"><%=review.getCreated()%></p>
@@ -253,7 +258,7 @@
 					</div>
 				</main>
 				<aside class="message_wrap">
-					<button class="message_btn">호스트에게 연락하기</button>
+					<button class="message_btn"><a href="mailto:${host.email}">호스트에게 연락하기</a></button>
 					<small class="alert">안전한 결제를 위해 에어비앤비 웹사이트나 앱 외부에서 송금하거나 대화를 나누지 마세요.</small>
 				</aside>
 			</section>

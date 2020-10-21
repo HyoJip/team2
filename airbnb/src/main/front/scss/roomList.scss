@@ -1,3 +1,78 @@
 @import "./_base";
 @import "./_mixins";
 
+.main_wrap {
+	padding: 0 var(--containerVerticalPadding);
+	margin: var(--containerHorizontalMargin) 0;
+	
+	.search_result {
+		padding-bottom: var(--containerVerticalPadding);
+		border-bottom: var(--bottomBorder);
+		margin-bottom: 15px;
+		
+		.header_title {
+			font-size: 2.5em;
+			font-weight: 700;
+		}
+		
+	}
+	
+	.room_list {
+		
+		.room_item {
+		    padding: var(--containerVerticalPadding) 0;
+			border-top: var(--bottomBorder);
+			border-bottom: var(--bottomBorder);
+			cursor: pointer;
+			display: flex;
+			
+			.item_left {
+				position: relative;
+				
+				img {
+					width: 300px;
+					height: 200px;
+					object-fit: cover;
+					border-radius: var(--borderRadius);
+				}
+			}
+			
+			.item_right {
+				margin-left: var(--containerHorizontalMargin);
+				display: flex;
+				flex-direction: column;
+				
+				.room_address {
+					color: var(--deepGray);
+				}
+				
+				.room_name {
+					border-bottom: var(--bottomBorder);
+				    padding-bottom: calc(var(--containerHorizontalMargin)/2);
+					margin-bottom: calc(var(--containerVerticalPadding)/2);
+				}
+				
+				.room_facility,
+				.room_amenity {
+					color: var(--deepGray);
+				}
+				
+				.rating {
+					margin-top: auto;
+					
+					.room_short_info {
+						
+						.star {
+						@include star(1em);							
+						}
+						
+						.rating_count {
+							color: var(--deepGray);
+						}
+					}
+
+				}
+			}
+		}
+	}
+}

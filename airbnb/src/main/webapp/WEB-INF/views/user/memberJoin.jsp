@@ -13,7 +13,7 @@
 </head>
 <body>
 	<%@ include  file="../partial/header.jsp"%>
-	<form method="POST" action="" name="form">
+	<form method="POST" action="" name="form" enctype="multipart/form-data">
 		<!-- memberjoinOk로 값을 넘겨준다. -->
 
 		<div class="background">
@@ -36,6 +36,11 @@
 					&nbsp;&nbsp;생년월일 <input type="date" name="birthDay" />
 					<!-- date 타입의 birth의 값을 받는다. -->
 				</p>
+				<p class="text">
+		        	&nbsp;프로필에 사용할 이미지&nbsp;&nbsp;&nbsp;<a style="font-size: 13px;">*1장만 등록 가능</a><br>		
+		        	<br>
+		        	&nbsp;&nbsp;<input type="file" name="file" />
+		        </p>
 				<p class="submit">
 					<input type="button" value="회원가입" onclick="check_ok(event);" />
 					<!-- script.js에 check_ok함수로 값을 체크한다. -->

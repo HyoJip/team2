@@ -35,7 +35,10 @@ public class RoomController {
 
 	@RequestMapping(value = "/room/{roomId}", method = RequestMethod.GET)
 	public String roomDetail(@PathVariable int roomId , HttpSession session, Model model) {
-		RoomVO room = roomService.getRoomById(roomId);
+		Map<String, Object> map = roomService.getRoomById(roomId);
+		RoomVO room = (RoomVO) map.get("room");
+		User host = (User) map.get("host");
+		
 		List<ReviewVO> reviews = roomService.getReviews(roomId);
 		Map<String, Object> reviewCountAndAvg = roomService.getReviewCount(roomId);
 		int count = (int) reviewCountAndAvg.get("count");
@@ -46,6 +49,7 @@ public class RoomController {
 		model.addAttribute("reviews", reviews);
 		model.addAttribute("count", count);
 		model.addAttribute("avg", avg);
+		model.addAttribute("host", host);
 		
 		return "room/room_detail";
 	}

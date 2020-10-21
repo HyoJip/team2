@@ -1,33 +1,31 @@
 package com.team2.airbnb.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.team2.airbnb.dao.UserDao;
 import com.team2.airbnb.model.User;
-import com.team2.airbnb.util.ImageUtil;
+import com.team2.airbnb.util.FileUtil;
 
 @Service
 public class UserService {
 
 	private final UserDao userDao;
-	private User user;
-	
-	@Value("uploadPath")
-	private String uploadPath;
 
 	@Autowired
 	public UserService(UserDao userDao) {
 		this.userDao = userDao;
 	}
 
-	public int joinUser(User user) {
+	public int joinUser(User user, MultipartFile file) throws IOException {
+		String saveFileName = FileUtil.saveFileAndGetName(file);
+		user.setPhoto(saveFileName);
 		user.setIsHost(0);
 		user.setIsSuperuser(0);
 		return userDao.insertUser(user);
@@ -62,11 +60,9 @@ public class UserService {
 		return map;
 	}
 
-	public int changePassword(User user, MultipartFile multipartFile) {
-		String originFilename = multipartFile.getOriginalFilename();
-		String extName = originFilename.substring(originFilename.lastIndexOf("."), originFilename.length());
-		// 서버에서 저장 할 파일 이름
-		String saveFileName = ImageUtil.getRandomString() + extName;
+	public int changeUserInfo(User user, MultipartFile file) throws IOException {
+		String saveFileName = FileUtil.saveFileAndGetName(file);
+		user.setPhoto(saveFileName);
 		return userDao.updatePassword(user);
 	}
 

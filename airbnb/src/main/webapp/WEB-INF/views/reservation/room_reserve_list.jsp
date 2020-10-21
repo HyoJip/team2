@@ -24,8 +24,19 @@
 	<%@ include  file="../partial/header.jsp"%>
 	<main class="main_wrap">
 		<header class="main_header">
+<%
+			if(list.size() != 0) {
+%>
+
 			<h1 class="main_header_title"><%=list.get(0).getName() %> 예약</h1>
 			<input type="hidden" value="<%= list.get(0).getRoomId() %>" id="roomId">
+<%
+			} else {
+%>
+			<h1 class="main_header_title">숙소에 예약된 여행이 없습니다.</h1>
+<%
+			}
+%>
 		</header>
 		<table class="reserve_list">
 			<thead>

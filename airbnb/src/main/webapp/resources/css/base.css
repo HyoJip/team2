@@ -124,6 +124,12 @@ ul {
 	color: var(--red);
 	font-size: 1.8rem;
 }
+.body_header ul .header_profile img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;	
+}
 .body_header ul .header_profile .subnav {
 	position: absolute;
 	border-radius: var(--borderRadius);
