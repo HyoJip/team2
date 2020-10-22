@@ -1,5 +1,5 @@
 :root {
-  --red: #008489;
+  --red: #ff385c;
   --containerHorizontalMargin: 50px;
   --containerVerticalPadding: 30px;
   --bottomBorder: 1px solid var(--gray);
@@ -10,6 +10,7 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
   word-break: keep-all;
 }
 h1,

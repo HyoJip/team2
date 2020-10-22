@@ -1,4 +1,5 @@
-﻿insert into users_user (email, password, username, birthday, is_host, is_superuser)
+﻿
+﻿﻿insert into users_user (email, password, username, birthday, is_host, is_superuser)
 values ('goo@gle.com', '1234', 'superuser', '2020-01-01', 0, 1);
 
 insert into users_user (email, password, username, birthday, is_host, is_superuser)

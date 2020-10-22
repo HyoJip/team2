@@ -12,10 +12,20 @@
 		</li>
 		<li class="header_profile" id="userNav">
 			<i class="fas fa-bars"></i>
-			<i class="fas fa-user-circle profile_img"></i>
+	<%
+		User user = (User) session.getAttribute("login");
+		if (user == null || user.getPhoto() == null) {
+	%>
+			<i class='fas fa-user-circle profile_img'></i>
+	<%
+		} else {
+	%>
+			<img src="\resources\media\<%=user.getPhoto()%>" alt='프로필이미지'>
+	<%
+		}
+	%>
             <ul class="subnav" id="subNav">
     <%
-		User user = (User) session.getAttribute("login");
     	if (user == null) {
    	%>
 		        <li class="submenu"><a href="/login">로그인</a></li>

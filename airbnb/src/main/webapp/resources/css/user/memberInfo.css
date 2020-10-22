@@ -59,3 +59,7 @@ input[type="button"] {
   background: #ff5a5f;
   border-radius: 16px;
 }
+
+.readonly {
+	all:unset;
+}

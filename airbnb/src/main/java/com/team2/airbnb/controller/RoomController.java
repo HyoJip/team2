@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team2.airbnb.model.User;
@@ -21,6 +22,7 @@ import com.team2.airbnb.model.vo.ReviewVO;
 import com.team2.airbnb.model.vo.RoomVO;
 import com.team2.airbnb.service.RoomService;
 import com.team2.airbnb.service.UserService;
+import com.team2.airbnb.util.Pagination;
 
 @Controller
 public class RoomController {	
@@ -35,7 +37,10 @@ public class RoomController {
 
 	@RequestMapping(value = "/room/{roomId}", method = RequestMethod.GET)
 	public String roomDetail(@PathVariable int roomId , HttpSession session, Model model) {
-		RoomVO room = roomService.getRoomById(roomId);
+		Map<String, Object> map = roomService.getRoomById(roomId);
+		RoomVO room = (RoomVO) map.get("room");
+		User host = (User) map.get("host");
+		
 		List<ReviewVO> reviews = roomService.getReviews(roomId);
 		Map<String, Object> reviewCountAndAvg = roomService.getReviewCount(roomId);
 		int count = (int) reviewCountAndAvg.get("count");
@@ -46,6 +51,7 @@ public class RoomController {
 		model.addAttribute("reviews", reviews);
 		model.addAttribute("count", count);
 		model.addAttribute("avg", avg);
+		model.addAttribute("host", host);
 		
 		return "room/room_detail";
 	}
@@ -77,19 +83,30 @@ public class RoomController {
 		return "room/room_form";
 	}
 	
-	@RequestMapping(value = "/room", method= RequestMethod.GET)
-	public String roomList(Model model) {
-		List<RoomVO> rooms = roomService.getAllRoom();
-		model.addAttribute("rooms", rooms);
+	@RequestMapping(value = "/room", method = RequestMethod.GET)
+	public String roomList(Model model,
+			@RequestParam(required = false, defaultValue = "1") int page,
+			@RequestParam(required = false, defaultValue = "1") int range) {
+		int listCnt = roomService.getCountAll();
+		Pagination pagination = new Pagination();
+		pagination.pageInfo(page, range, listCnt);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("rooms", roomService.getAllRoom(pagination));
 		return "room/room_list";
 	}
 	
 	@RequestMapping(value = "/s/{keyword}", method = RequestMethod.GET)
-	public String roomSearh(@PathVariable String keyword, Model model) throws UnsupportedEncodingException {
+	public String roomSearh(@PathVariable String keyword, Model model,
+			@RequestParam(required = false, defaultValue = "1") int page,
+			@RequestParam(required = false, defaultValue = "1") int range) throws UnsupportedEncodingException {
 		// url로 한글 보낼 시 톰캣7.0 인코딩(8859-1) 후 스프링 web.xml(UTF-8) 인코딩 됨
 		keyword = new String(keyword.getBytes("8859_1"), "utf-8");
-		List<RoomVO> rooms = roomService.getRooms(keyword);
-		model.addAttribute("rooms", rooms);
+		int listCnt = roomService.getCount(keyword);
+		Pagination pagination = new Pagination();
+		pagination.pageInfo(page, range, listCnt);
+		
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("rooms", roomService.getRooms(pagination, keyword));
 		model.addAttribute("keyword", keyword);
 		return "room/room_list";
 	}

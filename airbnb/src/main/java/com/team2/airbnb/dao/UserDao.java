@@ -22,8 +22,8 @@ public class UserDao {
 	}
 	
 	public int insertUser(User user) {
-		String sql = "INSERT INTO users_user(email, password, username, birthDay, is_host, is_superuser) values (?,?,?,?,?,?)";
-		return jdbcTemplate.update(sql, new Object[] {user.getEmail(), BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()), user.getUsername(), Date.valueOf(user.getBirthDay()), user.getIsHost(), user.getIsSuperuser()});
+		String sql = "INSERT INTO users_user(email, password, username, birthDay, is_host, is_superuser, photo) values (?,?,?,?,?,?,?)";
+		return jdbcTemplate.update(sql, new Object[] {user.getEmail(), BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()), user.getUsername(), Date.valueOf(user.getBirthDay()), user.getIsHost(), user.getIsSuperuser(), user.getPhoto()});
 	}
 	
 	public User getUserByEmail(String email) {
@@ -36,8 +36,8 @@ public class UserDao {
 	}
 
 	public int updatePassword(User user) {
-		String sql = "UPDATE users_user SET password=? WHERE email=?";
-		return jdbcTemplate.update(sql, new Object[] {user.getPassword(), user.getEmail()});
+		String sql = "UPDATE users_user SET password=?, photo=? WHERE email=?";
+		return jdbcTemplate.update(sql, new Object[] {BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()), user.getPhoto(), user.getEmail()});
 		
 	}
 

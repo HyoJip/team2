@@ -9,6 +9,7 @@ public class ReviewVO {
 	private int userId;
 	private int roomId;
 	private String username;
+	private String photo;
 
 	public LocalDate getCreated() {
 		return created;
@@ -56,6 +57,14 @@ public class ReviewVO {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 }
