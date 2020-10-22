@@ -15,7 +15,6 @@ CREATE TABLE rooms_photo (
     "file"     VARCHAR2(100)
 );
 
-<<<<<<< HEAD
 desc rooms_photo;
 
 alter table rooms_photo add (caption VARCHAR2(80));
@@ -33,22 +32,14 @@ alter table rooms_photo drop (caption5);
 alter table rooms_photo drop (caption6);
 
 
-
 alter table rooms_photo add ("file" VARCHAR2(100));
-=======
-
->>>>>>> ff2d7064385f2a649349760266c904e5c5f3998c
 alter table rooms_photo add ("file2" VARCHAR2(100));
 alter table rooms_photo add ("file3" VARCHAR2(100));
 alter table rooms_photo add ("file4" VARCHAR2(100));
 alter table rooms_photo add ("file5" VARCHAR2(100));
 alter table rooms_photo add ("file6" VARCHAR2(100));
 
-<<<<<<< HEAD
 alter table rooms_photo drop ("file");
-=======
-
->>>>>>> ff2d7064385f2a649349760266c904e5c5f3998c
 alter table rooms_photo drop ("file2");
 alter table rooms_photo drop ("file3");
 alter table rooms_photo drop ("file4");
@@ -103,21 +94,12 @@ SELECT * FROM users_user order by id;
 SELECT * FROM rooms_room order by id;
 SELECT * FROM rooms_photo order by id;
 
-<<<<<<< HEAD
-=======
-rollback;
-
->>>>>>> ff2d7064385f2a649349760266c904e5c5f3998c
 delete from rooms_room;
 
 desc rooms_room;  
 desc rooms_photo; 
 commit;
-<<<<<<< HEAD
 rollback;
-=======
-
->>>>>>> ff2d7064385f2a649349760266c904e5c5f3998c
 delete from rooms_room where id=62;
 delete from rooms_room where id=43;
 delete from rooms_photo;
@@ -147,12 +129,7 @@ VALUES(43,'주성','2020-09-05','2020-09-05','호텔','부산',200000,'부산시
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
                                 instant_book, guests)
-
-
 VALUES(1,'오성','2020-09-03','2020-09-03','집','부산',50000,'부산시 수영구',5,2,3,'8','3',3,5);
-
-values (45, '울트라', '2020-09-13', '2020-09-13', 'Wow', 
-        '울산', 100000, '울산시', 4, 5, 6, '3', '9', 1, 2);
 
 INSERT INTO ROOMS_ROOM (host_id, name, updated, created, description,
                                 city, price, address, beds, bedrooms, baths, check_in, check_out,
