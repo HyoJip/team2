@@ -11,6 +11,7 @@ import com.team2.airbnb.dao.RoomDao;
 import com.team2.airbnb.model.User;
 import com.team2.airbnb.model.vo.ReviewVO;
 import com.team2.airbnb.model.vo.RoomVO;
+import com.team2.airbnb.util.Pagination;
 
 @Service
 public class RoomService {
@@ -49,11 +50,19 @@ public class RoomService {
 		return roomDao.insertRoom(room);
 	}
 
-	public List<RoomVO> getAllRoom() {
-		return roomDao.selectAllRoom();
+	public List<RoomVO> getAllRoom(Pagination pagination) {
+		return roomDao.selectAllRoom(pagination);
 	}
 
-	public List<RoomVO> getRooms(String keyword) {
-		return roomDao.selectRoomsByAddrOrName(keyword);
+	public List<RoomVO> getRooms(Pagination pagination, String keyword) {
+		return roomDao.selectRoomsByAddrOrName(pagination, keyword);
+	}
+	
+	public int getCountAll() {
+		return roomDao.selectCountAll();
+	}
+	
+	public int getCount(String keyword) {
+		return roomDao.selectCount(keyword);
 	}
 }

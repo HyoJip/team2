@@ -1,3 +1,4 @@
+<%@page import="com.team2.airbnb.util.Pagination"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.team2.airbnb.model.vo.RoomVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -12,12 +13,13 @@
 <body>
 	<jsp:include page="../partial/header.jsp" />
 <%
-		ArrayList<RoomVO> rooms = (ArrayList<RoomVO>) request.getAttribute("rooms");
+	ArrayList<RoomVO> rooms = (ArrayList<RoomVO>) request.getAttribute("rooms");
+	Pagination pagination = (Pagination) request.getAttribute("pagination");	
 %>
 	<main class="main_wrap">
 		<section class="search_result">
-			<small><span class="search_count"><%=rooms.size()%></span>개의 숙소</small>
-			<h1 class="header_title">${keyword}의 숙소</h1>
+			<small><span class="search_count">${pagination.listCnt}</span>개의 숙소</small>
+			<h1 class="header_title">${empty keyword? "모든 지역": keyword}의 숙소</h1>
 		</section>
 		<section class="room_list" id="roomList">
 <%
@@ -42,20 +44,46 @@
 							<span class="rating_count">(<%=room.getReviewCount()%>)</span>
 						</small>
 					</div>
+	<%
+			}
+	%>
 				</div>
 			</article>		
-<%
-			}
+<%	
 		}
 %>
 		</section>
 		<section class="pagination">
 			<div class="page_btns">
-			<button class="prev_btn">&lt;</button>
-			<span class="cur_page_num">1</span>
-			<button class="prev_btn">&gt;</button>
+			<%
+				if (pagination.isPrev()) {
+			%>
+				<button id="prevBtn"><a href="<%=pagination.getPrevUrl(pagination.getPage(), pagination.getRange())%>"><i class="fas fa-angle-left"></i></a></button>
+			<%
+				}
+			%>
+			<%
+				for (int i = pagination.getStartPage(); i <= pagination.getEndPage(); i++) {
+			%>
+				<span class="page_num <%=pagination.getPage() == i
+									? "cur_page"
+									: ""%>">
+				<%= pagination.getPage() == i
+						? i
+						: "<a href='/room?page="+ i + "&range=" + pagination.getRange() + "'>" + i + "</a>"%>
+				</span>			
+			<%
+				}
+			%>
+			<%
+				if (pagination.isNext()) {
+			%>
+				<button id="nextBtn"><a href="<%=pagination.getNextUrl(pagination.getPage(), pagination.getRange())%>"><i class="fas fa-angle-right"></i></a></button>
+			<%
+				}
+			%>
 			</div>
-			<small class="page_detail">숙소 <span class="page_count"><%=rooms.size()%></span>개 중 <span>%CUR_PAGE_FIRST%</span>-<span>%CUR_PAGE_LAST%</span></small>
+			<small class="page_detail">숙소 <span class="page_count">${pagination.listCnt}</span>개 중 <span>${pagination.startList}</span>-<span>${!pagination.next? pagination.listCnt: pagination.startList + pagination.listSize - 1}</span></small>
 		</section>
 	</main>
 	<jsp:include page="../partial/footer.jsp" />
