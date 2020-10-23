@@ -15,6 +15,10 @@
 	--boxShadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
+// Breakpoints
+$breakpoint-tablet: 758px;
+$breakpoint-desktop: 1024px;
+
 .ACCEPTED {
 	color: var(--green) !important;
 }

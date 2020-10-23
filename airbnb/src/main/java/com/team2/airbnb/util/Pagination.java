@@ -1,8 +1,8 @@
 package com.team2.airbnb.util;
 
 public class Pagination {
-	private int listSize = 10; // 초기값으로 목록개수를 10으로 셋팅
-	private int rangeSize = 10; // 초기값으로 페이지범위를 10으로 셋팅
+	private int listSize = 2; // 초기값으로 목록개수를 10으로 셋팅
+	private int rangeSize = 2; // 초기값으로 페이지범위를 10으로 셋팅
 	private int page;
 	private int range;
 	private int listCnt;
@@ -84,28 +84,61 @@ public class Pagination {
 	public int getStartList() {
 		return startList;
 	}
+	
 
+	public int getPageCnt() {
+		return pageCnt;
+	}
+
+	public void setPageCnt(int pageCnt) {
+		this.pageCnt = pageCnt;
+	}
+
+	public void setRangeSize(int rangeSize) {
+		this.rangeSize = rangeSize;
+	}
+
+	public void setStartList(int startList) {
+		this.startList = startList;
+	}
+	
 	public void pageInfo(int page, int range, int listCnt) {
 		this.page = page;
 		this.range = range;
 		this.listCnt = listCnt;
 
 		// 전체 페이지수
-		this.pageCnt = (int) Math.ceil(listCnt / listSize);
+		this.pageCnt = listCnt%listSize == 0 ? listCnt/listSize : (listCnt/listSize) + 1;
 		// 시작 페이지
 		this.startPage = (range - 1) * rangeSize + 1;
 		// 끝 페이지
 		this.endPage = range * rangeSize;
 		// 게시판 시작번호
-		this.startList = (page - 1) * listSize;
+		this.startList = (page - 1) * listSize + 1;
 		// 이전 버튼 상태
 		this.prev = range == 1 ? false : true;
 		// 다음 버튼 상태
-		this.next = endPage > pageCnt ? false : true;
-
-		if (this.endPage > this.pageCnt) {
+		if (this.endPage >= this.pageCnt) {
 			this.endPage = this.pageCnt;
 			this.next = false;
+		} else {
+			this.next = true;
 		}
+	}
+	
+	public String getPrevUrl(int page, int range) {
+		int prevPage = ((range - 2) * rangeSize) +1;
+		int prevRange = range - 1;
+		
+		String url = "/room?page=" + prevPage + "&range=" + prevRange;
+		return url;
+	}
+	
+	public String getNextUrl(int page, int range) {
+		int nextPage = (range * rangeSize) +1;
+		int nextRange = range + 1;
+		
+		String url = "/room?page=" + nextPage + "&range=" + nextRange;
+		return url;
 	}
 }

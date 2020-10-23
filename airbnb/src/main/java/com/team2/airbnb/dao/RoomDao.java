@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.team2.airbnb.model.User;
 import com.team2.airbnb.model.vo.ReviewVO;
 import com.team2.airbnb.model.vo.RoomVO;
+import com.team2.airbnb.util.Pagination;
 
 @Repository
 public class RoomDao {
@@ -106,27 +107,46 @@ public class RoomDao {
 		room.setId(keyValue);
 		return isSuccess;
 	}
-
-	public List<RoomVO> selectAllRoom() {
-		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT room.id, room.host_id as hostId, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in as checkIn, room.check_out as checkOut, room.guests, count(*) as reviewCount, NVL(avg(reviews.value), 0) as reviewAvg ");
-		sql.append("FROM rooms_room room, reviews(+) ");
-		sql.append("WHERE room.id = reviews.room_id ");
-		sql.append("GROUP BY room.id, room.host_id, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in, room.check_out, room.guests ");
-		sql.append("ORDER BY created DESC");
-		return jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<RoomVO>(RoomVO.class));
+	
+	public int selectCountAll() {
+		String sql = "SELECT count(*) FROM rooms_room";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 
-	public List<RoomVO> selectRoomsByAddrOrName(String keyword) {
+	public List<RoomVO> selectAllRoom(Pagination pagination) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT A.* FROM( ");
+		sql.append("SELECT rownum as num, room.id, room.host_id as hostId, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in as checkIn, room.check_out as checkOut, room.guests, count(*) as reviewCount, NVL(avg(reviews.value), 0) as reviewAvg ");
+		sql.append("FROM rooms_room room, reviews ");
+		sql.append("WHERE room.id = reviews.room_id(+) ");
+		sql.append("GROUP BY rownum, room.id, room.host_id, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in, room.check_out, room.guests ");
+		sql.append("ORDER BY created DESC ) A ");
+		sql.append("WHERE num BETWEEN ? and ? ");
+		sql.append("ORDER BY num DESC");
+		return jdbcTemplate.query(sql.toString(), new Object[] {pagination.getStartList(), pagination.getStartList() + pagination.getListSize() - 1}, new BeanPropertyRowMapper<RoomVO>(RoomVO.class));
+	}
+	
+	public int selectCount(String keyword) {
 		StringBuffer sql = new StringBuffer();
 		keyword = "%" + keyword + "%";
-		sql.append("SELECT room.id, room.host_id as hostId, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in as checkIn, room.check_out as checkOut, room.guests, count(*) as reviewCount, NVL(avg(reviews.value), 0) as reviewAvg ");
+		sql.append("SELECT count(*) FROM rooms_room ");
+		sql.append("WHERE (address LIKE ? OR name LIKE ?) ");
+		return jdbcTemplate.queryForObject(sql.toString(), new Object[] {keyword, keyword}, Integer.class);
+	}
+
+	public List<RoomVO> selectRoomsByAddrOrName(Pagination pagination, String keyword) {
+		StringBuffer sql = new StringBuffer();
+		keyword = "%" + keyword + "%";
+		sql.append("SELECT A.* FROM ( ");
+		sql.append("SELECT rownum as num, room.id, room.host_id as hostId, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in as checkIn, room.check_out as checkOut, room.guests, count(*) as reviewCount, NVL(avg(reviews.value), 0) as reviewAvg ");
 		sql.append("FROM rooms_room room, reviews ");
 		sql.append("WHERE room.id = reviews.room_id(+) ");
 		sql.append("AND (address LIKE ? OR name LIKE ?) ");
-		sql.append("GROUP BY room.id, room.host_id, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in, room.check_out, room.guests ");
-		sql.append("ORDER BY created DESC");
-		return jdbcTemplate.query(sql.toString(), new Object[] {keyword, keyword}, new BeanPropertyRowMapper<RoomVO>(RoomVO.class));
+		sql.append("GROUP BY rownum, room.id, room.host_id, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in, room.check_out, room.guests ");
+		sql.append("ORDER BY created DESC ) A ");
+		sql.append("WHERE num BETWEEN ? and ? ");
+		sql.append("ORDER BY num DESC");
+		return jdbcTemplate.query(sql.toString(), new Object[] {keyword, keyword, pagination.getStartList(), pagination.getStartList() + pagination.getListSize() - 1}, new BeanPropertyRowMapper<RoomVO>(RoomVO.class));
 	}
 	
 	
