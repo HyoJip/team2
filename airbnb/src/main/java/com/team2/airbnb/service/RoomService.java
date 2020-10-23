@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team2.airbnb.dao.RoomDao;
+import com.team2.airbnb.model.RoomPhoto;
 import com.team2.airbnb.model.User;
 import com.team2.airbnb.model.vo.ReviewVO;
 import com.team2.airbnb.model.vo.RoomVO;
@@ -64,5 +65,10 @@ public class RoomService {
 	
 	public int getCount(String keyword) {
 		return roomDao.selectCount(keyword);
+	}
+
+	public void photoCreate(RoomPhoto roomPhoto) {
+		roomDao.insertRoomPhoto(roomPhoto);
+		
 	}
 }

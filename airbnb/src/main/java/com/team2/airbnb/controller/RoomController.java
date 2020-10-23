@@ -1,5 +1,6 @@
 package com.team2.airbnb.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.List;
@@ -16,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.team2.airbnb.model.RoomPhoto;
 import com.team2.airbnb.model.User;
 import com.team2.airbnb.model.vo.ReviewVO;
 import com.team2.airbnb.model.vo.RoomVO;
 import com.team2.airbnb.service.RoomService;
 import com.team2.airbnb.service.UserService;
+import com.team2.airbnb.util.FileUtil;
 import com.team2.airbnb.util.Pagination;
 
 @Controller
@@ -83,6 +87,22 @@ public class RoomController {
 		return "room/room_form";
 	}
 	
+	@RequestMapping(value = "room/create/photo", method = RequestMethod.POST)
+	public String roomCreatePhoto(RoomPhoto roomPhoto, HttpSession session, Model model, MultipartFile[] files) throws IOException {
+		User user = (User) session.getAttribute("login");
+		Map<String, Object> map = FileUtil.saveFiles(files);
+		String msg = (String) map.get("msg");
+		String[] fileNames = (String[]) map.get("fileNames");
+		model.addAttribute("msg", msg);
+		if (fileNames == null) {
+			return "room/room_photo_form";
+		}
+		
+		roomPhoto.setCreated(LocalDate.now());
+		roomPhoto.setFiles(fileNames);
+		roomService.photoCreate(roomPhoto);
+	}
+	
 	@RequestMapping(value = "/room", method = RequestMethod.GET)
 	public String roomList(Model model,
 			@RequestParam(required = false, defaultValue = "1") int page,
@@ -90,6 +110,7 @@ public class RoomController {
 		int listCnt = roomService.getCountAll();
 		Pagination pagination = new Pagination();
 		pagination.pageInfo(page, range, listCnt);
+		
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("rooms", roomService.getAllRoom(pagination));
 		return "room/room_list";

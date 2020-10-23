@@ -5,46 +5,65 @@
 <head>
 <meta charset="UTF-8">
 <title>에어비앤비 | 숙소 사진 등록</title>
-</head>
 <link rel="stylesheet" href="/resources/css/base.css" />
+<link rel="stylesheet" href="/resources/css/room/roomphoto.css">
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
 <body>
+	<%
+		request.getMethod().equalsIgnoreCase("POST") {
+		
+	}
+	%>
 	<jsp:include page="../partial/header.jsp" />
-	<main class="main_wrap">
-		<h1>사진을 더하면 숙소를 실감나게 보여줄 수 있습니다.</h1>
-		<p>게스트가 이용할 수 있는 구역의 사진을 올리세요. 언제든 사진을 추가할 수 있습니다.
-		<form name="form" method="post" enctype="multipart/form-data"
-			action="roomPhotoOk.jsp">
-			<div class="background">
-				<textarea name="caption" id="caption" cols="60" rows="10"
-					maxlength="80" placeholder="80자 내외로 입력해주세요."></textarea>
-				<input type="file" name="file" id="images" multiple required />
-				<div class="button">
-					<input type="button" value="다음" onclick="check_ok()" />
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="button"
-						value="돌아가기" onclick="javascript:window.location='roomPhoto.jsp'" />
-				</div>
-			</div>
-		</form>
-	</main>
+	<form name="form" method="post" enctype="multipart/form-data" action="/room/create/photo">
+        <div class="background">
+            <div class="host">
+                <h1>숙소 사진 등록하기</h1>
+                <p class="headtext">
+                    - 사진을 등록하세요  -
+                </p>
+                <p class="subtext">
+                    *사진은 최대 6장 등록 가능합니다.
+                </p>
+                <div class="img">
+                    <input type="file" name="file" accept="image/*" multiple onchange="fileInfo(this)" /><br>
+                    <div id="img_box"></div> 
+                </div>       
+                <div class="button">
+                    <input type="button" value="다음" onclick="check_ok()" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" value="다시 작성" onclick="javascript:window.location=''"/>
+                </div>  
+            </div>
+        </div>
+        <input type="hidden" name="roomId" value="${room.id}"> 
+    </form>
 	<jsp:include page="../partial/footer.jsp" />
 	<script>
 		function check_ok() {
 			event.preventDefault();
-
-			if (document.form.caption.value == "") {
-				alert("숙소 설명을 입력해주세요");
-				form.caption.focus();
-				return;
-			}
-
-			if (document.form.file.value == "") {
-				alert("이미지를 넣어주세요");
-				form.file.focus();
-				return;
-			}
-
-			document.form.submit();
+			if (document.form.r_file.value == "") {
+				alert("이미지를 최소 하나 넣어주세요");
+			   	return;
+		  }
+		  document.form.submit();
 		}
+		
+        function fileInfo(f) {
+        	var file = f.files; 
+    
+            for(var i=0; i<file.length; i++) {
+            	$('#img_box').text("");
+                var reader = new FileReader();
+                reader.onload = function(rst) {
+                    $('#img_box').append('<img src="' + rst.target.result + '"style="width:259px; height:197px;">');
+                }
+                reader.readAsDataURL(file[i]);
+            }         
+        }
 	</script>
 </body>
 </html>

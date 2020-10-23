@@ -32,7 +32,13 @@
 				<p>생년월일</p>
 				<p class="line">${user.birthDay}</p>
 				<p>프로필 사진</p>
-        		<p class="line"><input type="file" name="file" /></p>
+        		<p class="line">
+		        <img alt="your image" class="photo_preview" src="http://www.washaweb.com/tutoriaux/fileupload/imgs/image-temp-220.png">
+		        <span class="input_file">
+		            <label>컴퓨터에 있는 사진을 업로드해주세요.</label>
+	        		<input type="file" name="file" onchange="readURL(this);"/>		            
+		        </span>
+        		</p>
 				<div class="button">
 					<input type="button" value="수정" onclick="update_check_ok(event)" />
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

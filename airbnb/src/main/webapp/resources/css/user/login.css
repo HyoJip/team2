@@ -109,4 +109,8 @@ input[type="submit"] {
   color: white;
   background: #ff5a5f;
   border-radius: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  border: 0;
+  font-weight: 300;
 }

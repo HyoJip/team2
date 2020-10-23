@@ -1,8 +1,8 @@
 package com.team2.airbnb.util;
 
 public class Pagination {
-	private int listSize = 2; // 초기값으로 목록개수를 10으로 셋팅
-	private int rangeSize = 2; // 초기값으로 페이지범위를 10으로 셋팅
+	private int listSize = 8; // 초기값으로 목록개수를 8으로 셋팅
+	private int rangeSize = 5; // 초기값으로 페이지범위를 5으로 셋팅
 	private int page;
 	private int range;
 	private int listCnt;
@@ -130,7 +130,7 @@ public class Pagination {
 		int prevPage = ((range - 2) * rangeSize) +1;
 		int prevRange = range - 1;
 		
-		String url = "/room?page=" + prevPage + "&range=" + prevRange;
+		String url = "?page=" + prevPage + "&range=" + prevRange;
 		return url;
 	}
 	
@@ -138,7 +138,7 @@ public class Pagination {
 		int nextPage = (range * rangeSize) +1;
 		int nextRange = range + 1;
 		
-		String url = "/room?page=" + nextPage + "&range=" + nextRange;
+		String url = "?page=" + nextPage + "&range=" + nextRange;
 		return url;
 	}
 }

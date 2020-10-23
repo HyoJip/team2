@@ -159,5 +159,18 @@ function commaSplit(n) {
     return arrNumber[0].split(".")[0];
   }
 }
+	
+function numberonly(e) {
+	var key, obj = e.srcElement || e.target;
+	key = e.keyCode;
+	if(key == 8) return;
+	if(key == 9) return;
+	if( (key < 45 || key > 57) && key < 96 || key > 105 && key != 109 && key != 189 ) {
+		obj.blur();
+		setTimeout(function() {
+			obj.focus();
+		}, 30);
+	}
+}
 
 

@@ -37,9 +37,12 @@
 					<!-- date 타입의 birth의 값을 받는다. -->
 				</p>
 				<p class="text">
-		        	&nbsp;프로필에 사용할 이미지&nbsp;&nbsp;&nbsp;<a style="font-size: 13px;">*1장만 등록 가능</a><br>		
-		        	<br>
-		        	&nbsp;&nbsp;<input type="file" name="file" />
+		        	&nbsp;프로필에 사용할 이미지&nbsp;&nbsp;&nbsp;<a style="font-size: 13px;">*1장만 등록 가능</a>
+ 			        <img alt="your image" class="photo_preview" src="http://www.washaweb.com/tutoriaux/fileupload/imgs/image-temp-220.png">
+		        	<span class="input_file">
+		            <label>컴퓨터에 있는 사진을 업로드해주세요.</label>
+	        		<input type="file" name="file" onchange="readURL(this);"/>		            
+		        </span>
 		        </p>
 				<p class="submit">
 					<input type="button" value="회원가입" onclick="check_ok(event);" />

@@ -15,14 +15,14 @@
 	<jsp:include page="../partial/header.jsp" />
 <%
 	ArrayList<RoomVO> rooms = (ArrayList<RoomVO>) request.getAttribute("rooms");
-	Pagination pagination = (Pagination) request.getAttribute("pagination");	
+	Pagination pagination = (Pagination) request.getAttribute("pagination");
 %>
-	<main class="main_wrap">
-		<section class="search_result">
-			<small><span class="search_count">${pagination.listCnt}</span>개의 숙소</small>
-			<h1 class="header_title">${empty keyword? "모든 지역": keyword}의 숙소</h1>
-		</section>
-		<div class="room_list_wrap">
+	<div class="wrap">
+		<main class="main_wrap">
+			<section class="search_result">
+				<small><span class="search_count">${pagination.listCnt}</span>개의 숙소</small>
+				<h1 class="header_title">${empty keyword? "모든 지역": keyword}의 숙소</h1>
+			</section>
 			<section class="room_list" id="roomList">
 	<%
 				for(RoomVO room: rooms) {
@@ -59,7 +59,7 @@
 					<%
 						if (pagination.isPrev()) {
 					%>
-						<button id="prevBtn"><a href="<%=pagination.getPrevUrl(pagination.getPage(), pagination.getRange())%>"><i class="fas fa-angle-left"></i></a></button>
+						<button id="prevBtn"><a href="<%= pagination.getPrevUrl(pagination.getPage(), pagination.getRange())%>"><i class="fas fa-angle-left"></i></a></button>
 					<%
 						}
 					%>
@@ -71,7 +71,7 @@
 											: ""%>">
 						<%= pagination.getPage() == i
 								? i
-								: "<a href='/room?page="+ i + "&range=" + pagination.getRange() + "'>" + i + "</a>"%>
+								: "<a href='?page="+ i + "&range=" + pagination.getRange() + "'>" + i + "</a>"%>
 						</span>			
 					<%
 						}
@@ -79,7 +79,7 @@
 					<%
 						if (pagination.isNext()) {
 					%>
-						<button id="nextBtn"><a href="<%=pagination.getNextUrl(pagination.getPage(), pagination.getRange())%>"><i class="fas fa-angle-right"></i></a></button>
+						<button id="nextBtn"><a href="<%= pagination.getNextUrl(pagination.getPage(), pagination.getRange())%>"><i class="fas fa-angle-right"></i></a></button>
 					<%
 						}
 					%>
@@ -87,15 +87,15 @@
 					<small class="page_detail">숙소 <span class="page_count">${pagination.listCnt}</span>개 중 <span>${pagination.startList}</span>-<span>${!pagination.next? pagination.listCnt: pagination.startList + pagination.listSize - 1}</span></small>
 				</section>
 			</section>
-			<aside class="map_wrapper">
+		</main>
+		<aside class="map_wrapper">
+			<div class="map_relative">
 				<div class="map_sticky">
-					<div class="map_relative">
-						<div class="map" id="map"></div>
-					</div>
+					<div class="map" id="map"></div>
 				</div>
-			</aside>
-		</div>
-	</main>
+			</div>
+		</aside>
+	</div>
 	<jsp:include page="../partial/footer.jsp" />
 	<script src="/resources/roomList.js"></script>
 </body>

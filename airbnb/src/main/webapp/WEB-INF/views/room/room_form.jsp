@@ -8,8 +8,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>에어비앤비 | 숙소 등록</title>
-<link rel="stylesheet" href="/resources/css/user/hostCreate.css" />
 <link rel="stylesheet" href="/resources/css/base.css" />
+<link rel="stylesheet" href="/resources/css/user/hostCreate.css" />
 <script
 	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
@@ -39,11 +39,9 @@
 					주소 <a></br>게스트에게 자세한 주소를 알려주세요.</a>
 				</p>
 				<div class="addr">
-					<input type="text" name="address1" id="address" placeholder="주소"
-						style="margin-left: 35px;" /> <input type="text" name="address2"
-						id="detailAddress" placeholder="상세주소" style="margin-left: 10px;" />
-					<input type="text" name="address3" id="extraAddress"
-						placeholder="참고항목" style="margin-left: 35px; margin-top: 10px;" />
+					<input type="text" name="address1" id="address" placeholder="주소"	readonly style="margin-left: 35px;" /> 
+					<input type="text" name="address2" id="extraAddress" placeholder="참고항목" readonly style="margin-left: 10px;" margin-top: 10px;"/> 
+					<input type="text" name="address3" id="detailAddress" placeholder="상세주소" style="margin-left: 35px; margin-top: 10px;" />
 				</div>
 				<input type="button" onclick="execDaumPostcode()" value="주소 찾기"
 					style="margin-top: 20px; margin-left: 250px;" />
@@ -83,16 +81,16 @@
 					체크인 시간 <a></br>24시 형태로 입력해주세요.</a>
 				</p>
 				<p class="line2">
-					<input type="text" name="checkIn" /> &nbsp;&nbsp;&nbsp;ex)오후4시
-					=> 16
+					<input type="text" name="checkIn" onkeydown="numberonly(event);" maxlength="2" />
+					&nbsp;&nbsp;&nbsp;ex)오후4시 => 16
 				</p>
 
 				<p>
 					체크아웃 시간 <a></br>24시 형태로 입력해주세요.</a>
 				</p>
 				<p class="line2">
-					<input type="text" name="checkOut" /> &nbsp;&nbsp;&nbsp;ex)오전9시
-					=> 09
+					<input type="text" name="checkOut" onkeydown="numberonly(event);" maxlength="2" /> 
+					&nbsp;&nbsp;&nbsp;ex)오전9시 => 09
 				</p>
 
 				<p>

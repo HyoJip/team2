@@ -1,9 +1,9 @@
 @charset "utf-8";
 
-body {
-  font: 13px/20px "Lucida Grande", Tahoma, Verdana, sans-serif;
-  color: #404040;
+*{
+	font-family: inherit;
 }
+
 .background {
   background-color: #008489;
   padding-top: 1px;
@@ -69,9 +69,19 @@ body {
 input[type="button"] {
   padding: 0 80px;
   height: 30px;
-  font-size: 20px;
+  font-size: 15px;
   color: #008489;
   background: white;
   border: 2px solid #008489;
-  border-radius: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.body_header ul .airbnb_icon,
+.body_header ul .header_profile .profile_img {
+	color: var(--blue);
+}
+
+.body_header ul .room_search i {
+	background-color: var(--blue);
 }
