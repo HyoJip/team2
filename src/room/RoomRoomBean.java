@@ -20,7 +20,7 @@ public class RoomRoomBean {
 	private String	r_check_out;
 	private int	  	r_instant_book;
 	private int 	r_guests;
-	
+			
 	public int getR_id() {
 		return r_id;
 	}

@@ -8,9 +8,9 @@ public class RoomPhotoBean {
 	private int 	r_room_id;
 	private Date 	r_created;
 	private Date 	r_updated;
-	private String 	r_caption;	//사진삽화 등에 붙인 설명
+	private String[] r_files;
 	
-	private String[] r_file;
+	public static final int MAX = 6;
 			
 	public int getR_id() {
 		return r_id;
@@ -43,22 +43,13 @@ public class RoomPhotoBean {
 	public void setR_updated(Date r_updated) {
 		this.r_updated = r_updated;
 	}
-	
-	public String getR_caption() {
-		return r_caption;
-	}
-	
-	public void setR_caption(String r_caption) {
-		this.r_caption = r_caption;
+
+	public String[] getR_files() {
+		return r_files;
 	}
 
-	public String[] getR_file() {
-		return r_file;
+	public void setR_files(String[] r_files) {
+		this.r_files = r_files;
 	}
-
-	public void setR_file(String[] r_file) {
-		this.r_file = r_file;
-	}
-	
 	
 }

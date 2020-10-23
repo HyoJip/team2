@@ -31,8 +31,7 @@ function execDaumPostcode() {
         }
         // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
         if (extraAddr !== "") {
-          //extraAddr = " (" + extraAddr + ")";
-        	extraAddr = "(" + extraAddr + ")";
+          extraAddr = " (" + extraAddr + ")";
         }
         // 조합된 참고항목을 해당 필드에 넣는다.
         document.getElementById("extraAddress").value = extraAddr;
@@ -51,7 +50,7 @@ function execDaumPostcode() {
 function first_check_ok() {
   event.preventDefault();
   if (document.form.r_name.value == "") {
-    alert("숙소이름을 입력해주세요");
+    alert("숙소 제목을 입력해주세요");
     form.r_name.focus();
     return;
   }
@@ -65,18 +64,11 @@ function first_check_ok() {
     form.r_address1.focus();
     return;
   }
-  /*
-  if (document.form.r_address2.value == "") {
-	alert("참고항목을 입력해주세요");
-	form.r_address2.focus();
-	return;
-  }
   if (document.form.r_address3.value == "") {
-	alert("상세주로를 입력해주세요");
+	alert("상세 주소를 입력해주세요");
 	form.r_address3.focus();
 	return;
   }
-  */
   if (document.form.r_price.value == "") {
     alert("희망 가격을 입력해주세요");
     form.r_price.focus();
@@ -88,12 +80,12 @@ function first_check_ok() {
     return;
   }
   if (document.form.r_beds.value == "") {
-    alert("침대 개수를 입력해주세요");
+    alert("침대 갯수를 입력해주세요");
     form.r_beds.focus();
     return;
   }
   if (document.form.r_baths.value == "") {
-    alert("욕실 개수를 입력해주세요");
+    alert("욕실 갯수를 입력해주세요");
     form.r_baths.focus();
     return;
   }
@@ -171,17 +163,6 @@ function commaSplit(n) {
   } else {
     return arrNumber[0].split(".")[0];
   }
-}
-
-function delete_ok() {
-	/*
-	if(document.form.b_pwd.value.length==0){
-		alert("비밀번호를 입력하세요.");
-		form.b_pwd.focus();
-		return false;
-	}
-	*/
-	document.form.submit();
 }
 
 

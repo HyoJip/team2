@@ -1,12 +1,11 @@
-<%@page import="java.sql.Date"%>
-<%@page import="java.time.LocalDate"%>
+<%@ page import="java.sql.Date"%>
+<%@ page import="java.time.LocalDate"%>
 <%@ page import="java.sql.Timestamp"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.text.DateFormat"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page import = "room.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="room.*" %>
 
 <%
 	request.setCharacterEncoding("utf-8");
@@ -18,7 +17,7 @@
 	RoomDBBean db = RoomDBBean.getInstance();
 	ArrayList<RoomRoomBean> roomList = db.listRoom();
 	
-	int id = 41;
+	int id = 61;	//집에선 61 학교에선 83
 	
 	for(int i = 0; i < roomList.size(); i++) {
 		if(id == roomList.get(i).getR_id()) {
@@ -32,7 +31,7 @@
 	String address1 = request.getParameter("r_address1");
 	String address2 = request.getParameter("r_address2");
 	String address3 = request.getParameter("r_address3");
-	room.setR_address(address1 + " " + address2 + " "+ address3); 
+	room.setR_address(address1 + "  " + address2 + "  "+ address3);
 	
 	LocalDate local = LocalDate.now();
 		

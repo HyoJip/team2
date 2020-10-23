@@ -1,19 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="room.*"%>
 <%@ page import="java.util.ArrayList"%>
 <%
 	RoomDBBean db = RoomDBBean.getInstance();
 	ArrayList<RoomRoomBean> roomList = db.listRoom();
 	
-	int index = 11;
+	int index = 0;	
 	
+	int id = 100;	
+	
+	for(int i = 0; i < roomList.size(); i++) {
+		if(id == roomList.get(i).getR_id()) {
+			index = i;
+			break;
+		}
+	}
+
 	String address = roomList.get(index).getR_address(); 
-	String addr[] = address.split(" ");
+	String[] addr = address.split("  ");
 	
 %>
 
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -67,9 +76,9 @@
                     <a></br>게스트에게 자세한 주소를 알려주세요.</a>
                 </p>
                 <div class="addr">
-                    <input type="text" name="r_address1" id="address" 		value="<%= addr[0] %>" style="margin-left: 35px;" />
-                    <input type="text" name="r_address2" id="detailAddress" value="<%= addr[1] %>" style="margin-left: 10px;" />
-                    <input type="text" name="r_address3" id="extraAddress"  value="<%= addr[2] %>" style="margin-left: 35px; margin-top: 10px;" />
+                    <input type="text" name="r_address1" id="address" value="<%= addr[0] %>" style="margin-left: 35px;" />
+                    <input type="text" name="r_address2" id="extraAddress" value="<%= addr[1] %>" style="margin-left: 10px; margin-top: 10px;" />                    		
+                    <input type="text" name="r_address3" id="detailAddress" value="<%= addr[2] %>" style="margin-left: 35px; margin-top: 10px;" /> 
                 </div>
                 <input type="button" onclick="execDaumPostcode()" value="주소 찾기" style="margin-top: 20px; margin-left: 250px;"/>
 
@@ -129,11 +138,12 @@
                         </br>주변지역의 매력을 소개 시켜주세요.
                     </a>
                 </p>
+                           
                 <p class="line">
-                    <textarea name="r_description" id="description" cols="60" rows="10" maxlength="500" >
-                     	<%= roomList.get(index).getR_description() %>
-                    </textarea>
+                	<textarea name="r_description" id="description" rows="10" cols="60" maxlength="500"><%= roomList.get(index).getR_description() %>
+                	</textarea>
                 </p>
+                
                 <div class="button">
                     <input type="button" value="수정" onclick="first_check_ok()" />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
