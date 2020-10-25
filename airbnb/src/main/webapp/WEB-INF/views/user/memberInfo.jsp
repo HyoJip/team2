@@ -12,15 +12,15 @@
 <body>
 	<%@ include  file="../partial/header.jsp"%>
 
-	<form method="POST" name="form" action="">
+	<form method="POST" name="form" action="" enctype="multipart/form-data">
 		<div class="background">
 			<div class="info">
 				<h1>나의 정보 수정</h1>
 				<p class="text">'*'표시는 필수로 입력해주세요.</p>
 				<p>이름</p>
-				<p class="line">${user.username}</p>
+				<p class="line"><input class="readonly" type="text" name="username" value="${user.username}" readonly/></p>
 				<p>이메일</p>
-				<p class="line">${user.email}</p>
+				<p class="line"><input class="readonly" type="text" name="email" value="${user.email}" readonly/></p>
 				<p>비밀번호</p>
 				<p class="line">
 					<input type="password" name="password" /> '*' 8자리 이상 입력
@@ -31,6 +31,14 @@
 				</p>
 				<p>생년월일</p>
 				<p class="line">${user.birthDay}</p>
+				<p>프로필 사진</p>
+        		<p class="line">
+		        <img alt="your image" class="photo_preview" src="http://www.washaweb.com/tutoriaux/fileupload/imgs/image-temp-220.png">
+		        <span class="input_file">
+		            <label>컴퓨터에 있는 사진을 업로드해주세요.</label>
+	        		<input type="file" name="file" onchange="readURL(this);"/>		            
+		        </span>
+        		</p>
 				<div class="button">
 					<input type="button" value="수정" onclick="update_check_ok(event)" />
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -46,7 +54,11 @@
 %>
 		<script>
 			alert("회원정보가 수정되었습니다.");
-			document.location.href="/";
+			const form = document.createElement("form");
+			form.setAttribute("method", "POST");
+			form.setAttribute("action", "/logout");
+			document.body.appendChild(form);
+			setTimeout(form.submit(), 1000);
 		</script>
 <% 		} else { %>
 		<script>

@@ -55,7 +55,8 @@ public class ReservationController {
 		int totalPrice = roomPrice * reserveNight;
 		
 		// DB에 저장된 정보
-		RoomVO room = roomService.getRoomById(id);
+		Map map = roomService.getRoomById(id);
+		RoomVO room = (RoomVO) map.get("room");
 		model.addAttribute("room", room);
 		
 		// 게스트가 입력한  정보
@@ -96,6 +97,9 @@ public class ReservationController {
 				return "redirect:/";
 		// 본인 숙소 예약 리스트 GET
 			List<ReserveVO> list = reserveDao.selectByHostId(hostId);
+			for (ReserveVO reserve: list) {
+				changeStatusToCancledIfAfterToday(reserve);
+			}
 			model.addAttribute("reserveList", list);
 		return "reservation/room_reserve_list";
 	}
@@ -152,18 +156,30 @@ public class ReservationController {
 			List<ReserveVO> rooms = reserveService.getListByUserId(id);
 			
 			for (ReserveVO reserve: rooms) {
-				if (reserve.getStatus().equals(ReserveStatus.ACCEPTED)) {
-					if (LocalDate.now().isAfter(reserve.getCheckOut().plusDays(14))) {
-						reserveDao.updateStatus(reserve.getId(), "COMPLETED");
-					}
-				}
-					
+				changeStatusToCompletedIfAfter2Weeks(reserve);
+				changeStatusToCancledIfAfterToday(reserve);
 			}
 			model.addAttribute("rooms", rooms);
 			
 			return "reservation/user_reserve_list";			
 		}
 		return "redirect:/";
+	}
+	
+	private void changeStatusToCompletedIfAfter2Weeks(ReserveVO reserve) {
+		if (reserve.getStatus().equals(ReserveStatus.ACCEPTED)) {
+			if (LocalDate.now().isAfter(reserve.getCheckOut().plusDays(14))) {
+				reserveDao.updateStatus(reserve.getId(), "COMPLETED");
+			}
+		}
+	}
+	
+	private void changeStatusToCancledIfAfterToday(ReserveVO reserve) {
+		if (reserve.getStatus().equals(ReserveStatus.PENDING) || reserve.getStatus().equals(ReserveStatus.REFUSED)) {
+			if (LocalDate.now().isAfter(reserve.getCheckIn())) {
+				reserveDao.updateStatus(reserve.getId(), "CANCLED");
+			}
+		}
 	}
 	
 	//////////////////////////////////// API

@@ -8,7 +8,8 @@ module.exports = {
 		roomReserveList: './js/roomReserveList.js',
 		userReserveList: './js/userReserveList.js',
 		reserveDetail: './js/reserveDetail.js',
-		reviewForm: './js/reviewForm.js'
+		reviewForm: './js/reviewForm.js',
+		roomList: './js/roomList.js'
 	},
 	output: {
 		path: path.resolve(__dirname, 'webapp/resources'),

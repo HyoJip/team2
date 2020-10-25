@@ -53,3 +53,18 @@ function update_check_ok(event){
 	
 	document.form.submit();
 }
+
+const readURL = (input) => {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            document.querySelector(".photo_preview").setAttribute("src", event.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+
+        const value = input.value
+        var labelText = 'File : ' + value.substr(12, value.length);
+        input.parentNode.querySelector("label").innerText= labelText;
+    }
+}

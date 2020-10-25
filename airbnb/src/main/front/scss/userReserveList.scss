@@ -59,10 +59,16 @@
 						}
 					}
 					
-					.reservation_deatil {
-						@include underline;
-						cursor: pointer;
-						padding-top: var(--containerVerticalPadding);
+					.reservation_detail_wrap {
+						display: flex;
+						justify-content: space-between;
+						
+						.reservation_deatil {
+							@include underline;
+							cursor: pointer;
+							padding-top: var(--containerVerticalPadding);
+						}
+						
 					}
 				}
 			}

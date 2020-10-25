@@ -1,18 +1,21 @@
 package com.team2.airbnb.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.team2.airbnb.dao.UserDao;
 import com.team2.airbnb.model.User;
+import com.team2.airbnb.util.FileUtil;
 
 @Service
 public class UserService {
-	
+
 	private final UserDao userDao;
 
 	@Autowired
@@ -20,7 +23,9 @@ public class UserService {
 		this.userDao = userDao;
 	}
 
-	public int joinUser(User user) {
+	public int joinUser(User user, MultipartFile file) throws IOException {
+		String saveFileName = FileUtil.saveFileAndGetName(file);
+		user.setPhoto(saveFileName);
 		user.setIsHost(0);
 		user.setIsSuperuser(0);
 		return userDao.insertUser(user);
@@ -28,7 +33,6 @@ public class UserService {
 	
 	public int EmailIsDuplicated(String email) {
 		User user = userDao.getUserByEmail(email);
-		System.out.println(user);
 		if (user == null) {
 			return 0;
 		}
@@ -56,7 +60,19 @@ public class UserService {
 		return map;
 	}
 
-	public int updateInfo(User user) {
-		return userDao.updateUser(user);
+	public int changeUserInfo(User user, MultipartFile file) throws IOException {
+		String saveFileName = FileUtil.saveFileAndGetName(file);
+		user.setPhoto(saveFileName);
+		return userDao.updatePassword(user);
+	}
+
+	public void setHost(User user) {
+		userDao.updateGuestToHost(user);
+		user.setIsHost(1);
+	}
+	
+	public void setGuest(User user) {
+		userDao.updateHostToGuest(user);
+		user.setIsHost(0);
 	}
 }

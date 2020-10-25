@@ -10,6 +10,7 @@ public class User {
 	private LocalDate birthDay;
 	private int isHost;
 	private int isSuperuser;
+	private String photo;
 
 	public User() {}
 	
@@ -76,4 +77,12 @@ public class User {
 		this.isSuperuser = isSuperuser;
 	}
 
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	
 }

@@ -79,6 +79,7 @@ public class ReserveDao {
 		sql.append("FROM reservations_reservation reserve, rooms_room room, users_user member ");
 		sql.append("WHERE room.host_id=? ");
 		sql.append("AND member.id = reserve.guest_id ");
+		sql.append("AND room.id = reserve.room_id ");
 		sql.append("ORDER BY reserve.check_in");
 		List<ReserveVO> results = jdbcTemplate.query(sql.toString(), new Object[] {hostId}, new BeanPropertyRowMapper<ReserveVO>(ReserveVO.class));
 		return results;

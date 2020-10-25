@@ -1,4 +1,4 @@
--- 생성자 Oracle SQL Developer Data Modeler 19.2.0.182.1216
+﻿-- 생성자 Oracle SQL Developer Data Modeler 19.2.0.182.1216
 --   위치:        2020-09-09 12:34:31 KST
 --   사이트:      Oracle Database 11g
 --   유형:      Oracle Database 11g
@@ -41,10 +41,10 @@ CREATE TABLE conversations_conversation (
 LOGGING;
 
 COMMENT ON COLUMN conversations_conversation.created IS
-    '���솕李� �깮�꽦�씪�옄';
+    '대화 생성 일자';
 
 COMMENT ON COLUMN conversations_conversation.updated IS
-    '留덉�留� ���솕�씪�옄';
+    '대화 수정 일자';
 
 ALTER TABLE conversations_conversation ADD CONSTRAINT conversations_conversation_pk PRIMARY KEY ( id );
 
@@ -67,10 +67,10 @@ CREATE TABLE conversations_message (
 LOGGING;
 
 COMMENT ON COLUMN conversations_message.created IS
-    '硫붿떆吏� �깮�꽦�씪�옄';
+    '대화 생성 일자';
 
 COMMENT ON COLUMN conversations_message.message IS
-    '�궡�슜';
+    '대화 메시지 내용';
 
 ALTER TABLE conversations_message ADD CONSTRAINT conversations_message_pk PRIMARY KEY ( id );
 
@@ -84,13 +84,13 @@ CREATE TABLE reservations_bookedday (
 LOGGING;
 
 COMMENT ON COLUMN reservations_bookedday.created IS
-    '�깮�꽦�씪�옄';
+    '예약된 날짜 생성일';
 
 COMMENT ON COLUMN reservations_bookedday.updated IS
-    '�닔�젙�씪�옄';
+    '예약된 날짜 수정일';
 
 COMMENT ON COLUMN reservations_bookedday.day IS
-    '�삁�빟�씪�옄';
+    '예약된 날짜';
 
 ALTER TABLE reservations_bookedday ADD CONSTRAINT reservations_bookedday_pk PRIMARY KEY ( id );
 
@@ -102,24 +102,25 @@ CREATE TABLE reservations_reservation (
     check_in    DATE,
     check_out   DATE,
     guest_id    INTEGER,
-    room_id     INTEGER
+    room_id     INTEGER,
+    guests      INTEGER
 )
 LOGGING;
 
 COMMENT ON COLUMN reservations_reservation.created IS
-    '�삁�빟�깮�꽦�씪�옄';
+    '예약 생성 일자';
 
 COMMENT ON COLUMN reservations_reservation.updated IS
-    '�삁�빟�닔�젙�씪�옄';
+    '예약수정일자';
 
 COMMENT ON COLUMN reservations_reservation.status IS
-    '�긽�깭';
+    '예약 상태';
 
 COMMENT ON COLUMN reservations_reservation.check_in IS
-    '泥댄겕�씤�궇吏�';
+    '체크인 날짜';
 
 COMMENT ON COLUMN reservations_reservation.check_out IS
-    '泥댄겕�븘�썐�궇吏�';
+    '체크아웃 날짜';
 
 ALTER TABLE reservations_reservation ADD CONSTRAINT reservations_reservation_pk PRIMARY KEY ( id );
 
@@ -134,13 +135,13 @@ CREATE TABLE reviews (
 LOGGING;
 
 COMMENT ON COLUMN reviews.created IS
-    '�깮�꽦�씪�옄';
+    '리뷰 생성 일자';
 
 COMMENT ON COLUMN reviews.review IS
-    '由щ럭';
+    '리뷰 수정 일자';
 
 COMMENT ON COLUMN reviews.value IS
-    '�룊�젏';
+    '평점';
 
 ALTER TABLE reviews ADD CONSTRAINT reviews_pk PRIMARY KEY ( id );
 
@@ -186,85 +187,90 @@ CREATE TABLE rooms_photo (
     created    DATE,
     updated    DATE,
     caption    VARCHAR2(80),
-    "file"     VARCHAR2(100)
+    "file1"     VARCHAR2(100),
+    "file2"     VARCHAR2(100),
+    "file3"     VARCHAR2(100),
+    "file4"     VARCHAR2(100),
+    "file5"     VARCHAR2(100),
+    "file6"     VARCHAR2(100)
 )
 LOGGING;
 
 COMMENT ON COLUMN rooms_photo.created IS
-    '�깮�꽦�씪�옄';
+    '사진 생성 일자';
 
 COMMENT ON COLUMN rooms_photo.updated IS
-    '�닔�젙�씪�옄';
+    '사진 수정 일자';
 
 COMMENT ON COLUMN rooms_photo.caption IS
-    '�궗吏� �꽕紐�';
+    '사진 설명';
 
 COMMENT ON COLUMN rooms_photo."file" IS
-    '�뙆�씪�쐞移�';
+    '사진 URL';
 
 ALTER TABLE rooms_photo ADD CONSTRAINT rooms_photo_pk PRIMARY KEY ( id );
 
 CREATE TABLE rooms_room (
     id             INTEGER NOT NULL,
     host_id        INTEGER,
-    name           VARCHAR2(40),
+    name           VARCHAR2(100),
     updated        DATE,
     created        DATE,
-    description    VARCHAR2(500),
+    description    VARCHAR2(4000),
     city           VARCHAR2(50),
     price          INTEGER,
     address        VARCHAR2(140),
     beds           INTEGER,
     bedrooms       INTEGER,
     baths          INTEGER,
-    check_in       TIMESTAMP,
-    check_out      TIMESTAMP,
-    instant_book   INTEGER,
+    check_in       CHAR(2),
+    check_out      CHAR(2),
+    instant_book   INTEGER DEFAULT 0,
     guests         INTEGER
 )
 LOGGING;
 
 COMMENT ON COLUMN rooms_room.name IS
-    '�닕�냼 �씠由�';
+    '숙소 이름';
 
 COMMENT ON COLUMN rooms_room.updated IS
-    '�닕�냼 �닔�젙�씪�옄';
+    '숙소 수정 일자';
 
 COMMENT ON COLUMN rooms_room.created IS
-    '�닕�냼 �깮�꽦�씪�옄';
+    '숙소 등록 일자';
 
 COMMENT ON COLUMN rooms_room.description IS
-    '�닕�냼 �꽕紐�';
+    '숙소 설명';
 
 COMMENT ON COLUMN rooms_room.city IS
-    '�룄�떆';
+    '숙소 도시';
 
 COMMENT ON COLUMN rooms_room.price IS
-    '媛�寃�';
+    '숙박 가격';
 
 COMMENT ON COLUMN rooms_room.address IS
-    '二쇱냼';
+    '숙소 주소';
 
 COMMENT ON COLUMN rooms_room.beds IS
-    '移⑤� 媛쒖닔';
+    '침대 수';
 
 COMMENT ON COLUMN rooms_room.bedrooms IS
-    '移⑥떎 媛쒖닔';
+    '침실 수';
 
 COMMENT ON COLUMN rooms_room.baths IS
-    '�솕�옣�떎 媛쒖닔';
+    '화장실 수';
 
 COMMENT ON COLUMN rooms_room.check_in IS
-    '泥댄겕�씤 �떆媛�';
+    '체크인 시간';
 
 COMMENT ON COLUMN rooms_room.check_out IS
-    '泥댄겕�븘�썐 �떆媛�';
+    '체크아웃 시간';
 
 COMMENT ON COLUMN rooms_room.instant_book IS
-    '�삁�빟媛��뒫�뿬遺�';
+    '숙박 가능여부';
 
 COMMENT ON COLUMN rooms_room.guests IS
-    '�닔�슜�씤�썝';
+    '숙박 가능 인원';
 
 ALTER TABLE rooms_room ADD CONSTRAINT rooms_room_pk PRIMARY KEY ( id );
 
@@ -289,52 +295,53 @@ ALTER TABLE rooms_room_facilities ADD CONSTRAINT rooms_room_facilities_pk PRIMAR
 CREATE TABLE users_user (
     id             INTEGER NOT NULL,
     email          VARCHAR2(40),
-    password       VARCHAR2(20),
+    password       VARCHAR2(100),
     username       VARCHAR2(20),
     birthday       DATE,
     is_host        INTEGER,
-    is_superuser   INTEGER
+    is_superuser   INTEGER,
+    photo	   VARCHAR(50)
 )
 LOGGING;
 
 COMMENT ON COLUMN users_user.email IS
-    '�씠硫붿씪';
+    '이메일';
 
 COMMENT ON COLUMN users_user.password IS
-    '鍮꾨�踰덊샇';
+    '비밀번호';
 
 COMMENT ON COLUMN users_user.username IS
-    '�씠由�';
+    '이름';
 
 COMMENT ON COLUMN users_user.birthday IS
-    '�깮�씪';
+    '생년월일';
 
 COMMENT ON COLUMN users_user.is_host IS
-    '�샇�뒪�듃/寃뚯뒪�듃';
+    'guest/host';
 
 COMMENT ON COLUMN users_user.is_superuser IS
-    '�럹�씠吏� 愿�由ъ옄';
+    '관리자 여부';
 
 ALTER TABLE users_user ADD CONSTRAINT users_user_pk PRIMARY KEY ( id );
 
 ALTER TABLE conversations_message
     ADD CONSTRAINT fk_conversations_message_conve FOREIGN KEY ( conversation_id )
-        REFERENCES conversations_conversation ( id )
+        REFERENCES conversations_conversation ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE conversations_message
     ADD CONSTRAINT fk_conversations_message_user_ FOREIGN KEY ( user_id )
-        REFERENCES users_user ( id )
+        REFERENCES users_user ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE reservations_bookedday
     ADD CONSTRAINT fk_reservations_bookedday_rese FOREIGN KEY ( reservation_id )
-        REFERENCES reservations_reservation ( id )
+        REFERENCES reservations_reservation ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE reservations_reservation
     ADD CONSTRAINT fk_reservations_reservation_gu FOREIGN KEY ( guest_id )
-        REFERENCES users_user ( id )
+        REFERENCES users_user ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE reservations_reservation
@@ -344,62 +351,62 @@ ALTER TABLE reservations_reservation
 
 ALTER TABLE reviews
     ADD CONSTRAINT fk_reviews_room_id_rooms_room_ FOREIGN KEY ( room_id )
-        REFERENCES rooms_room ( id )
+        REFERENCES rooms_room ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE reviews
     ADD CONSTRAINT fk_reviews_user_id_users_user_ FOREIGN KEY ( user_id )
-        REFERENCES users_user ( id )
+        REFERENCES users_user ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE rooms_photo
     ADD CONSTRAINT fk_rooms_photo_rooms_id_rooms_ FOREIGN KEY ( rooms_id )
-        REFERENCES rooms_room ( id )
+        REFERENCES rooms_room ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE rooms_room
     ADD CONSTRAINT fk_rooms_room_host_id_users_us FOREIGN KEY ( host_id )
-        REFERENCES users_user ( id )
+        REFERENCES users_user ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE conversations_cv_participant
     ADD CONSTRAINT participant_conversation_fk FOREIGN KEY ( conversation_id )
-        REFERENCES conversations_conversation ( id )
+        REFERENCES conversations_conversation ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE conversations_cv_participant
     ADD CONSTRAINT participant_user_fk FOREIGN KEY ( user_id )
-        REFERENCES users_user ( id )
+        REFERENCES users_user ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE rooms_room_amentities
     ADD CONSTRAINT rooms_amenity_fk FOREIGN KEY ( amenity_id )
-        REFERENCES rooms_amenity ( id )
+        REFERENCES rooms_amenity ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE rooms_room_facilities
     ADD CONSTRAINT rooms_facility_fk FOREIGN KEY ( facility_id )
-        REFERENCES rooms_facility ( id )
+        REFERENCES rooms_facility ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE romms_room_houserules
     ADD CONSTRAINT rooms_houserule_fk FOREIGN KEY ( houserule_id )
-        REFERENCES rooms_houserule ( id )
+        REFERENCES rooms_houserule ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE rooms_room_facilities
     ADD CONSTRAINT rooms_room_fk FOREIGN KEY ( room_id )
-        REFERENCES rooms_room ( id )
+        REFERENCES rooms_room ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE romms_room_houserules
     ADD CONSTRAINT rooms_room_fkv1 FOREIGN KEY ( room_id )
-        REFERENCES rooms_room ( id )
+        REFERENCES rooms_room ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 ALTER TABLE rooms_room_amentities
     ADD CONSTRAINT rooms_room_fkv2 FOREIGN KEY ( room_id )
-        REFERENCES rooms_room ( id )
+        REFERENCES rooms_room ( id ) ON DELETE CASCADE
     NOT DEFERRABLE;
 
 CREATE OR REPLACE TRIGGER conversations_conversat_AI_TRG 

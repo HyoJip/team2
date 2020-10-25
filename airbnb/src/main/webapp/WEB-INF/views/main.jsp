@@ -39,7 +39,7 @@
 				</a>
 			</div>
 			<div class="box2">
-				<a href="#"> <!-- list페이지 연결 --> <img src="/resources/images/main_2.jpg"
+				<a href="/room"> <!-- list페이지 연결 --> <img src="/resources/images/main_2.jpg"
 					alt="숙소리스트" />
 					<dl>
 						<dt>숙소리스트</dt>

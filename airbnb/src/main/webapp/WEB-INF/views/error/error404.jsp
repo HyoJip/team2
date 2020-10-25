@@ -7,7 +7,7 @@
 <title>에어비앤비 | 숙소</title>
 </head>
 <body>
-	PAGE 404
-	사라진 숙소
+	<h1>찾을 수 없습니다.</h1>
+	<a href="/">홈페이지로</a>
 </body>
 </html>

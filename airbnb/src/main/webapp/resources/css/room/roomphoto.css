@@ -1,0 +1,85 @@
+.background {
+  background-color: #008489;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.host {
+  position: relative;
+  margin: 250px auto;
+  padding: 20px;
+  width: min-content;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+h1 {
+  margin: -10px -10px 21px;
+  line-height: 40px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
+}
+.host .headtext {
+  font-size: 20px;
+  text-align: center;
+  border-bottom: 1px dashed #cfcfcf;
+}
+.host .subtext {
+  font-size: 13px;
+  margin: 20px 0;
+}
+.host p {
+  margin: 20px 30px;
+  font-size: 25px;
+  font-style: normal;
+}
+.host .button {
+  display: flex;
+  justify-content: center;
+}
+#img_box {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border: 2px black;
+  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  grid-auto-rows: 1fr;
+}
+
+.loading {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--blue);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+input[type="button"] {
+  padding: 0 80px;
+  height: 30px;
+  font-size: 15px;
+  color: #008489;
+  background: white;
+  border: 2px solid #008489;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.body_header ul .airbnb_icon,
+.body_header ul .header_profile .profile_img {
+	color: var(--blue);
+}
+
+.body_header ul .room_search i {
+	background-color: var(--blue);
+}
