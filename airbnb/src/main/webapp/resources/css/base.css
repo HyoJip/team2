@@ -157,7 +157,6 @@ ul {
 }
 .body_header ul .header_profile .subnav .submenu.become_host_btn {
 	border-top: var(--bottomBorder);	
-	border-bottom: var(--bottomBorder);
 	font-weight: 300;
 }
 .body_header ul .header_profile .subnav .submenu.become_host_btn ~ .submenu {

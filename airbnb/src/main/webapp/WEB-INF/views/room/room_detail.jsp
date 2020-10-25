@@ -13,34 +13,27 @@
 	<body>
 		<%@ include  file="../partial/header.jsp"%>
 		<main class="wrap">
-			<div class="nav_category"><a href="/s/${room.address}">${room.address}</a> &gt; 숙소</div>
+			<div class="nav_category">
+				<a class="nav_address" href="/s/${room.address}">${room.address}</a> &gt; 숙소
+				${host.id == room.hostId
+					? "<a class='update_btn' href='/room/update'>숙소 수정</a>"
+					: ""}
+			</div>
 			<div class="room_image">
 				<div class="room_image_grid">
+				<%
+					String[] files = (String[]) request.getAttribute("files");
+					for (String imgSRC : files) {
+						if(imgSRC == null) break;
+				%>
 					<img
-						src="https://i.pinimg.com/564x/16/c6/1b/16c61bcd0bdd4eed5f341fe7a5c7ae0f.jpg"
+						src="/resources/media/<%=imgSRC%>"
 						alt="숙소 이미지"
 						class="room_img"
-					/>
-					<img
-						src="https://i.pinimg.com/564x/25/99/b0/2599b09faf7d2b45024ef7465a4a84ef.jpg"
-						alt="숙소 이미지"
-						class="room_img"
-					/>
-					<img
-						src="https://i.pinimg.com/736x/1b/3c/1b/1b3c1bb5fb2a72eacd993213363ec92b.jpg"
-						alt="숙소 이미지"
-						class="room_img"
-					/>
-					<img
-						src="https://i.pinimg.com/736x/1b/3c/1b/1b3c1bb5fb2a72eacd993213363ec92b.jpg"
-						alt="숙소 이미지"
-						class="room_img"
-					/>
-					<img
-						src="https://i.pinimg.com/564x/25/99/b0/2599b09faf7d2b45024ef7465a4a84ef.jpg"
-						alt="숙소 이미지"
-						class="room_img"
-					/>
+					/>				
+				<%		
+					}
+				%>
 				</div>
 			</div>
 			<main class="main_wrap">

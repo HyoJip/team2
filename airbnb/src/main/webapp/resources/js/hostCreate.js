@@ -54,11 +54,6 @@ function first_check_ok() {
     form.r_name.focus();
     return;
   }
-  if (document.form.city.value == "") {
-    alert("숙소 지역을 입력해주세요");
-    form.r_city.focus();
-    return;
-  }
   if (document.form.address1.value == "") {
     alert("주소를 입력해주세요");
     form.r_address1.focus();
@@ -170,6 +165,24 @@ function numberonly(e) {
 		setTimeout(function() {
 			obj.focus();
 		}, 30);
+	}
+}
+
+const confirmDelete = () => {	
+	if (confirm("정말로 삭제하시겠습니까?")) {
+		const form = document.createElement("form");
+		const roomIdInput = document.createElement("input");
+		const roomId = document.querySelector("#roomId").value;
+		
+		roomIdInput.name = "id";
+		roomIdInput.value = roomId;
+		
+		form.appendChild(roomIdInput);
+		document.body.appendChild(form);
+		
+		form.action = "/room/delete";
+		form.method = "POST";
+		form.submit();
 	}
 }
 

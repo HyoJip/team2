@@ -187,7 +187,12 @@ CREATE TABLE rooms_photo (
     created    DATE,
     updated    DATE,
     caption    VARCHAR2(80),
-    "file"     VARCHAR2(100)
+    "file1"     VARCHAR2(100),
+    "file2"     VARCHAR2(100),
+    "file3"     VARCHAR2(100),
+    "file4"     VARCHAR2(100),
+    "file5"     VARCHAR2(100),
+    "file6"     VARCHAR2(100)
 )
 LOGGING;
 
@@ -208,10 +213,10 @@ ALTER TABLE rooms_photo ADD CONSTRAINT rooms_photo_pk PRIMARY KEY ( id );
 CREATE TABLE rooms_room (
     id             INTEGER NOT NULL,
     host_id        INTEGER,
-    name           VARCHAR2(40),
+    name           VARCHAR2(100),
     updated        DATE,
     created        DATE,
-    description    VARCHAR2(2000),
+    description    VARCHAR2(4000),
     city           VARCHAR2(50),
     price          INTEGER,
     address        VARCHAR2(140),
@@ -341,7 +346,7 @@ ALTER TABLE reservations_reservation
 
 ALTER TABLE reservations_reservation
     ADD CONSTRAINT fk_reservations_reservation_ro FOREIGN KEY ( room_id )
-        REFERENCES rooms_room ( id ) ON DELETE CASCADE
+        REFERENCES rooms_room ( id )
     NOT DEFERRABLE;
 
 ALTER TABLE reviews

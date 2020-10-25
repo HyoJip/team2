@@ -12,7 +12,7 @@ import com.team2.airbnb.model.RoomPhoto;
 
 public class FileUtil {
 	
-	private static final String UPLOAD_PATH = "C:\\Users\\admin\\Desktop\\team2\\airbnb\\src\\main\\webapp\\resources\\media\\";
+	private static final String UPLOAD_PATH = "C:\\Users\\권효집\\Desktop\\team2\\airbnb\\src\\main\\webapp\\resources\\media\\";
 	
 	public static String saveFileAndGetName(MultipartFile file) throws IOException {
 		if (file.isEmpty())
@@ -46,12 +46,12 @@ public class FileUtil {
 		String[] fileNames = new String[RoomPhoto.PHOTO_MAX];
 		String msg = ""; 
 		if (files.length > RoomPhoto.PHOTO_MAX) {
-			msg = "사진은 최대 6개까지 업로드 할 수 있습니다.";
+			msg = "사진은 최대 5개까지 업로드 할 수 있습니다.";
 			map.put("msg", msg);
 			return map;
 		}
 		
-		for (int i = 0; i < RoomPhoto.PHOTO_MAX; i++) {
+		for (int i = 0; i < files.length; i++) {
 			MultipartFile file = files[i];
 		    if (!file.getOriginalFilename().isEmpty()) {
 		    	String saveFileName = getCleanedFileName(file);
@@ -61,7 +61,7 @@ public class FileUtil {
 		    	msg = "적어도 하나 이상의 사진이 필요합니다.";
 		    }
 		}
-		msg = "숙소 사진이 정산적으로 등록되었습니다.";
+		msg = "숙소 사진이 정상적으로 등록되었습니다.";
 		map.put("msg", msg);
 		map.put("fileNames", fileNames);
 		return map;

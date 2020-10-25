@@ -14,9 +14,25 @@
 		padding: var(--containerVerticalPadding) 0;
 		margin: 0 var(--containerHorizontalMargin);
 		font-weight: 300;
-
-		a {
+		position: relative;
+		
+		.nav_address {
 			@include underline;
+		}
+		
+		.update_btn {
+			position: absolute;
+			right: 0;
+		    outline: none;
+		    padding: 3px 10px;
+		    background-color: var(--red);
+		    color: white;
+		    margin: 10px 0;
+		    border-radius: var(--borderRadius);
+		    text-align: center;
+		    font-weight: 700;
+			font-size: 0.8rem;
+		    cursor: pointer;
 		}
 	}
 
@@ -25,7 +41,8 @@
 
 		.room_image_grid {
 			display: grid;
-			grid: repeat(2, minmax(150px, 1fr)) / repeat(4, minmax(150px, 1fr));
+			grid: repeat(2, minmax(150px, 1fr)) / repeat(auto-fit, minmax(150px, 1fr));
+			grid-auto-flow: column;
 			gap: 10px;
 
 			img {

@@ -1,7 +1,7 @@
 @import "./_base";
 
 @mixin tablet {
-  @media (min-width: #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop - 1px}) {
+  @media (max-width: #{$breakpoint-desktop - 1px}) {
     @content;
   }
 }

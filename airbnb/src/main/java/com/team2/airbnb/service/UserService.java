@@ -70,4 +70,9 @@ public class UserService {
 		userDao.updateGuestToHost(user);
 		user.setIsHost(1);
 	}
+	
+	public void setGuest(User user) {
+		userDao.updateHostToGuest(user);
+		user.setIsHost(0);
+	}
 }

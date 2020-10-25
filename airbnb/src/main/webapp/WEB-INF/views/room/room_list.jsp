@@ -1,3 +1,4 @@
+<%@page import="com.team2.airbnb.model.RoomPhoto"%>
 <%@page import="com.team2.airbnb.util.Pagination"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.team2.airbnb.model.vo.RoomVO"%>
@@ -14,8 +15,9 @@
 <body>
 	<jsp:include page="../partial/header.jsp" />
 <%
-	ArrayList<RoomVO> rooms = (ArrayList<RoomVO>) request.getAttribute("rooms");
 	Pagination pagination = (Pagination) request.getAttribute("pagination");
+	ArrayList<RoomVO> rooms = (ArrayList<RoomVO>) request.getAttribute("rooms");
+	RoomPhoto[] roomPhotosArray = (RoomPhoto[]) request.getAttribute("roomPhotos");
 %>
 	<div class="wrap">
 		<main class="main_wrap">
@@ -25,11 +27,40 @@
 			</section>
 			<section class="room_list" id="roomList">
 	<%
-				for(RoomVO room: rooms) {
+				for(int i = 0; i < rooms.size(); i++) {
+					RoomVO room = rooms.get(i);
+					RoomPhoto roomPhoto = roomPhotosArray[i];
 	%>
 				<article class="room_item" data-roomid=<%=room.getId()%>>
-					<div class="item_left">
-						<img class="room_photo" src="https://i.pinimg.com/564x/16/c6/1b/16c61bcd0bdd4eed5f341fe7a5c7ae0f.jpg">
+					<div class="item_left_wrap">
+						<div class="item_left">
+						<%
+							for (String imgSRC : roomPhoto.getFiles()) {
+								if(imgSRC == null) break;
+						%>
+							<div class="image_box">
+								<img
+									src="/resources/media/<%=imgSRC%>"
+									alt="숙소 이미지"
+									class="room_photo"
+								/>
+							</div>
+						<%		
+								}
+						%>
+						</div>
+						<i class="fas fa-angle-left"></i>
+						<i class="fas fa-angle-right"></i>
+						<div class="bottom_btn_wrap">
+							<%
+								for (int j = 0; j < roomPhoto.getFiles().length; j++) {
+									if(roomPhoto.getFiles()[j] == null) break;
+							%>
+								<div class="circle_mark <%=j==0?"now":""%>"></div>
+							<%
+								}
+							%>
+						</div>
 					</div>
 					<div class="item_right">
 						<p class="room_address"><%=room.getAddress()%></p>

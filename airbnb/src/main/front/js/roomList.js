@@ -1,14 +1,46 @@
 import "../scss/roomList.scss";
 
-const onClickItem = (event) => {
-	const item = event.target.closest(".room_item");
+const onClickItem = ({target}) => {
+	const item = target.closest(".room_item");
 	if (item == null) return;
-	const roomId = item.dataset.roomid;
-	location.href = `/room/${roomId}`;
-	
+
+	if (target.matches(".fa-angle-left") || target.matches(".fa-angle-right")) {
+		const images = item.querySelectorAll(".room_photo");
+		const imageCount = images.length;
+		const imageWrap = item.querySelector(".item_left");
+		const mark = item.querySelector(".circle_mark.now");
+		let imageIdx;
+		
+		const showSlides = n => {
+		    let imageIndex = n;
+		    if (imageIndex == -1) {
+		        imageIndex = imageCount - 1;
+		    } else if (imageIndex === imageCount) {
+		        imageIndex = 0;
+		    }
+		    imageWrap.style.transform = `translateX(${-300 * imageIndex}px)`;
+			return imageIndex;
+		}
+		
+		for(let i = 0; i < mark.parentNode.childElementCount; i++) {
+			if (mark.parentNode.children[i] === mark) {
+				imageIdx = i;
+				break;
+			}
+		}
+		
+		if(target.matches(".fa-angle-left")) imageIdx = showSlides(--imageIdx);
+		if(target.matches(".fa-angle-right")) imageIdx = showSlides(++imageIdx);
+		mark.classList.remove("now");
+		mark.parentNode.children[imageIdx].classList.add("now");		
+	} else {
+		const roomId = item.dataset.roomid;
+		location.href = `/room/${roomId}`;		
+	}
 }
 
 document.querySelector("#roomList").addEventListener("click", onClickItem);
+
 
 
 /////////////////// 카카오 지도 API

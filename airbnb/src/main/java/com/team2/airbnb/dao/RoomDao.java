@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.crypto.Data;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,9 +35,11 @@ public class RoomDao {
 
 	public RoomVO selectObject(int roomId) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT room.id, room.host_id as hostId, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in as checkIn, room.check_out as checkOut, room.instant_book as instantBook, room.guests, host.username, host.email, host.birthday ");
-		sql.append("FROM rooms_room room, users_user host ");
-		sql.append("WHERE room.id=? and room.host_id = host.id");
+		sql.append("SELECT room.id, room.host_id as hostId, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in as checkIn, room.check_out as checkOut, room.instant_book as instantBook, room.guests, host.username, host.email, host.birthday, ");
+		sql.append("	   photo.\"file1\", photo.\"file2\", photo.\"file3\", photo.\"file4\", photo.\"file5\" ");
+		sql.append("FROM rooms_room room, users_user host, rooms_photo photo ");
+		sql.append("WHERE room.id=? AND room.host_id = host.id ");
+		sql.append("AND photo.rooms_id(+) = room.id");
 		return (RoomVO) jdbcTemplate.queryForObject(sql.toString(), new Object[] {roomId}, new BeanPropertyRowMapper<RoomVO>(RoomVO.class));
 	}
 	
@@ -117,10 +121,13 @@ public class RoomDao {
 	public List<RoomVO> selectAllRoom(Pagination pagination) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT B.* FROM (SELECT rownum as num, A.* FROM( ");
-		sql.append("SELECT room.id, room.host_id as hostId, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in as checkIn, room.check_out as checkOut, room.guests, count(*) as reviewCount, NVL(avg(reviews.value), 0) as reviewAvg ");
-		sql.append("FROM rooms_room room, reviews ");
+		sql.append("SELECT room.id, room.host_id as hostId, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in as checkIn, room.check_out as checkOut, room.guests, count(*) as reviewCount, NVL(avg(reviews.value), 0) as reviewAvg, ");
+		sql.append("	   photo.\"file1\", photo.\"file2\", photo.\"file3\", photo.\"file4\", photo.\"file5\" ");
+		sql.append("FROM rooms_room room, reviews, rooms_photo photo ");
 		sql.append("WHERE room.id = reviews.room_id(+) ");
-		sql.append("GROUP BY room.id, room.host_id, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in, room.check_out, room.guests ");
+		sql.append("AND room.id = photo.rooms_id(+) ");
+		sql.append("GROUP BY room.id, room.host_id, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in, room.check_out, room.guests, ");
+		sql.append("	   photo.\"file1\", photo.\"file2\", photo.\"file3\", photo.\"file4\", photo.\"file5\" ");
 		sql.append("ORDER BY created DESC ) A) B ");
 		sql.append("WHERE num BETWEEN ? and ? ");
 		sql.append("ORDER BY num DESC");
@@ -139,29 +146,51 @@ public class RoomDao {
 		StringBuffer sql = new StringBuffer();
 		keyword = "%" + keyword + "%";
 		sql.append("SELECT B.* FROM (SELECT rownum as num, A.* FROM( ");
-		sql.append("SELECT room.id, room.host_id as hostId, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in as checkIn, room.check_out as checkOut, room.guests, count(*) as reviewCount, NVL(avg(reviews.value), 0) as reviewAvg ");
-		sql.append("FROM rooms_room room, reviews ");
+		sql.append("SELECT room.id, room.host_id as hostId, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in as checkIn, room.check_out as checkOut, room.guests, count(*) as reviewCount, NVL(avg(reviews.value), 0) as reviewAvg, ");
+		sql.append("	   photo.\"file1\", photo.\"file2\", photo.\"file3\", photo.\"file4\", photo.\"file5\" ");
+		sql.append("FROM rooms_room room, reviews, rooms_photo photo ");
 		sql.append("WHERE room.id = reviews.room_id(+) ");
+		sql.append("AND room.id = photo.rooms_id(+) ");
 		sql.append("AND (address LIKE ? OR name LIKE ?) ");
-		sql.append("GROUP BY room.id, room.host_id, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in, room.check_out, room.guests ");
+		sql.append("GROUP BY room.id, room.host_id, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in, room.check_out, room.guests, ");
+		sql.append("	   photo.\"file1\", photo.\"file2\", photo.\"file3\", photo.\"file4\", photo.\"file5\" ");
 		sql.append("ORDER BY created DESC ) A) B ");
 		sql.append("WHERE num BETWEEN ? and ? ");
 		sql.append("ORDER BY num DESC");
 		return jdbcTemplate.query(sql.toString(), new Object[] {keyword, keyword, pagination.getStartList(), pagination.getStartList() + pagination.getListSize() - 1}, new BeanPropertyRowMapper<RoomVO>(RoomVO.class));
 	}
 
-	public void insertRoomPhoto(RoomPhoto roomPhoto) {
-		String sql = "insert into rooms_photo(rooms_id, created, updated,"
-				   + "\"file\","
+	public int insertRoomPhoto(RoomPhoto roomPhoto) {
+		String sql = "insert into rooms_photo(rooms_id, created, "
+				   + "\"file1\","
 				   + "\"file2\","
 				   + "\"file3\","
 				   + "\"file4\","
-				   + "\"file5\","
-				   + "\"file6\")"
-				   + "values(?,?,?,?,?,?,?,?,?)";
+				   + "\"file5\" )"
+				   + "values(?,?,?,?,?,?,?)";
 		String[] fileNames = roomPhoto.getFiles();
-		jdbcTemplate.update(sql, new Object[] {});
+		return jdbcTemplate.update(sql, new Object[] {roomPhoto.getRoomId(), Date.valueOf(roomPhoto.getCreated()), fileNames[0], fileNames[1], fileNames[2], fileNames[3], fileNames[4]});
 	}
-	
-	
+
+	public RoomVO selectRoomByHostId(int hostId) {
+		String sql = "SELECT room.id, room.host_id as hostId, room.name, room.updated, room.created, room.description, room.city, room.price, room.address, room.beds, room.bedrooms, room.baths, room.check_in as checkIn, room.check_out as checkOut, room.instant_book as instantBook, room.guests, host.username, host.email, host.birthday "
+				+ "FROM rooms_room room, users_user host "
+				+ "WHERE room.host_id = host.id "
+				+ "AND room.host_id = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[] {hostId}, new BeanPropertyRowMapper<RoomVO>(RoomVO.class));
+	}
+
+	public int updateRoom(RoomVO room) {
+		String sql = "UPDATE rooms_room SET name=?, updated=?, description=?, "
+				   + "city=?, price=?, address=?, beds=?, bedrooms=?, baths=?, check_in=?, "
+				   + "check_out=?, guests=? where id=?";
+		return jdbcTemplate.update(sql, new Object[] {room.getName(), Date.valueOf(room.getUpdated()), room.getDescription()
+				, room.getCity(), room.getPrice(), room.getAddress(), room.getBeds(), room.getBedRooms(), room.getBaths()
+				, room.getCheckIn(), room.getCheckOut(), room.getGuests(), room.getId()});
+	}
+
+	public int deleteRoom(int id) throws Exception{
+		String sql = "delete rooms_room where id=?";
+		return jdbcTemplate.update(sql, new Object[] {id});
+	}
 }

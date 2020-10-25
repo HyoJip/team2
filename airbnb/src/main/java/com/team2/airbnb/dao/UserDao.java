@@ -45,4 +45,9 @@ public class UserDao {
 		String sql = "UPDATE users_user SET is_host = 1 WHERE id=?";
 		jdbcTemplate.update(sql, (Object) user.getId());
 	}
+	
+	public void updateHostToGuest(User user) {
+		String sql = "UPDATE users_user SET is_host = 0 WHERE id=?";
+		jdbcTemplate.update(sql, (Object) user.getId());
+	}
 }

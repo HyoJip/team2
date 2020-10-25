@@ -35,7 +35,8 @@
 		<interceptor>
 			<mapping path="/room/*/reserve" />
 			<mapping path="/room/*/reservations" />
-			<mapping path="/room/create" />
+			<mapping path="/room/create/**" />
+			<mapping path="/room/update/**" />
 			<mapping path="/user/**/*" />
 			<mapping path="/review/create" />
 			<exclude-mapping path="/resources/**"/>

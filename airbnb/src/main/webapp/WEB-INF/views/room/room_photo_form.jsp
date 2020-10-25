@@ -13,9 +13,23 @@
 </head>
 <body>
 	<%
-		request.getMethod().equalsIgnoreCase("POST") {
-		
-	}
+		if (request.getMethod().equalsIgnoreCase("POST")) {
+			int isValid = (int) request.getAttribute("isValid");
+			if (isValid == 1) {
+	%>
+		<script>
+			alert("${msg}");
+			document.location.href="/room/${roomId}";	
+		</script>
+	<%
+			} else {
+	%>
+		<script>
+			alert("${msg}");
+		</script>	
+	<%
+			}
+		}
 	%>
 	<jsp:include page="../partial/header.jsp" />
 	<form name="form" method="post" enctype="multipart/form-data" action="/room/create/photo">
@@ -26,7 +40,7 @@
                     - 사진을 등록하세요  -
                 </p>
                 <p class="subtext">
-                    *사진은 최대 6장 등록 가능합니다.
+                    *사진은 최대 5장 등록 가능합니다.
                 </p>
                 <div class="img">
                     <input type="file" name="file" accept="image/*" multiple onchange="fileInfo(this)" /><br>
@@ -39,13 +53,13 @@
                 </div>  
             </div>
         </div>
-        <input type="hidden" name="roomId" value="${room.id}"> 
+        <input type="hidden" name="roomId" value="${roomId}"> 
     </form>
 	<jsp:include page="../partial/footer.jsp" />
 	<script>
 		function check_ok() {
 			event.preventDefault();
-			if (document.form.r_file.value == "") {
+			if (document.form.file.value == "") {
 				alert("이미지를 최소 하나 넣어주세요");
 			   	return;
 		  }
@@ -54,11 +68,15 @@
 		
         function fileInfo(f) {
         	var file = f.files; 
+           	$('#img_box').text("");
+           	
     
             for(var i=0; i<file.length; i++) {
-            	$('#img_box').text("");
+	           	$('#img_box').after("<div class='loading'></div>");
+            	
                 var reader = new FileReader();
                 reader.onload = function(rst) {
+                	$('.loading').remove();
                     $('#img_box').append('<img src="' + rst.target.result + '"style="width:259px; height:197px;">');
                 }
                 reader.readAsDataURL(file[i]);
