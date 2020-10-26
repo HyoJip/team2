@@ -87,11 +87,14 @@ public class ReserveDao {
 	
 	public ReserveVO selectObject(int reserve_id) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT reserve.id, reserve.created, reserve.updated, status, reserve.check_in as checkIn, reserve.check_out as checkOut, reserve.guests, guest_id as guestId, room.id as roomId, ");
-		sql.append("host_id as hostId, name,  description, city, price, address, beds, bedrooms, baths, room.check_in as roomCheckIn, room.check_out as roomCheckOut, instant_book as instantBook, room.guests as roomMaxGuests ");
-		sql.append("FROM reservations_reservation reserve, rooms_room room ");
-		sql.append("WHERE reserve.id = ?");
-		sql.append("AND reserve.room_id = room.id");
+		sql.append("SELECT reserve.id, reserve.created, reserve.updated, status, reserve.check_in as checkIn, reserve.check_out as checkOut"
+				+ ", reserve.guests, guest_id as guestId, room.id as roomId, host_id as hostId, name, description, city, price, address "
+				+ ", beds, bedrooms, baths, room.check_in as roomCheckIn, room.check_out as roomCheckOut, instant_book as instantBook"
+				+ ", room.guests as roomMaxGuests, photo.\"file1\" ");
+		sql.append("FROM reservations_reservation reserve, rooms_room room, rooms_photo photo ");
+		sql.append("WHERE reserve.id = ? ");
+		sql.append("AND reserve.room_id = room.id ");
+		sql.append("AND photo.rooms_id(+) = room.id");
 		ReserveVO roomReserve = jdbcTemplate.queryForObject(sql.toString(), new Object[] {reserve_id}, new BeanPropertyRowMapper<ReserveVO>(ReserveVO.class));
 		return roomReserve;
 	}
@@ -110,10 +113,12 @@ public class ReserveDao {
 
 	public List<ReserveVO> selectByUserId(int id) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT reserve.id, reserve.created, reserve.status, reserve.check_in, reserve.check_out, room.name, room.city, room.address, room.id as roomId ");
-		sql.append("FROM reservations_reservation reserve, rooms_room room ");
-		sql.append("WHERE guest_id=?");
+		sql.append("SELECT reserve.id, reserve.created, reserve.status, reserve.check_in, "
+				+ "reserve.check_out, room.name, room.city, room.address, room.id as roomId, photo.\"file1\" ");
+		sql.append("FROM reservations_reservation reserve, rooms_room room, rooms_photo photo ");
+		sql.append("WHERE guest_id=? ");
 		sql.append("AND room.id = reserve.room_id ");
+		sql.append("AND room.id = photo.rooms_id(+)");
 		return (List<ReserveVO>) jdbcTemplate.query(sql.toString(), new Object[] {id}, new BeanPropertyRowMapper<ReserveVO>(ReserveVO.class));	
 	}
 

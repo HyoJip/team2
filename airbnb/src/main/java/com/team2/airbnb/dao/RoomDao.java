@@ -161,15 +161,23 @@ public class RoomDao {
 	}
 
 	public int insertRoomPhoto(RoomPhoto roomPhoto) {
-		String sql = "insert into rooms_photo(rooms_id, created, "
+		String sql = "INSERT INTO rooms_photo(rooms_id, created, "
 				   + "\"file1\","
 				   + "\"file2\","
 				   + "\"file3\","
 				   + "\"file4\","
 				   + "\"file5\" )"
-				   + "values(?,?,?,?,?,?,?)";
+				   + "VALUES (?,?,?,?,?,?,?)";
 		String[] fileNames = roomPhoto.getFiles();
 		return jdbcTemplate.update(sql, new Object[] {roomPhoto.getRoomId(), Date.valueOf(roomPhoto.getCreated()), fileNames[0], fileNames[1], fileNames[2], fileNames[3], fileNames[4]});
+	}
+	
+	public int updateRoomPhoto(RoomPhoto roomPhoto) {
+		String sql = "UPDATE rooms_photo "
+				+ "SET updated=?, \"file1\"=?, \"file2\"=?, \"file3\"=?, \"file4\"=?, \"file5\"=? "
+				+ "WHERE rooms_id = ?";
+		String[] fileNames = roomPhoto.getFiles();
+		return jdbcTemplate.update(sql, new Object[] {Date.valueOf(roomPhoto.getUpdated()), fileNames[0], fileNames[1], fileNames[2], fileNames[3], fileNames[4], roomPhoto.getRoomId()});
 	}
 
 	public RoomVO selectRoomByHostId(int hostId) {

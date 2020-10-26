@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,7 +14,7 @@ import com.team2.airbnb.model.RoomPhoto;
 
 public class FileUtil {
 	
-	private static final String UPLOAD_PATH = "C:\\Users\\권효집\\Desktop\\team2\\airbnb\\src\\main\\webapp\\resources\\media\\";
+	private static final String UPLOAD_PATH = "C:\\Users\\권효집\\Desktop\\team2\\upload";
 	
 	public static String saveFileAndGetName(MultipartFile file) throws IOException {
 		if (file.isEmpty())

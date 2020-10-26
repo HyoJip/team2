@@ -34,8 +34,11 @@ public class ReviewController {
 	public String reviewForm(@PathVariable int roomId, @RequestParam int reserveId, Model model) {
 		Map<String, Object> map = roomService.getRoomById(roomId);
 		RoomVO room = (RoomVO) map.get("room");
+		String[] files = (String[]) map.get("files");
+		
 		model.addAttribute("room", room);
 		model.addAttribute("reserveId", reserveId);
+		model.addAttribute("roomPhoto", files[0]);
 		return "review/review_form";
 	}
 	

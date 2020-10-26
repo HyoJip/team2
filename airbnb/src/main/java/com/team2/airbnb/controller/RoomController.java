@@ -3,11 +3,8 @@ package com.team2.airbnb.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,17 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.team2.airbnb.dao.RoomDao;
-import com.team2.airbnb.model.RoomPhoto;
 import com.team2.airbnb.model.User;
-import com.team2.airbnb.model.search.AllSearching;
 import com.team2.airbnb.model.vo.ReviewVO;
 import com.team2.airbnb.model.vo.RoomVO;
 import com.team2.airbnb.service.RoomService;
 import com.team2.airbnb.service.UserService;
-import com.team2.airbnb.util.Pagination;
 import com.team2.airbnb.util.RegExpUtil;
 
 @Controller
@@ -54,6 +48,7 @@ public class RoomController {
 
 	@RequestMapping(value = "/room/{roomId}", method = RequestMethod.GET)
 	public String roomDetail(@PathVariable int roomId , HttpSession session, Model model) {
+		User user = (User) session.getAttribute("login");
 		Map<String, Object> map = roomService.getRoomById(roomId);
 		RoomVO room = (RoomVO) map.get("room");
 		User host = (User) map.get("host");
@@ -65,12 +60,15 @@ public class RoomController {
 		double avg = (double) reviewCountAndAvg.get("avg");
 		avg = Math.round(avg * 100)/ 100;
 		
+		model.addAttribute("user", user);
 		model.addAttribute("room", room);
+		model.addAttribute("cleandDesc", room.getLineDescription());
 		model.addAttribute("reviews", reviews);
 		model.addAttribute("count", count);
 		model.addAttribute("avg", avg);
 		model.addAttribute("host", host);
 		model.addAttribute("files", files);
+		model.addAttribute("shortAddr", RegExpUtil.extractDistrict(room.getAddress()));
 		
 		return "room/room_detail";
 	}
@@ -122,6 +120,28 @@ public class RoomController {
 		model.addAttribute("roomId", roomId);
 		model.addAttribute("isValid", map.get("isValid"));			
 		return "room/room_photo_form";
+	}
+	
+	@RequestMapping(value = "/room/update/photo", method= RequestMethod.GET)
+	public String roomUpdatePhoto(Model model, HttpSession session) {
+		User user = (User) session.getAttribute("login");			
+		RoomVO room = roomService.getRoomByUserId(user.getId());
+		model.addAttribute("roomId", room.getId());
+		return "room/room_photo_update_form";
+	}
+	
+	@RequestMapping(value = "/room/update/photo", method= RequestMethod.POST)
+	public String roomUpdatePhoto(@RequestParam(required = true) int roomId, 
+			@RequestParam("file") MultipartFile[] files,
+			Model model) throws IOException{
+		Map<String, Object> map = roomService.updatePhoto(roomId, files);
+		
+		model.addAttribute("msg", map.get("msg"));
+		model.addAttribute("roomId", roomId);
+		model.addAttribute("isValid", map.get("isValid"));	
+		
+		
+		return "room/room_photo_update_form";
 	}
 	
 	@RequestMapping(value = "/room/update", method = RequestMethod.GET)
@@ -177,7 +197,7 @@ public class RoomController {
 			@RequestParam(required = false, defaultValue = "1") int page,
 			@RequestParam(required = false, defaultValue = "1") int range) throws UnsupportedEncodingException {
 		// url로 한글 보낼 시 톰캣7.0 인코딩(8859-1) 후 스프링 web.xml(UTF-8) 인코딩 됨
-		keyword = new String(keyword.getBytes("8859_1"), "utf-8");
+//		keyword = new String(keyword.getBytes("8859_1"), "utf-8");
 		
 		Map<String, Object> map = roomService.getAllPagedRoomByKeyword(page, range, keyword);
 		

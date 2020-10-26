@@ -57,7 +57,9 @@ public class ReservationController {
 		// DB에 저장된 정보
 		Map map = roomService.getRoomById(id);
 		RoomVO room = (RoomVO) map.get("room");
+		String[] files = (String[]) map.get("files");
 		model.addAttribute("room", room);
+		model.addAttribute("roomPhoto", files[0]);
 		
 		// 게스트가 입력한  정보
 		model.addAttribute("checkIn", checkIn);

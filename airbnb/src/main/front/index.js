@@ -20,7 +20,7 @@ const DataController = (() => {
 			const url = window.location.pathname;
 			const roomId = url.match(/(?<=room\/)[\d]*/)[0];
 			const {data} = await axios.get(
-				`http://localhost:8080/api/room/${roomId}`
+				`/api/room/${roomId}`
 			);
 			return data.map(el => el.day);
 		},

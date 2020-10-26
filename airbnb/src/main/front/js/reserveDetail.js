@@ -21,7 +21,7 @@ const DataController = (() => {
 			const reserveId = url.match(/(?<=reservations\/)[\d]*/)[0];
 			const roomId = document.querySelector("#roomId").value;
 			const {data} = await axios.get(
-				`http://localhost:8080/api/room/${roomId}`
+				`/api/room/${roomId}`
 			);
 			return data.filter(el => el.reserveId != reserveId).map(el => el.day);
 		},

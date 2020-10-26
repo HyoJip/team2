@@ -14,9 +14,9 @@
 		<%@ include  file="../partial/header.jsp"%>
 		<main class="wrap">
 			<div class="nav_category">
-				<a class="nav_address" href="/s/${room.address}">${room.address}</a> &gt; 숙소
-				${host.id == room.hostId
-					? "<a class='update_btn' href='/room/update'>숙소 수정</a>"
+				<a class="nav_address" href="/s/${shortAddr}">${shortAddr}</a> &gt; 숙소
+				${host.id == user.id
+					? "<a class='update_btn room' href='/room/update'>숙소 수정</a><a class='update_btn photo' href='/room/update/photo'>사진 수정</a>"
 					: ""}
 			</div>
 			<div class="room_image">
@@ -27,7 +27,7 @@
 						if(imgSRC == null) break;
 				%>
 					<img
-						src="/resources/media/<%=imgSRC%>"
+						src="/upload/<%=imgSRC%>"
 						alt="숙소 이미지"
 						class="room_img"
 					/>				
@@ -56,11 +56,11 @@
 							</h3>
 						</hgroup>
 						<div class="user_profile"
-						style="background-image: url('/resources/${empty host.photo? 'images/': 'media/'}${empty host.photo? 'user.jsp': host.photo}')"
+						style="background-image: url('${empty host.photo? '/resources/images/': mediaURL}${empty host.photo? 'user.jpg': host.photo}')"
 						></div>
 					</div>
 					<div class="room_detail_info">
-						<p class="room_description">${room.description}</p>
+						<p class="room_description">${cleandDesc}</p>
 						<a href="mailto:${host.email}">호스트에게 연락하기</a>
 					</div>
 					<div class="room_facilities">
@@ -215,7 +215,7 @@
 						<div class="guest_profile_img"
 						style="background-image: url('<%= review.getPhoto() == null
 															? "/resources/images/user.jsp"
-															: "/resources/media/" + review.getPhoto()%>')"
+															: "/upload/" + review.getPhoto()%>')"
 						></div>
 						<div class="review_info">
 							<h5 class="guest_name"><%=review.getUsername()%></h5>

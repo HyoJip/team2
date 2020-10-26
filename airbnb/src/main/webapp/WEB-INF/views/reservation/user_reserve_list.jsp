@@ -41,12 +41,14 @@
 				for (ReserveVO reserve: upcoming) {
 			%>
 				<article class="article_wrap">
-					<a class="article_img_wrap" href="/room/<%=reserve.getRoomId()%>"><img class="article_img" alt="숙소 이미지" src="https://i.pinimg.com/564x/16/c6/1b/16c61bcd0bdd4eed5f341fe7a5c7ae0f.jpg"></a>
+					<a class="article_img_wrap" href="/room/<%=reserve.getRoomId()%>"><img class="article_img" alt="숙소 이미지" src="/upload/<%=reserve.getFile1()%>"></a>
 					<div class="article_info">
 						<small class="reservation_dates"><%=DateUtil.formatKor(reserve.getCheckIn())%> - <%=DateUtil.formatKor(reserve.getCheckOut())%></small>
 						<h3 class="room_name"><%=reserve.getName()%></h3>
 						<p class="room_city"><%=reserve.getCity()%> <span class="status <%=reserve.getStatus()%>"><%=reserve.getStatus().getName()%></span></p>
-						<a class="reservation_deatil" href="./reservations/<%=reserve.getId()%>">여행 세부사항 보기</a>
+						<p class="reservation_detail_wrap">
+							<a class="reservation_deatil" href="./reservations/<%=reserve.getId()%>">여행 세부사항 보기</a>
+						</p>
 					</div>
 				</article>			
 			<%
@@ -63,7 +65,7 @@
 				for (ReserveVO reserve: past) {
 			%>
 				<article class="article_wrap">
-					<a class="article_img_wrap" href="/room/<%=reserve.getRoomId()%>"><img class="article_img" alt="숙소 이미지" src="https://i.pinimg.com/564x/16/c6/1b/16c61bcd0bdd4eed5f341fe7a5c7ae0f.jpg"></a>
+					<a class="article_img_wrap" href="/room/<%=reserve.getRoomId()%>"><img class="article_img" alt="숙소 이미지" src="/upload/<%=reserve.getFile1()%>"></a>
 					<div class="article_info">
 						<small class="reservation_dates"><%=DateUtil.formatKor(reserve.getCheckIn())%> - <%=DateUtil.formatKor(reserve.getCheckOut())%></small>
 						<h3 class="room_name"><%=reserve.getName()%></h3>

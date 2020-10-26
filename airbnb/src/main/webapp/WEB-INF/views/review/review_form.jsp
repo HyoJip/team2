@@ -17,7 +17,7 @@
 	<div class="wrap">
 		<aside class="aside_wrap">
 			<div class="img_wrap">
-				<img class="room_photo" src="https://i.pinimg.com/564x/16/c6/1b/16c61bcd0bdd4eed5f341fe7a5c7ae0f.jpg" alt="숙소 이미지">
+				<img class="room_photo" src="/upload/${roomPhoto}" alt="숙소 이미지">
 			</div>
 			<div class="room_detail">
 				<h3 class="room_address_wrap"><span class="room_address">${room.address}</span> <span class="room_name">${room.name}</span></h3>

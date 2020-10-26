@@ -53,7 +53,7 @@ const onClickApproveBtn = async (event) => {
 				return;
 		}
 	
-	const {status, data} = await axios.patch(`http://localhost:8080/api/reserve/${reserveId}`, {status: "ACCEPTED"});
+	const {status, data} = await axios.patch(`/api/reserve/${reserveId}`, {status: "ACCEPTED"});
 	if (status === 200) {
 		updateStatusDisplay(data, form, event);
 	} else {
@@ -65,7 +65,7 @@ const onClickRefuseBtn = async (event) => {
 	const form = event.target.closest(DOMString.Form);
 	const reserveId = form.dataset.id;
 	
-	const {status, data} = await axios.patch(`http://localhost:8080/api/reserve/${reserveId}`, {status: "REFUSED"});
+	const {status, data} = await axios.patch(`/api/reserve/${reserveId}`, {status: "REFUSED"});
 	if (status === 200) {
 		updateStatusDisplay(data, form, event);
 	} else {

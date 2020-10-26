@@ -11,6 +11,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<body>
 	<%
 		RoomVO room = (RoomVO) request.getAttribute("room");
+		String roomPhoto = (String) request.getAttribute("roomPhoto");
 	%>
 		<%@ include  file="../partial/header.jsp"%>
 		<main class="main_wrap">
@@ -86,7 +87,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 				<section class="main_right">
 					<div class="reservation_wrap">
 						<section class="reservation_room">
-							<div class="room_img"></div>
+							<div class="room_img" style="background-image: url('/upload/<%=roomPhoto%>')"></div>
 							<div class="room_info">
 								<small class="room_city"><%=room.getCity()%>, <%=room.getAddress()%></small>
 								<p class="room_title"><%=room.getName()%></p>

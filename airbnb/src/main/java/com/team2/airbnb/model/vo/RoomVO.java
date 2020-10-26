@@ -42,6 +42,10 @@ public class RoomVO {
 		setAddress(addrBuffer.toString());
 	}
 	
+	public String getLineDescription() {
+		return getDescription().replace("\r\n", "<br>");
+	}
+	
 	public int getId() {
 		return id;
 	}

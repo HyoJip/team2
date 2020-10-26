@@ -169,4 +169,25 @@ public class RoomService {
 		}
 		return map;			
 	}
+
+	public Map<String, Object> updatePhoto(int roomId, MultipartFile[] files) throws IOException {
+		Map<String, Object> map = FileUtil.saveFiles(files);
+		int isValid = 0;
+		if (!map.containsKey("fileNames")) {
+			map.put("isValid", isValid);
+			return map;
+		}
+		
+		String[] fileNames = (String[]) map.get("fileNames");
+		
+		RoomPhoto roomPhoto = new RoomPhoto();
+		roomPhoto.setRoomId(roomId);
+		roomPhoto.setFiles(fileNames);
+		roomPhoto.setUpdated(LocalDate.now());
+		
+		isValid = roomDao.updateRoomPhoto(roomPhoto);
+		map.put("isValid", isValid);
+		
+		return map;
+	}
 }

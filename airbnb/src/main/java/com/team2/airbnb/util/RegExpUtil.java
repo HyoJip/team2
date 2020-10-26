@@ -9,6 +9,11 @@ public class RegExpUtil {
 		return address.split(" ")[0];
 	}
 	
+	public static String extractDistrict(String address) {
+		String[] addrArr = address.split(" ");
+		return addrArr[0] + addrArr[1] + addrArr[2];
+	}
+	
 	public static String[] getSplitedAddr(String address) {
 		String[] strArr = new String[3];
 		strArr[0] = getAddress(address);
@@ -21,9 +26,9 @@ public class RegExpUtil {
 		Pattern pattern = Pattern.compile("^.*(?=\\()");
 		Matcher matcher = pattern.matcher(value);
 		if (matcher.find()) {
-			return matcher.group().strip();			
+			return matcher.group().trim();			
 		} else {
-			return "value";
+			return value;
 		}
 	}
 	
@@ -31,7 +36,7 @@ public class RegExpUtil {
 		Pattern pattern = Pattern.compile("\\(.*\\)");
 		Matcher matcher = pattern.matcher(value);
 		if (matcher.find()) {
-			return matcher.group().strip();			
+			return matcher.group().trim();			
 		} else {
 			return "";
 		}
@@ -41,7 +46,7 @@ public class RegExpUtil {
 		Pattern pattern = Pattern.compile("(?<=\\)).*$");
 		Matcher matcher = pattern.matcher(value);
 		if (matcher.find()) {
-			return matcher.group().strip();			
+			return matcher.group().trim();			
 		} else {
 			return "";
 		}

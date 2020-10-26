@@ -40,7 +40,7 @@
 						%>
 							<div class="image_box">
 								<img
-									src="/resources/media/<%=imgSRC%>"
+									src="/upload/<%=imgSRC%>"
 									alt="숙소 이미지"
 									class="room_photo"
 								/>

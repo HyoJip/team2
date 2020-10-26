@@ -22,7 +22,6 @@
 		
 		.update_btn {
 			position: absolute;
-			right: 0;
 		    outline: none;
 		    padding: 3px 10px;
 		    background-color: var(--red);
@@ -32,8 +31,17 @@
 		    text-align: center;
 		    font-weight: 700;
 			font-size: 0.8rem;
-		    cursor: pointer;
+		    cursor: pointer;			
+
+			&.room {
+				right: 75px;
+			}
+			
+			&.photo {
+				right: 0;
+			}
 		}
+		
 	}
 
 	.room_image {
