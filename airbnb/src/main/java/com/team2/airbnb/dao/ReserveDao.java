@@ -12,12 +12,15 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
 import com.team2.airbnb.model.Reservation;
 import com.team2.airbnb.model.vo.ReserveVO;
 import com.team2.airbnb.util.DateUtil;
 
+@EnableScheduling
 @Repository
 public class ReserveDao {
 	private final JdbcTemplate jdbcTemplate;
@@ -110,7 +113,7 @@ public class ReserveDao {
 		});
 		return isSuccessed;
 	}
-
+	
 	public List<ReserveVO> selectByUserId(int id) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT reserve.id, reserve.created, reserve.status, reserve.check_in, "
@@ -139,5 +142,25 @@ public class ReserveDao {
 		}
 		return isCompleted;
 	}
+	
+	
+	@Scheduled(cron = "0 0 0 * * ?")
+	public int updateStatusToCompleted() {
+		String sql = "UPDATE reservations_reservation "
+				+ "SET status = 'COMPLETED', updated = SYSDATE "
+				+ "WHERE status = 'ACCEPTED' "
+				+ "AND SYSDATE > check_in + 14";
+		return jdbcTemplate.update(sql);
+	}
+	
+	@Scheduled(cron = "0 0 0 * * ?")
+	public int updateStatusToCanceled() {
+		String sql = "UPDATE reservations_reservation "
+				+ "SET status = 'CANCLED', updated = SYSDATE "
+				+ "WHERE (status = 'PENDING' OR status = 'REFUSED') "
+				+ "AND SYSDATE > check_in";
+		return jdbcTemplate.update(sql);
+	}
+
 
 }

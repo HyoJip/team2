@@ -1,5 +1,6 @@
 package com.team2.airbnb.controller;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
@@ -32,42 +33,25 @@ import com.team2.airbnb.util.NumberUtil;
 public class ReservationController {
 
 	private final ReserveService reserveService;
-	private final ReserveDao reserveDao;
 	private final RoomService roomService;
 
 	@Autowired
-	public ReservationController(ReserveService reserveService, ReserveDao reserveDao, RoomService roomService) {
+	public ReservationController(ReserveService reserveService, RoomService roomService) {
 		this.reserveService = reserveService;
-		this.reserveDao = reserveDao;
 		this.roomService = roomService;
 	}
 
 	@RequestMapping(value = "/room/{id}/reserve", method = RequestMethod.GET)
-	public String reserve(Model model,
-			@PathVariable int id,
-			@RequestParam(value = "checkIn") String checkIn,
-			@RequestParam(value = "checkOut") String checkOut,
-			@RequestParam(value = "numOfGuest") int numOfGuest,
-			@RequestParam(value = "roomPrice") int roomPrice) {
+	public String reserve(Model model, @PathVariable int id, ReserveVO reserve) throws ParseException {
+		Map<String, Object> map = roomService.getRoomById(id);
+		String[] files = (String[]) map.get("files");
 
-		int reserveNight = reserveService.getReserveNight(checkIn, checkOut);
-		String minDateForFullRefund = reserveService.getMinDateForFullRefund(checkIn);
-		int totalPrice = roomPrice * reserveNight;
+		int totalPrice = reserve.getTotalPrice();
 		
 		// DB에 저장된 정보
-		Map map = roomService.getRoomById(id);
-		RoomVO room = (RoomVO) map.get("room");
-		String[] files = (String[]) map.get("files");
-		model.addAttribute("room", room);
+		model.addAttribute("room", map.get("room"));
 		model.addAttribute("roomPhoto", files[0]);
-		
-		// 게스트가 입력한  정보
-		model.addAttribute("checkIn", checkIn);
-		model.addAttribute("checkOut", checkOut);
-		model.addAttribute("numOfGuest", numOfGuest);
-		model.addAttribute("reserveNight", reserveNight);
-		model.addAttribute("minDateForFullRefund", minDateForFullRefund);
-		model.addAttribute("roomPrice", NumberUtil.wonFormatter.format(roomPrice));
+		model.addAttribute("reserve", reserve);
 		model.addAttribute("totalPrice", NumberUtil.wonFormatter.format(totalPrice));
 		model.addAttribute("finalPrice", NumberUtil.wonFormatter.format(totalPrice + 5000));
 
@@ -86,7 +70,6 @@ public class ReservationController {
 			reserveService.book(reserveReq);
 			return "redirect:/user/" + user.getId() + "/reservations/" + reserveReq.getId();
 		} catch (Exception e) {
-			e.printStackTrace();
 			return "room_detail";
 		}
 	}
@@ -98,11 +81,7 @@ public class ReservationController {
 			if (user.getId() != hostId)
 				return "redirect:/";
 		// 본인 숙소 예약 리스트 GET
-			List<ReserveVO> list = reserveDao.selectByHostId(hostId);
-			for (ReserveVO reserve: list) {
-				changeStatusToCancledIfAfterToday(reserve);
-			}
-			model.addAttribute("reserveList", list);
+		model.addAttribute("reserveList", reserveService.getListByUserId(hostId));
 		return "reservation/room_reserve_list";
 	}
 	
@@ -135,12 +114,15 @@ public class ReservationController {
 	}
 	
 	@RequestMapping(value = "/user/{userId}/reservations/{reserveId}/cancel", method = RequestMethod.POST)
-	public String reserveDelete(@RequestParam(value = "checkIn") String CheckIn, @PathVariable int userId, @PathVariable int reserveId, HttpSession session) {
+	public String reserveDelete(@RequestParam String checkIn,
+								@PathVariable int userId,
+								@PathVariable int reserveId,
+								HttpSession session) {
 		// 1. 권한 확인
 		User user = (User) session.getAttribute("login");
 		if (userId == user.getId()) {
 			// 2. 하루전(+당일) 예약 취소 불가 확인
-			if (LocalDate.now().isBefore(LocalDate.parse(CheckIn).minus(2, ChronoUnit.DAYS))) {
+			if (LocalDate.now().isBefore(LocalDate.parse(checkIn).minus(2, ChronoUnit.DAYS))) {
 				reserveService.doCancel(reserveId);
 				return "redirect:/user/" + userId + "/reservations";
 			} else {
@@ -152,50 +134,19 @@ public class ReservationController {
 	}
 	
 	@RequestMapping(value = "/user/{id}/reservations", method = RequestMethod.GET)
-	public String userReservationList(@PathVariable int id, HttpSession session, Model model) {
-		User user = (User) session.getAttribute("login");
-		if (user.getId() == id) {
-			List<ReserveVO> rooms = reserveService.getListByUserId(id);
-			
-			for (ReserveVO reserve: rooms) {
-				changeStatusToCompletedIfAfter2Weeks(reserve);
-				changeStatusToCancledIfAfterToday(reserve);
-			}
-			model.addAttribute("rooms", rooms);
-			
-			return "reservation/user_reserve_list";			
-		}
-		return "redirect:/";
-	}
-	
-	private void changeStatusToCompletedIfAfter2Weeks(ReserveVO reserve) {
-		if (reserve.getStatus().equals(ReserveStatus.ACCEPTED)) {
-			if (LocalDate.now().isAfter(reserve.getCheckOut().plusDays(14))) {
-				reserveDao.updateStatus(reserve.getId(), "COMPLETED");
-			}
-		}
-	}
-	
-	private void changeStatusToCancledIfAfterToday(ReserveVO reserve) {
-		if (reserve.getStatus().equals(ReserveStatus.PENDING) || reserve.getStatus().equals(ReserveStatus.REFUSED)) {
-			if (LocalDate.now().isAfter(reserve.getCheckIn())) {
-				reserveDao.updateStatus(reserve.getId(), "CANCLED");
-			}
-		}
+	public String userReservationList(@PathVariable int id, Model model) {
+		
+		model.addAttribute("rooms", reserveService.getListByUserId(id));
+		return "reservation/user_reserve_list";			
 	}
 	
 	//////////////////////////////////// API
-	@RequestMapping(value = "/api/reserve/{id}", method = RequestMethod.PATCH)
 	@ResponseBody
+	@RequestMapping(value = "/api/reserve/{id}", method = RequestMethod.PATCH)
 	public Map<String, Object> approveReserve(@PathVariable int id, @RequestBody Map<String, Object> request) {
 		String status = request.get("status").toString();
-		int isVaild = reserveService.approveReservation(id, status);
-		Map<String, Object> response = new HashMap<>();
-		if (isVaild == 1) {
-			response.put("status", status);
-			response.put("statusName", ReserveStatus.valueOf(status).getName());
-		}
-		return response;
+		Map<String, Object> result = reserveService.approveReservation(id, status);
+		return result;
 	}
 	
 }

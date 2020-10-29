@@ -1,8 +1,12 @@
 package com.team2.airbnb.model.vo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 
 import com.team2.airbnb.model.ReserveStatus;
+import com.team2.airbnb.util.DateUtil;
 
 public class ReserveVO {
 	private int id;
@@ -13,6 +17,9 @@ public class ReserveVO {
 	private LocalDate created;
 	private int guests;
 	private int price;
+	private String minDateForFullRefund;
+	private int reserveNight;
+	private int totalPrice;
 	private String email;
 	private String name;
 	private String city;
@@ -25,6 +32,23 @@ public class ReserveVO {
 	private int bedrooms;
 	private int roomMaxGuests;
 	private String file1;
+	
+	public String getMinDateForFullRefund() {
+		SimpleDateFormat dateFormat = DateUtil.getDateFormat();
+		
+		Calendar cal = Calendar.getInstance();
+		try {cal.setTime(dateFormat.parse(checkIn.toString()));} catch (ParseException e) {e.printStackTrace();}
+		cal.add(Calendar.DATE, -7);
+		return dateFormat.format(cal.getTime());
+	}
+	
+	public int getReserveNight() throws ParseException {
+		return DateUtil.getDateDiff(checkIn.toString(), checkOut.toString());
+	}
+	
+	public int getTotalPrice() throws ParseException {
+		return price * getReserveNight();
+	}
 
 	public int getBeds() {
 		return beds;

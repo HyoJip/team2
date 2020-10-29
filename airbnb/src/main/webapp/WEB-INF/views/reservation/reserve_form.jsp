@@ -38,20 +38,20 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 						<div class="reservation_info_wrap">
 							<h1 class="reservation_info_title">예약정보</h1>
 							<label class="info_name">날짜</label>
-							<input class="info_value" name="checkIn" value="${checkIn}" readonly />-
-							<input class="info_value" name="checkOut" value="${checkOut}" readonly />
+							<input class="info_value" name="checkIn" value="${reserve.checkIn}" readonly />-
+							<input class="info_value" name="checkOut" value="${reserve.checkOut}" readonly />
 							<label class="info_name">게스트</label>게스트 
 							<input
 								class="info_value"
-								name="numOfGuest"
-								value="${numOfGuest}"
+								name="guests"
+								value="${reserve.guests}"
 								readonly
 							/>명
 						</div>
 						<div class="refund_notice">
 							<h2 class="refund_title">환불 정책</h2>
 							<p class="refund_description">
-								${minDateForFullRefund} 11:00 AM전에 예약을 취소하시면, 취소된
+								${reserve.minDateForFullRefund} 11:00 AM전에 예약을 취소하시면, 취소된
 								시점에서 24시간이 지난 후부터 숙박하지 않은 날짜에 대해 (서비스
 								수수료와 청소비를 제외한) 요금의 50%가 환불됩니다.
 							</p>
@@ -107,9 +107,9 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 							<h2 class="price_title">요금 세부정보</h2>
 							<div class="price_item">
 								<p class="price_name">
-									<span class="room_price" id="roomPrice">${roomPrice}</span> X
+									<span class="room_price" id="roomPrice">${room.price}</span> X
 									<span class="reservation_night" id="roomNight"
-										>${reserveNight}박</span
+										>${reserve.reserveNight}박</span
 									>
 								</p>
 								<p class="price_value" id="priceValue">${totalPrice}</p>

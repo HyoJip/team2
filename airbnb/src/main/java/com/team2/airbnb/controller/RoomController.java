@@ -172,7 +172,7 @@ public class RoomController {
 		
 		int isValid = (int) map.get("isValid");
 		if (isValid == 1) {
-			userService.setHost(user);
+			userService.setGuest(user);
 		}
 		
 		model.addAllAttributes(map);

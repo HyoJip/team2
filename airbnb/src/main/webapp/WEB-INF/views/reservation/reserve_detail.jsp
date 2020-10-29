@@ -207,7 +207,7 @@
 								</footer>
 								<input type="hidden" name="roomId" id="roomId" value="${reserve.roomId}">
 							</form>
-							<input type="hidden" name="roomPrice" id="roomPriceDB" value="${reserve.price}">
+							<input type="hidden" name="price" id="roomPriceDB" value="${reserve.price}">
 							<input type="hidden" name="roomMaxPerson" id="roomMaxPersonDB" value="${reserve.roomMaxGuests}">
 						</main>
 					</section>

@@ -56,7 +56,7 @@
 							</h3>
 						</hgroup>
 						<div class="user_profile"
-						style="background-image: url('${empty host.photo? '/resources/images/': mediaURL}${empty host.photo? 'user.jpg': host.photo}')"
+						style="background-image: url('${empty host.photo? '/resources/images/': '/upload/'}${empty host.photo? 'user.jpg': host.photo}')"
 						></div>
 					</div>
 					<div class="room_detail_info">

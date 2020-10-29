@@ -14,7 +14,7 @@ import com.team2.airbnb.model.RoomPhoto;
 
 public class FileUtil {
 	
-	private static final String UPLOAD_PATH = "C:\\Users\\권효집\\Desktop\\team2\\upload";
+	private static final String UPLOAD_PATH = "/var/lib/tomcat8/webapps/upload/";
 	
 	public static String saveFileAndGetName(MultipartFile file) throws IOException {
 		if (file.isEmpty())

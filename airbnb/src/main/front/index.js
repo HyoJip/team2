@@ -490,7 +490,7 @@ const Controller = ((DataCtrl, UICtrl) => {
 		const form = document.querySelector(DOM.reservePopupContainer);
 		const numOfGuest = document.querySelector(DOM.guestCount).textContent;
 		const guestInput = document.createElement("input");
-		guestInput.setAttribute("name", "numOfGuest");
+		guestInput.setAttribute("name", "guests");
 		guestInput.setAttribute("value", numOfGuest);
 		form.appendChild(guestInput);
 		form.submit();

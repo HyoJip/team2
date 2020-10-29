@@ -20,7 +20,7 @@
 	<%
 		} else {
 	%>
-			<img src="${mediaURL}<%=user.getPhoto()%>" alt='프로필이미지'>
+			<img src="/upload/<%=user.getPhoto()%>" alt='프로필이미지'>
 	<%
 		}
 	%>

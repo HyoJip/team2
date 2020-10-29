@@ -11,7 +11,7 @@ public class RegExpUtil {
 	
 	public static String extractDistrict(String address) {
 		String[] addrArr = address.split(" ");
-		return addrArr[0] + addrArr[1] + addrArr[2];
+		return addrArr[0] + " " + addrArr[1] + " " + addrArr[2];
 	}
 	
 	public static String[] getSplitedAddr(String address) {

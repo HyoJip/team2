@@ -4,7 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,20 +26,6 @@ public class ReserveService {
 	public ReserveService(ReserveDao reserveDao) {
 		this.reserveDao = reserveDao;
 	}
-	
-	public int getReserveNight(String checkIn, String checkOut) {
-		try {return DateUtil.getDateDiff(checkIn, checkOut);}
-		catch (ParseException e) {e.printStackTrace(); return 0;}
-	}
-	
-	public String getMinDateForFullRefund(String checkIn) {
-		SimpleDateFormat dateFormat = DateUtil.getDateFormat();
-		
-		Calendar cal = Calendar.getInstance();
-		try {cal.setTime(dateFormat.parse(checkIn));} catch (ParseException e) {e.printStackTrace();}
-		cal.add(Calendar.DATE, -7);
-		return dateFormat.format(cal.getTime());
-	}
 
 	public void book(Reservation reservation) {
 		// 1. 상태, 예약생성일자 주입
@@ -47,17 +35,23 @@ public class ReserveService {
 		reserveDao.insert(reservation);
 	}
 
-	public int approveReservation(int id, String status) {
-		return reserveDao.updateStatus(id, status);
+	public Map<String, Object> approveReservation(int id, String status) {
+		Map<String, Object> map = new HashMap<>();
+		
+		int isVaild = reserveDao.updateStatus(id, status);
+		if (isVaild == 1) {
+			map.put("status", status);
+			map.put("statusName", ReserveStatus.valueOf(status).getName());
+		}
+		return map;
 	}
 	
 	public int completeReservation(int id) {
-		return reserveDao.updateStatus(id, "COMPLETED");
+		return reserveDao.updateStatus(id, ReserveStatus.COMPLETED.name());
 	}
 
 	public List<ReserveVO> getListByUserId(int id) {
-		List<ReserveVO> rooms = reserveDao.selectByUserId(id);
-		return rooms;
+		return reserveDao.selectByUserId(id);
 	}
 
 	public ReserveVO getReserve(int reserveId) {
@@ -71,7 +65,7 @@ public class ReserveService {
 
 	public int doCancel(int reserveId) {
 		// 1. 예약 STATUS PENDING -> CANCLE
-		int statusIsChanged = reserveDao.updateStatus(reserveId, "CANCLED");
+		int statusIsChanged = reserveDao.updateStatus(reserveId, ReserveStatus.CANCLED.name());
 		// 2. 예약된 날짜(BookkedDay) 삭제
 		int isDeleted = reserveDao.deleteBetweenDate(reserveId);
 		if (statusIsChanged == 1 && isDeleted == 1) {
