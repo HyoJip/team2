@@ -1,8 +1,8 @@
 package com.team2.airbnb.util;
 
 public class Pagination {
-	private int listSize = 8; // 초기값으로 목록개수를 8으로 셋팅
-	private int rangeSize = 5; // 초기값으로 페이지범위를 5으로 셋팅
+	private int listSize = 2; // 초기값으로 목록개수를 8으로 셋팅
+	private int rangeSize = 3; // 초기값으로 페이지범위를 5으로 셋팅
 	private int page;
 	private int range;
 	private int listCnt;
