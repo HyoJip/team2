@@ -102,7 +102,7 @@
 											: ""%>">
 						<%= pagination.getPage() == i
 								? i
-								: "<a href='?page="+ i + "&range=" + pagination.getRange() + "'>" + i + "</a>"%>
+								: "<a href='?page="+ i + "&range=" + pagination.getRange() + "&roomId=" + rooms.get(rooms.size()-1).getId() + "'>" + i + "</a>"%>
 						</span>			
 					<%
 						}
@@ -115,7 +115,12 @@
 						}
 					%>
 					</div>
-					<small class="page_detail">숙소 <span class="page_count">${pagination.listCnt}</span>개 중 <span>${pagination.startList}</span>-<span>${!pagination.next? pagination.listCnt: pagination.startList + pagination.listSize - 1}</span></small>
+					<small class="page_detail">숙소 
+						<span class="page_count">${pagination.listCnt}</span>개 중
+						<span>${pagination.startList}</span>-<span>${pagination.page eq pagination.endPage
+																? pagination.listCnt
+																: pagination.startList + pagination.listSize - 1}</span>
+					</small>
 				</section>
 			</section>
 		</main>

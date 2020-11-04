@@ -84,7 +84,6 @@ public class Pagination {
 	public int getStartList() {
 		return startList;
 	}
-	
 
 	public int getPageCnt() {
 		return pageCnt;
@@ -101,7 +100,7 @@ public class Pagination {
 	public void setStartList(int startList) {
 		this.startList = startList;
 	}
-	
+
 	public void pageInfo(int page, int range, int listCnt) {
 		this.page = page;
 		this.range = range;
