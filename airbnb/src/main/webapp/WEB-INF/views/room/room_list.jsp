@@ -67,7 +67,7 @@
 						<h2 class="room_name"><%=room.getName()%></h2>
 						<p class="room_facility">최대인원 <%=room.getGuests()%>명 · 침실
 							<%=room.getBedRooms()%>개 · 침대 <%=room.getBeds()%>개 · 욕실 <%=room.getBaths()%>개</p>
-						<p class="room_amenity">주방 · 무선 인터넷 · 건물 내 무료 자차 · 에어컨</p>
+						<p class="room_amenity">주방 · 무선 인터넷 · 건물 내 무료 주차 · 에어컨</p>
 						<div class="rating">
 		<%
 					if (room.getReviewAvg() != 0) {
